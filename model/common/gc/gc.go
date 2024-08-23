@@ -7,8 +7,5 @@ type DBGCConfig struct {
 }
 
 const (
-	GCExecFmt = "DELETE FROM %s WHERE %s < '%s'"
-
-	ErrDBEmpty       = "db Cannot be empty"
-	ErrDurationParse = "parse duration < 0"
+	GCExecFmt = "DELETE FROM %s WHERE %s < ?"
 )

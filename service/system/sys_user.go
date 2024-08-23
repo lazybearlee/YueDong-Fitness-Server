@@ -1,0 +1,153 @@
+package system
+
+import (
+	"errors"
+	"github.com/gofrs/uuid/v5"
+	"github.com/lazybearlee/yuedong-fitness/global"
+	"github.com/lazybearlee/yuedong-fitness/model/system"
+	"github.com/lazybearlee/yuedong-fitness/utils"
+	"gorm.io/gorm"
+	"time"
+)
+
+// UserService
+// @description: 用户服务
+// 提供登陆、注册、获取用户信息、修改用户信息、删除用户、批量删除用户、修改密码、重置密码等功能
+type UserService struct{}
+
+var User = new(UserService)
+
+// UserRegister
+// @description: 用户注册
+// @param: user model.SysUser
+// @return: model.SysUser, error
+func (userService *UserService) UserRegister(user system.SysUser) (system.SysUser, error) {
+	var u system.SysUser
+	// 查询用户名是否注册
+	if !errors.Is(global.FITNESS_DB.Where("username = ?", user).First(&u).Error, gorm.ErrRecordNotFound) {
+		return u, errors.New("用户名已注册")
+	}
+	// 附加uuid 密码hash加密 注册
+	user.Password = utils.CryptWithBcrypt(user.Password)
+	user.UUID = uuid.Must(uuid.NewV4())
+	err := global.FITNESS_DB.Create(&user).Error // 创建用户
+	return user, err
+}
+
+// UserLogin
+// @description: 用户登录
+// @param: user model.SysUser
+// @return: *model.SysUser, error
+func (userService *UserService) UserLogin(user system.SysUser) (*system.SysUser, error) {
+	// 首先判断数据库是否初始化
+	if nil == global.FITNESS_DB {
+		return nil, errors.New("mysql not init")
+	}
+	var u system.SysUser
+	// 查询用户，预加载权限
+	err := global.FITNESS_DB.Where("username = ?", user.Username).Preload("Authorities").Preload("Authority").First(&u).Error
+	if err == nil {
+		// 检查密码
+		if ok := utils.CryptCheckWithBcrypt(user.Password, u.Password); !ok {
+			return nil, errors.New("密码错误")
+		}
+		// TODO: 查询用户权限，设置默认路由
+	}
+	return &u, err
+}
+
+// UserChangePassword
+// @description: 修改用户密码
+// @param: user model.SysUser, newPassword string
+// @return: *model.SysUser, error
+func (userService *UserService) UserChangePassword(user system.SysUser, newPassword string) (*system.SysUser, error) {
+	// 首先判断用户是否存在以及密码是否正确
+	var u system.SysUser
+	if err := global.FITNESS_DB.Where("id = ?", user.ID).First(&u).Error; err != nil {
+		return nil, err
+	}
+	if ok := utils.CryptCheckWithBcrypt(user.Password, u.Password); !ok {
+		return nil, errors.New("原密码错误")
+	}
+	// 修改密码
+	u.Password = utils.CryptWithBcrypt(newPassword)
+	err := global.FITNESS_DB.Save(&u).Error
+	return &u, err
+}
+
+// UserResetPassword
+// @description: 重置用户密码(默认123456)
+// @param: userID int
+// @return: error
+func (userService *UserService) UserResetPassword(userId int) error {
+	// 修改密码
+	return global.FITNESS_DB.Model(&system.SysUser{}).Where("id = ?", userId).Update("password", utils.CryptWithBcrypt("123456")).Error
+}
+
+// UserSetAuthority
+// TODO: 用户设置权限
+
+// UserDelete
+// @description: 删除用户
+// @param: userID int
+// @return: error
+func (userService *UserService) UserDelete(userID int) error {
+	return global.FITNESS_DB.Transaction(func(tx *gorm.DB) error {
+		// 删除用户
+		if err := tx.Delete(&system.SysUser{}, userID).Error; err != nil {
+			return err
+		}
+		// 删除用户角色
+		if err := tx.Delete(&[]system.SysUserAuthority{}, "user_id = ?", userID).Error; err != nil {
+			return err
+		}
+		return nil
+	})
+}
+
+// UserSetInfo
+// @description: 设置用户信息(仅用户名、昵称、头像、电话、邮箱等)
+// @param: user model.SysUser
+// @return: error
+func (userService *UserService) UserSetInfo(user system.SysUser) error {
+	return global.FITNESS_DB.Model(&system.SysUser{}).
+		Select("updated_at", "nick_name", "header_img", "phone", "email", "sideMode", "enable").
+		Where("id=?", user.ID).
+		Updates(map[string]interface{}{
+			"updated_at": time.Now(),
+			"nick_name":  user.NickName,
+			"header_img": user.HeaderImg,
+			"phone":      user.Phone,
+			"email":      user.Email,
+			"side_mode":  user.SideMode,
+			"enable":     user.Enable,
+		}).Error
+}
+
+// UserGetInfoWithUUID
+// @description: 通过UUID获取用户信息
+// @param: uuid uuid.UUID
+// @return: *model.SysUser, error
+func (userService *UserService) UserGetInfoWithUUID(uuid uuid.UUID) (*system.SysUser, error) {
+	var u system.SysUser
+	err := global.FITNESS_DB.Where("uuid = ?", uuid).First(&u).Error
+	if err != nil {
+		return &u, err
+	}
+	// TODO: 查询用户权限，设置默认路由
+	return &u, err
+}
+
+// UserGetInfoWithID
+// @description: 通过ID获取用户信息
+// @param: id int
+// @return: *model.SysUser, error
+func (userService *UserService) UserGetInfoWithID(id int) (*system.SysUser, error) {
+	var u system.SysUser
+	err := global.FITNESS_DB.Where("id = ?", id).First(&u).Error
+	if err != nil {
+		return &u, err
+	}
+	// TODO: 查询用户权限，设置默认路由
+	return &u, err
+}

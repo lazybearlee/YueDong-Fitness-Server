@@ -13,7 +13,7 @@ func InitRouter() *gin.Engine {
 		router.Use(gin.Logger())
 	}
 
-	// 注册路由分组，分别是管理路由和API路由
+	// 注册路由分组，分别是系统路由和APP路由
 
 	// TODO: 采用中间件进行跨域处理/HTTPS处理
 
