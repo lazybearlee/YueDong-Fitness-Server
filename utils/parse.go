@@ -33,3 +33,13 @@ func ParseDuration(d string) (time.Duration, error) {
 	dv, err := strconv.ParseInt(d, 10, 64)
 	return time.Duration(dv), err
 }
+
+func InterfaceToInt(v interface{}) (i int) {
+	switch v := v.(type) {
+	case int:
+		i = v
+	default:
+		i = 0
+	}
+	return
+}

@@ -14,7 +14,7 @@ import (
 
 // this file is used to init viper
 
-func ViperInit() *viper.Viper {
+func ViperInit() {
 	var config string
 	// check the cmd params
 	flag.StringVar(&config, "c", "", "choose config file.")
@@ -22,14 +22,14 @@ func ViperInit() *viper.Viper {
 
 	if config == "" {
 		// if the cmd params is empty, use the default config file
-		if configEnv := os.Getenv(ConfigEnv); configEnv == "" {
+		if configEnv := os.Getenv(global.ConfigEnv); configEnv == "" {
 			switch gin.Mode() {
 			case gin.DebugMode:
-				config = ConfigDefaultFile
+				config = global.ConfigDefaultFile
 			case gin.ReleaseMode:
-				config = ConfigReleaseFile
+				config = global.ConfigReleaseFile
 			case gin.TestMode:
-				config = ConfigTestFile
+				config = global.ConfigTestFile
 			}
 		} else {
 			config = configEnv
@@ -65,5 +65,5 @@ func ViperInit() *viper.Viper {
 		panic(fmt.Errorf("unmarshal config error: %s \n", err))
 	}
 
-	return v
+	global.FITNESS_VIPER = v
 }

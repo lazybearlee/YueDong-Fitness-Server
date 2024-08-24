@@ -1,4 +1,4 @@
-package system
+package sysservice
 
 import (
 	"context"
@@ -11,7 +11,7 @@ import (
 // LoadJwtBlackList 载入jwt黑名单缓存
 func LoadJwtBlackList() {
 	var jwtBlackList []string
-	err := global.FITNESS_DB.Model(&system.JwtBlacklist{}).Select("jwt").Find(&jwtBlackList).Error
+	err := global.FITNESS_DB.Model(&sysmodel.JwtBlacklist{}).Select("jwt").Find(&jwtBlackList).Error
 	if err != nil {
 		global.FITNESS_LOG.Error("LoadJwtBlackList error", zap.Error(err))
 		return
@@ -33,7 +33,7 @@ type JwtService struct{}
 var JwtServiceApp = new(JwtService)
 
 // SetInBlacklist 拉黑jwt
-func SetInBlacklist(blacklist system.JwtBlacklist) (err error) {
+func (jwtService *JwtService) SetInBlacklist(blacklist sysmodel.JwtBlacklist) (err error) {
 	err = global.FITNESS_DB.Create(&blacklist).Error
 	if err != nil {
 		return
@@ -43,20 +43,20 @@ func SetInBlacklist(blacklist system.JwtBlacklist) (err error) {
 }
 
 // IsInBlacklist 判断JWT是否在黑名单内部
-func IsInBlacklist(jwt string) bool {
+func (jwtService *JwtService) IsInBlacklist(jwt string) bool {
 	_, ok := global.FITNESS_CACHE.Get(jwt)
 	return ok
 	// Do we need to query the database?
 }
 
 // GetRedisJWT 从redis取jwt
-func GetRedisJWT(userName string) (redisJWT string, err error) {
+func (jwtService *JwtService) GetRedisJWT(userName string) (redisJWT string, err error) {
 	redisJWT, err = global.FITNESS_REDIS.Get(context.Background(), userName).Result()
 	return redisJWT, err
 }
 
 // SetRedisJWT jwt存入redis并设置过期时间
-func SetRedisJWT(jwt, userName string) (err error) {
+func (jwtService *JwtService) SetRedisJWT(jwt, userName string) (err error) {
 	// 首先解析jwt的过期时间
 	dr, err := utils.ParseDuration(global.FITNESS_CONFIG.JWT.ExpiresTime)
 	if err != nil {

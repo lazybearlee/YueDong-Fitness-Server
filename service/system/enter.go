@@ -1,5 +1,8 @@
-package system
+package sysservice
 
 type ServiceGroup struct {
 	JwtService
+	UserService
+	CasbinService
+	AuthorityService
 }

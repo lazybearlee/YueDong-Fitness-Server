@@ -76,6 +76,8 @@ func RegisterInitializer(order int, initializer TablesInitializer) {
 // LoadInitializers 加载所有的初始化器
 func LoadInitializers() {
 	RegisterInitializer(CasbinOrder, &system.CasbinInitializer{})
+	RegisterInitializer(AuthorityOrder, &system.AuthorityInitializer{})
+	RegisterInitializer(UserOrder, &system.UserInitializer{})
 
 	// 给所有的初始化器排序
 	sort.Sort(initializers)

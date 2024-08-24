@@ -1,11 +1,12 @@
 package core
 
 import (
+	"database/sql"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/lazybearlee/yuedong-fitness/config"
+	"github.com/lazybearlee/yuedong-fitness/core/initialize"
 	"github.com/lazybearlee/yuedong-fitness/global"
-	"github.com/lazybearlee/yuedong-fitness/model/system"
 	"go.uber.org/zap"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -18,9 +19,7 @@ import (
 
 func GormDBInit() {
 	c := global.FITNESS_CONFIG.MySQL
-	if c.Dbname == "" {
-		c.Dbname = "fitness"
-	}
+	CreateDBIfNotExist(&c)
 	// 构建mysql连接配置
 	mysqlConfig := mysql.Config{
 		DSN:                       c.Dsn(), // DSN data source name
@@ -38,8 +37,50 @@ func GormDBInit() {
 	sqlDB.SetMaxIdleConns(c.MaxIdleConns)
 	sqlDB.SetMaxOpenConns(c.MaxOpenConns)
 	global.FITNESS_DB = db
-	// 初始化表
-	DBTablesInit()
+	// 初始化表与数据
+	initialize.InitDB()
+}
+
+// CreateDBIfNotExist 创建数据库
+func CreateDBIfNotExist(c *config.Mysql) {
+	if c.Dbname == "" {
+		c.Dbname = "fitness"
+	}
+	createSql := fmt.Sprintf("CREATE DATABASE IF NOT EXISTS `%s` DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_general_ci;", c.Dbname)
+	if c.Path == "" {
+		c.Path = "127.0.0.1"
+	}
+	if c.Port == "" {
+		c.Port = "3306"
+	}
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/", c.Username, c.Password, c.Path, c.Port)
+	// 使用sql连接数据库
+	db, err := sql.Open("mysql", dsn)
+	if err != nil {
+		zap.L().Error("数据库连接失败", zap.Error(err))
+		panic(err)
+	}
+	defer func() {
+		err := db.Close()
+		if err != nil {
+			zap.L().Error("数据库连接关闭失败", zap.Error(err))
+			panic(err)
+		}
+	}()
+	// Ping()检查数据库连接是否正常
+	err = db.Ping()
+	if err != nil {
+		zap.L().Error("数据库连接失败", zap.Error(err))
+		panic(err)
+	}
+	// 创建数据库
+	_, err = db.Exec(createSql)
+	if err != nil {
+		zap.L().Error("数据库创建失败", zap.Error(err))
+		panic(err)
+	}
+
+	global.FITNESS_LOG.Info("已确认数据库建立正常")
 }
 
 // NewDBConfig 初始化数据库配置
@@ -57,29 +98,6 @@ func NewDBConfig(c config.Mysql) *gorm.Config {
 		},
 		DisableForeignKeyConstraintWhenMigrating: true,
 	}
-}
-
-func DBTablesInit() {
-	db := global.FITNESS_DB
-	// 注册系统表
-	err := db.AutoMigrate(
-		system.SysUser{},
-		system.SysAuthority{},
-		system.JwtBlacklist{},
-	)
-	if err != nil {
-		global.FITNESS_LOG.Error("register sys table failed", zap.Error(err))
-		os.Exit(0)
-	}
-	// 注册APP表
-	err = db.AutoMigrate(
-	// TODO: add app tables
-	)
-	if err != nil {
-		global.FITNESS_LOG.Error("register app table failed", zap.Error(err))
-		os.Exit(0)
-	}
-	global.FITNESS_LOG.Info("register table success")
 }
 
 // Writer 格式化打印日志

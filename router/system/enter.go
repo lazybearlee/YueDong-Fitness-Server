@@ -1,4 +1,4 @@
-package system
+package sysrouter
 
 type RouterGroup struct {
 }

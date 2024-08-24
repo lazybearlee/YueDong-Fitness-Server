@@ -3,7 +3,6 @@ package system
 import (
 	"errors"
 	adapter "github.com/casbin/gorm-adapter/v3"
-	"github.com/lazybearlee/yuedong-fitness/core"
 	"github.com/lazybearlee/yuedong-fitness/global"
 	"go.uber.org/zap"
 	"gorm.io/gorm"
@@ -52,7 +51,7 @@ func (s *CasbinInitializer) InitializeData() error {
 	// 初始化casbin规则
 	rules := []adapter.CasbinRule{
 		// 超级管理员注册管理员角色
-		{Ptype: "p", V0: core.AdminSuperStr, V1: "/user/admin_register", V2: "POST"},
+		{Ptype: "p", V0: global.AdminSuperStr, V1: "/user/admin_register", V2: "POST"},
 	}
 	// 创建casbin规则
 	err := global.FITNESS_DB.Create(&rules).Error

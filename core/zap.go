@@ -10,7 +10,7 @@ import (
 )
 
 // ZapLoggerInit get zap logger
-func ZapLoggerInit() (logger *zap.Logger) {
+func ZapLoggerInit() {
 	// 检查是否存在Director文件夹
 	if ok := utils.DirectoryExists(global.FITNESS_CONFIG.Zap.Director); !ok {
 		// 创建Director文件夹
@@ -24,13 +24,14 @@ func ZapLoggerInit() (logger *zap.Logger) {
 		core := NewZapCore(levels[i])
 		cores = append(cores, core)
 	}
-	logger = zap.New(zapcore.NewTee(cores...))
+	logger := zap.New(zapcore.NewTee(cores...))
 	// 是否显示行号
 	if global.FITNESS_CONFIG.Zap.ShowLine {
 		logger = logger.WithOptions(zap.AddCaller())
 	}
 	zap.ReplaceGlobals(logger)
-	return logger
+
+	global.FITNESS_LOG = logger
 }
 
 type ZapCore struct {

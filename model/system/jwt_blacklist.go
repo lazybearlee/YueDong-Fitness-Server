@@ -1,4 +1,4 @@
-package system
+package sysmodel
 
 import "github.com/lazybearlee/yuedong-fitness/global"
 

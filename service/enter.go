@@ -1,13 +1,13 @@
 package service
 
 import (
-	"github.com/lazybearlee/yuedong-fitness/service/app"
-	"github.com/lazybearlee/yuedong-fitness/service/system"
+	appservice "github.com/lazybearlee/yuedong-fitness/service/app"
+	sysservice "github.com/lazybearlee/yuedong-fitness/service/system"
 )
 
 type ServiceGroup struct {
-	SystemServiceGroup system.ServiceGroup
-	AppServiceGroup    app.ServiceGroup
+	SystemServiceGroup sysservice.ServiceGroup
+	AppServiceGroup    appservice.ServiceGroup
 }
 
 var ServiceGroupApp = new(ServiceGroup)
