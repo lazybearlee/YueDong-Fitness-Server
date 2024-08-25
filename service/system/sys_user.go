@@ -125,7 +125,7 @@ func (userService *UserService) UserSetInfo(user sysmodel.SysUser) error {
 			"header_img": user.HeaderImg,
 			"phone":      user.Phone,
 			"email":      user.Email,
-			"side_mode":  user.SideMode,
+			"gender":     user.Gender,
 			"enable":     user.Enable,
 		}).Error
 }

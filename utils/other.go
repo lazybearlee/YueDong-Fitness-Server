@@ -1,6 +1,8 @@
 package utils
 
 import (
+	"fmt"
+	"math/rand"
 	"reflect"
 	"strings"
 )
@@ -28,4 +30,22 @@ func StructSpaceTrim(target interface{}) {
 			continue
 		}
 	}
+}
+
+// GetRandomNumberString 获取指定长度的随机数字字符串
+func GetRandomNumberString(length int) string {
+	// 随机数字
+	number := "0123456789"
+	// 随机字符串
+	var result []byte
+	for i := 0; i < length; i++ {
+		result = append(result, number[rand.Intn(len(number))])
+	}
+	return string(result)
+}
+
+// GenerateVerificationCode 随机生成一个6位数的验证码。
+func GenerateVerificationCode() string {
+	code := fmt.Sprintf("%06d", rand.Intn(1000000))
+	return code
 }

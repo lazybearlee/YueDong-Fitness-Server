@@ -50,7 +50,7 @@ func (tis TablesInitializerSlice) Swap(i, j int) {
 	tis[i], tis[j] = tis[j], tis[i]
 }
 
-/* -- Register -- */
+/* -- AdminRegister -- */
 
 var (
 	initializers TablesInitializerSlice                 // initializers 用于存储所有的初始化器
