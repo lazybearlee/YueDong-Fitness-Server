@@ -1,4 +1,4 @@
-package system
+package sysservice
 
 import (
 	"context"
@@ -11,14 +11,14 @@ import (
 // LoadJwtBlackList 载入jwt黑名单缓存
 func LoadJwtBlackList() {
 	var jwtBlackList []string
-	err := global.FITNESS_DB.Model(&system.JwtBlacklist{}).Select("jwt").Find(&jwtBlackList).Error
+	err := global.FitnessDb.Model(&sysmodel.JwtBlacklist{}).Select("jwt").Find(&jwtBlackList).Error
 	if err != nil {
-		global.FITNESS_LOG.Error("LoadJwtBlackList error", zap.Error(err))
+		global.FitnessLog.Error("LoadJwtBlackList error", zap.Error(err))
 		return
 	}
 	// 将jwt黑名单载入缓存
 	for _, v := range jwtBlackList {
-		global.FITNESS_CACHE.SetDefault(v, struct{}{})
+		global.FitnessCache.SetDefault(v, struct{}{})
 	}
 }
 
@@ -33,38 +33,38 @@ type JwtService struct{}
 var JwtServiceApp = new(JwtService)
 
 // SetInBlacklist 拉黑jwt
-func SetInBlacklist(blacklist system.JwtBlacklist) (err error) {
-	err = global.FITNESS_DB.Create(&blacklist).Error
+func (jwtService *JwtService) SetInBlacklist(blacklist sysmodel.JwtBlacklist) (err error) {
+	err = global.FitnessDb.Create(&blacklist).Error
 	if err != nil {
 		return
 	}
-	global.FITNESS_CACHE.SetDefault(blacklist.Jwt, struct{}{})
+	global.FitnessCache.SetDefault(blacklist.Jwt, struct{}{})
 	return
 }
 
 // IsInBlacklist 判断JWT是否在黑名单内部
-func IsInBlacklist(jwt string) bool {
-	_, ok := global.FITNESS_CACHE.Get(jwt)
+func (jwtService *JwtService) IsInBlacklist(jwt string) bool {
+	_, ok := global.FitnessCache.Get(jwt)
 	return ok
 	// Do we need to query the database?
 }
 
 // GetRedisJWT 从redis取jwt
-func GetRedisJWT(userName string) (redisJWT string, err error) {
-	redisJWT, err = global.FITNESS_REDIS.Get(context.Background(), userName).Result()
+func (jwtService *JwtService) GetRedisJWT(userName string) (redisJWT string, err error) {
+	redisJWT, err = global.FitnessRedis.Get(context.Background(), userName).Result()
 	return redisJWT, err
 }
 
 // SetRedisJWT jwt存入redis并设置过期时间
-func SetRedisJWT(jwt, userName string) (err error) {
+func (jwtService *JwtService) SetRedisJWT(jwt, userName string) (err error) {
 	// 首先解析jwt的过期时间
-	dr, err := utils.ParseDuration(global.FITNESS_CONFIG.JWT.ExpiresTime)
+	dr, err := utils.ParseDuration(global.FitnessConfig.JWT.ExpiresTime)
 	if err != nil {
-		global.FITNESS_LOG.Error("jwt parse duration failed", zap.Error(err))
+		global.FitnessLog.Error("jwt parse duration failed", zap.Error(err))
 		return err
 	}
 	// 将jwt存入redis并设置过期时间
 	timer := dr
-	err = global.FITNESS_REDIS.Set(context.Background(), userName, jwt, timer).Err()
+	err = global.FitnessRedis.Set(context.Background(), userName, jwt, timer).Err()
 	return err
 }

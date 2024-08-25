@@ -14,7 +14,7 @@ import (
 
 // this file is used to init viper
 
-func ViperInit() *viper.Viper {
+func ViperInit() {
 	var config string
 	// check the cmd params
 	flag.StringVar(&config, "c", "", "choose config file.")
@@ -22,14 +22,14 @@ func ViperInit() *viper.Viper {
 
 	if config == "" {
 		// if the cmd params is empty, use the default config file
-		if configEnv := os.Getenv(ConfigEnv); configEnv == "" {
+		if configEnv := os.Getenv(global.ConfigEnv); configEnv == "" {
 			switch gin.Mode() {
 			case gin.DebugMode:
-				config = ConfigDefaultFile
+				config = global.ConfigDefaultFile
 			case gin.ReleaseMode:
-				config = ConfigReleaseFile
+				config = global.ConfigReleaseFile
 			case gin.TestMode:
-				config = ConfigTestFile
+				config = global.ConfigTestFile
 			}
 		} else {
 			config = configEnv
@@ -56,14 +56,14 @@ func ViperInit() *viper.Viper {
 		// print the log
 		log.Println("config file changed:", e.Name)
 		// read the new config
-		if err = v.Unmarshal(&global.FITNESS_CONFIG); err != nil {
+		if err = v.Unmarshal(&global.FitnessConfig); err != nil {
 			panic(fmt.Errorf("unmarshal config error: %s \n", err))
 		}
 	})
 	// unmarshal the config
-	if err = v.Unmarshal(&global.FITNESS_CONFIG); err != nil {
+	if err = v.Unmarshal(&global.FitnessConfig); err != nil {
 		panic(fmt.Errorf("unmarshal config error: %s \n", err))
 	}
 
-	return v
+	global.FitnessViper = v
 }

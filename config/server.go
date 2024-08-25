@@ -7,6 +7,7 @@ type Server struct {
 	Email   Email   `mapstructure:"email" json:"email" yaml:"email"`
 	JWT     JWT     `mapstructure:"jwt" json:"jwt" yaml:"jwt"`
 	Zap     Zap     `mapstructure:"zap" json:"zap" yaml:"zap"`
+	Local   Local   `mapstructure:"local" json:"local" yaml:"local"`
 	Qiniu   Qiniu   `mapstructure:"qiniu" json:"qiniu" yaml:"qiniu"`
 	Captcha Captcha `mapstructure:"captcha" json:"captcha" yaml:"captcha"`
 	Cors    CORS    `mapstructure:"cors" json:"cors" yaml:"cors"`

@@ -1,13 +1,13 @@
 package router
 
 import (
-	"github.com/lazybearlee/yuedong-fitness/router/app"
-	"github.com/lazybearlee/yuedong-fitness/router/system"
+	approuter "github.com/lazybearlee/yuedong-fitness/router/app"
+	sysrouter "github.com/lazybearlee/yuedong-fitness/router/system"
 )
 
-type RouterGroup struct {
-	System system.RouterGroup
-	App    app.RouterGroup
+type Group struct {
+	System sysrouter.RouterGroup
+	App    approuter.RouterGroup
 }
 
-var routerGroup = new(RouterGroup)
+var MainRouterGroup = new(Group)

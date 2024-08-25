@@ -23,7 +23,7 @@ var (
 // @Description: 定时任务，删除过期数据
 func DBGc(db *gorm.DB) error {
 	if db == nil {
-		return errors.New(gc.ErrDBEmpty)
+		return errors.New("mysql Cannot be empty")
 	}
 	for _, config := range gcConfigs {
 		// parse duration
@@ -32,7 +32,7 @@ func DBGc(db *gorm.DB) error {
 			return err
 		}
 		if duration < 0 {
-			return errors.New(gc.ErrDurationParse)
+			return errors.New("parse duration < 0")
 		}
 		err = db.Debug().Exec(fmt.Sprintf(gc.GCExecFmt, config.TableName, config.ComparedField), time.Now().Add(-duration)).Error
 		if err != nil {
