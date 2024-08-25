@@ -26,3 +26,6 @@ go.work.sum
 
 # private config file
 config.yaml
+
+# log
+log
