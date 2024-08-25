@@ -4,11 +4,11 @@ import "github.com/lazybearlee/yuedong-fitness/model/system"
 
 // RegisterReq Register request struct
 type RegisterReq struct {
-	Username     string `json:"username" form:"username"`
-	Password     string `json:"password" form:"password"`
-	NickName     string `json:"nickName" form:"nickName"`
+	Username     string `json:"username" form:"username" binding:"required"`
+	Password     string `json:"password" form:"password" binding:"required"`
+	NickName     string `json:"nickName" form:"nickName" binding:"required"`
 	HeaderImg    string `json:"headerImg" form:"headerImg"`
-	AuthorityId  uint   `json:"authorityId" form:"authorityId"`
+	AuthorityId  uint   `json:"authorityId" form:"authorityId" binding:"required"`
 	Enable       int    `json:"enable" form:"enable"`
 	AuthorityIds []uint `json:"authorityIds" form:"authorityIds"`
 	Phone        string `json:"phone" form:"phone"`
@@ -17,8 +17,8 @@ type RegisterReq struct {
 
 // LoginReq User login structure
 type LoginReq struct {
-	Username  string `json:"username" form:"username"`
-	Password  string `json:"password" form:"password"`
+	Username  string `json:"username" form:"username" binding:"required"`
+	Password  string `json:"password" form:"password" binding:"required"`
 	Captcha   string `json:"captcha" form:"captcha"`
 	CaptchaId string `json:"captchaId" form:"captchaId"`
 }

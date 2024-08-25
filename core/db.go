@@ -18,7 +18,7 @@ import (
 )
 
 func GormDBInit() {
-	c := global.FITNESS_CONFIG.MySQL
+	c := global.FitnessConfig.MySQL
 	CreateDBIfNotExist(&c)
 	// 构建mysql连接配置
 	mysqlConfig := mysql.Config{
@@ -36,7 +36,7 @@ func GormDBInit() {
 	sqlDB, _ := db.DB()
 	sqlDB.SetMaxIdleConns(c.MaxIdleConns)
 	sqlDB.SetMaxOpenConns(c.MaxOpenConns)
-	global.FITNESS_DB = db
+	global.FitnessDb = db
 	// 初始化表与数据
 	initialize.InitDB()
 }
@@ -80,7 +80,7 @@ func CreateDBIfNotExist(c *config.Mysql) {
 		panic(err)
 	}
 
-	global.FITNESS_LOG.Info("已确认数据库建立正常")
+	global.FitnessLog.Info("已确认数据库建立正常")
 }
 
 // NewDBConfig 初始化数据库配置

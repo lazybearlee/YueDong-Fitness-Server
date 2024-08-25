@@ -25,7 +25,7 @@ var (
 // 采用casbin的RBAC模型，将权限存储在数据库中
 func (casbinService *CasbinService) Casbin() *casbin.SyncedCachedEnforcer {
 	once.Do(func() {
-		a, err := gormadapter.NewAdapterByDB(global.FITNESS_DB)
+		a, err := gormadapter.NewAdapterByDB(global.FitnessDb)
 		if err != nil {
 			zap.L().Error("适配数据库失败请检查casbin表是否为InnoDB引擎!", zap.Error(err))
 			return
@@ -92,7 +92,7 @@ func (casbinService *CasbinService) UpdateCasbin(req *sysrequest.CasbinInReceive
 
 // UpdateCasbinApi 更新api策略
 func (casbinService *CasbinService) UpdateCasbinApi(old *sysrequest.CasbinApiInfo, new *sysrequest.CasbinApiInfo) error {
-	err := global.FITNESS_DB.Model(&gormadapter.CasbinRule{}).Where("v1 = ? AND v2 = ?", old.Path, old.Method).Updates(map[string]interface{}{
+	err := global.FitnessDb.Model(&gormadapter.CasbinRule{}).Where("v1 = ? AND v2 = ?", old.Path, old.Method).Updates(map[string]interface{}{
 		"v1": new.Path,
 		"v2": new.Method,
 	}).Error

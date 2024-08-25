@@ -2,7 +2,6 @@ package sysservice
 
 import (
 	"errors"
-	"github.com/flipped-aurora/gin-vue-admin/server/model/system"
 	"github.com/lazybearlee/yuedong-fitness/global"
 	"github.com/lazybearlee/yuedong-fitness/model/common/request"
 	sysmodel "github.com/lazybearlee/yuedong-fitness/model/system"
@@ -24,12 +23,12 @@ var AuthorityServiceApp = new(AuthorityService)
 // CreateAuthority 创建一个权限
 func (authorityService *AuthorityService) CreateAuthority(authority sysmodel.SysAuthority) (auth sysmodel.SysAuthority, err error) {
 	// 首先查询是否存在相同的角色id
-	if err = global.FITNESS_DB.Where("authority_id = ?", authority.AuthorityId).First(&sysmodel.SysAuthority{}).Error; !errors.Is(err, gorm.ErrRecordNotFound) {
+	if err = global.FitnessDb.Where("authority_id = ?", authority.AuthorityId).First(&sysmodel.SysAuthority{}).Error; !errors.Is(err, gorm.ErrRecordNotFound) {
 		return authority, ErrAuthorityExist
 	}
 	// 开启事务
 	// 做以下几件事，创建权限、设置casbin权限
-	e := global.FITNESS_DB.Transaction(func(tx *gorm.DB) error {
+	e := global.FitnessDb.Transaction(func(tx *gorm.DB) error {
 		if err = tx.Create(&authority).Error; err != nil {
 			return err
 		}
@@ -49,28 +48,28 @@ func (authorityService *AuthorityService) CreateAuthority(authority sysmodel.Sys
 func (authorityService *AuthorityService) UpdateAuthority(authority sysmodel.SysAuthority) (auth sysmodel.SysAuthority, err error) {
 	// 先查询是否存在该权限
 	var old sysmodel.SysAuthority
-	if err = global.FITNESS_DB.Where("authority_id = ?", authority.AuthorityId).First(&old).Error; err != nil {
+	if err = global.FitnessDb.Where("authority_id = ?", authority.AuthorityId).First(&old).Error; err != nil {
 		return authority, ErrorAuthorityGet
 	}
 	// 更新，这里old是查询到的权限，由于其自带id，所以不需要再次传入id
-	err = global.FITNESS_DB.Model(&old).Updates(&auth).Error
+	err = global.FitnessDb.Model(&old).Updates(&auth).Error
 	return auth, err
 }
 
 // DeleteAuthority 删除一个权限
 func (authorityService *AuthorityService) DeleteAuthority(auth *sysmodel.SysAuthority) (err error) {
 	// 首先检查是否存在该权限
-	if err = global.FITNESS_DB.Debug().Preload("Users").First(&auth).Error; err != nil {
+	if err = global.FitnessDb.Debug().Preload("Users").First(&auth).Error; err != nil {
 		return ErrorAuthorityGet
 	}
 	// 如果有用户使用该权限，不允许删除
 	if len(auth.Users) > 0 {
 		return ErrDeleteUserUsing
 	}
-	if !errors.Is(global.FITNESS_DB.Where("authority_id = ?", auth.AuthorityId).First(&sysmodel.SysUser{}).Error, gorm.ErrRecordNotFound) {
+	if !errors.Is(global.FitnessDb.Where("authority_id = ?", auth.AuthorityId).First(&sysmodel.SysUser{}).Error, gorm.ErrRecordNotFound) {
 		return errors.New("此角色有用户正在使用禁止删除")
 	}
-	if !errors.Is(global.FITNESS_DB.Where("parent_id = ?", auth.AuthorityId).First(&sysmodel.SysAuthority{}).Error, gorm.ErrRecordNotFound) {
+	if !errors.Is(global.FitnessDb.Where("parent_id = ?", auth.AuthorityId).First(&sysmodel.SysAuthority{}).Error, gorm.ErrRecordNotFound) {
 		return errors.New("此角色存在子角色不允许删除")
 	}
 
@@ -79,7 +78,7 @@ func (authorityService *AuthorityService) DeleteAuthority(auth *sysmodel.SysAuth
 	// 2. 删除相关DataAuthority
 	// 3. 删除用户与权限关联
 	// 4. 删除Casbin权限
-	return global.FITNESS_DB.Transaction(func(tx *gorm.DB) (err error) {
+	return global.FitnessDb.Transaction(func(tx *gorm.DB) (err error) {
 		// 删除权限，不过是软删除，也就是不会真正删除，只是将deleted_at字段设置为当前时间
 		if err = tx.Preload("DataAuthorityId").Where("authority_id = ?", auth.AuthorityId).First(auth).Unscoped().Delete(auth).Error; err != nil {
 			return
@@ -115,8 +114,8 @@ func getDefaultCasbinInfo() []sysrequest.CasbinApiInfo {
 }
 
 // GetChildrenAuthority 获取子权限
-func (authorityService *AuthorityService) findChildrenAuthority(authority *system.SysAuthority) (err error) {
-	err = global.FITNESS_DB.Preload("DataAuthorityId").Where("parent_id = ?", authority.AuthorityId).Find(&authority.Children).Error
+func (authorityService *AuthorityService) findChildrenAuthority(authority *sysmodel.SysAuthority) (err error) {
+	err = global.FitnessDb.Preload("DataAuthorityId").Where("parent_id = ?", authority.AuthorityId).Find(&authority.Children).Error
 	if len(authority.Children) > 0 {
 		for k := range authority.Children {
 			err = authorityService.findChildrenAuthority(&authority.Children[k])
@@ -129,11 +128,11 @@ func (authorityService *AuthorityService) findChildrenAuthority(authority *syste
 func (authorityService *AuthorityService) GetAuthorityInfoList(info request.PageInfo) (list interface{}, total int64, err error) {
 	limit := info.PageSize
 	offset := info.PageSize * (info.Page - 1)
-	db := global.FITNESS_DB.Model(&system.SysAuthority{})
+	db := global.FitnessDb.Model(&sysmodel.SysAuthority{})
 	if err = db.Where("parent_id = ?", "0").Count(&total).Error; total == 0 || err != nil {
 		return
 	}
-	var authority []system.SysAuthority
+	var authority []sysmodel.SysAuthority
 	err = db.Limit(limit).Offset(offset).Preload("DataAuthorityId").Where("parent_id = ?", "0").Find(&authority).Error
 	for k := range authority {
 		err = authorityService.findChildrenAuthority(&authority[k])
@@ -143,14 +142,14 @@ func (authorityService *AuthorityService) GetAuthorityInfoList(info request.Page
 
 // GetAuthorityInfoByID 获取权限信息
 func (authorityService *AuthorityService) GetAuthorityInfoByID(auth sysmodel.SysAuthority) (sa sysmodel.SysAuthority, err error) {
-	err = global.FITNESS_DB.Where("authority_id = ?", auth.AuthorityId).First(&sa).Error
+	err = global.FitnessDb.Where("authority_id = ?", auth.AuthorityId).First(&sa).Error
 	return
 }
 
 // SetDataAuthority 设置数据权限
-func (authorityService *AuthorityService) SetDataAuthority(auth system.SysAuthority) error {
-	var s system.SysAuthority
-	global.FITNESS_DB.Preload("DataAuthorityId").First(&s, "authority_id = ?", auth.AuthorityId)
-	err := global.FITNESS_DB.Model(&s).Association("DataAuthorityId").Replace(&auth.DataAuthorityId)
+func (authorityService *AuthorityService) SetDataAuthority(auth sysmodel.SysAuthority) error {
+	var s sysmodel.SysAuthority
+	global.FitnessDb.Preload("DataAuthorityId").First(&s, "authority_id = ?", auth.AuthorityId)
+	err := global.FitnessDb.Model(&s).Association("DataAuthorityId").Replace(&auth.DataAuthorityId)
 	return err
 }

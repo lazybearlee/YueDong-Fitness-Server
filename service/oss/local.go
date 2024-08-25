@@ -28,38 +28,38 @@ func (*Local) UploadFile(file *multipart.FileHeader) (string, string, error) {
 	// 拼接新文件名
 	filename := name + "_" + time.Now().Format("20060102150405") + ext
 	// 尝试创建此路径
-	mkdirErr := os.MkdirAll(global.FITNESS_CONFIG.Local.StorePath, os.ModePerm)
+	mkdirErr := os.MkdirAll(global.FitnessConfig.Local.StorePath, os.ModePerm)
 	if mkdirErr != nil {
-		global.FITNESS_LOG.Error("function os.MkdirAll() failed", zap.Any("err", mkdirErr.Error()))
+		global.FitnessLog.Error("function os.MkdirAll() failed", zap.Any("err", mkdirErr.Error()))
 		return "", "", errors.New("function os.MkdirAll() failed, err:" + mkdirErr.Error())
 	}
 	// 拼接路径和文件名
-	p := global.FITNESS_CONFIG.Local.StorePath + "/" + filename
-	path := global.FITNESS_CONFIG.Local.Path + "/" + filename
+	p := global.FitnessConfig.Local.StorePath + "/" + filename
+	path := global.FitnessConfig.Local.Path + "/" + filename
 
 	f, openError := file.Open() // 打开文件
 	if openError != nil {
-		global.FITNESS_LOG.Error("function file.Open() failed", zap.Any("err", openError.Error()))
+		global.FitnessLog.Error("function file.Open() failed", zap.Any("err", openError.Error()))
 		return "", "", errors.New("function file.Open() failed, err:" + openError.Error())
 	}
 	defer f.Close() // 创建文件 defer 关闭
 
 	out, createErr := os.Create(p)
 	if createErr != nil {
-		global.FITNESS_LOG.Error("function os.Create() failed", zap.Any("err", createErr.Error()))
+		global.FitnessLog.Error("function os.Create() failed", zap.Any("err", createErr.Error()))
 
 		return "", "", errors.New("function os.Create() failed, err:" + createErr.Error())
 	}
 	defer func(out *os.File) {
 		err := out.Close()
 		if err != nil {
-			global.FITNESS_LOG.Error("function file.Close() failed", zap.Any("err", err.Error()))
+			global.FitnessLog.Error("function file.Close() failed", zap.Any("err", err.Error()))
 		}
 	}(out) // 创建文件 defer 关闭
 
 	_, copyErr := io.Copy(out, f) // 传输（拷贝）文件
 	if copyErr != nil {
-		global.FITNESS_LOG.Error("function io.Copy() failed", zap.Any("err", copyErr.Error()))
+		global.FitnessLog.Error("function io.Copy() failed", zap.Any("err", copyErr.Error()))
 		return "", "", errors.New("function io.Copy() failed, err:" + copyErr.Error())
 	}
 	return path, filename, nil
@@ -76,7 +76,7 @@ func (*Local) DeleteFile(key string) error {
 		return errors.New("非法的key")
 	}
 
-	p := filepath.Join(global.FITNESS_CONFIG.Local.StorePath, key)
+	p := filepath.Join(global.FitnessConfig.Local.StorePath, key)
 
 	// 检查文件是否存在
 	if _, err := os.Stat(p); os.IsNotExist(err) {

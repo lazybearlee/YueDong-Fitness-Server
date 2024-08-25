@@ -24,13 +24,19 @@ var User = new(UserService)
 func (userService *UserService) UserRegister(user sysmodel.SysUser) (sysmodel.SysUser, error) {
 	var u sysmodel.SysUser
 	// 查询用户名是否注册
-	if !errors.Is(global.FITNESS_DB.Where("username = ?", user).First(&u).Error, gorm.ErrRecordNotFound) {
+	err := global.FitnessDb.Where("username = ?", user.Username).First(&u).Error
+	switch err {
+	case nil:
 		return u, errors.New("用户名已注册")
+	case gorm.ErrRecordNotFound:
+		break
+	default:
+		return u, err
 	}
 	// 附加uuid 密码hash加密 注册
 	user.Password = utils.CryptWithBcrypt(user.Password)
 	user.UUID = uuid.Must(uuid.NewV4())
-	err := global.FITNESS_DB.Create(&user).Error // 创建用户
+	err = global.FitnessDb.Create(&user).Error // 创建用户
 	return user, err
 }
 
@@ -40,12 +46,12 @@ func (userService *UserService) UserRegister(user sysmodel.SysUser) (sysmodel.Sy
 // @return: *model.SysUser, error
 func (userService *UserService) UserLogin(user sysmodel.SysUser) (*sysmodel.SysUser, error) {
 	// 首先判断数据库是否初始化
-	if nil == global.FITNESS_DB {
+	if nil == global.FitnessDb {
 		return nil, errors.New("mysql not init")
 	}
 	var u sysmodel.SysUser
 	// 查询用户，预加载权限
-	err := global.FITNESS_DB.Where("username = ?", user.Username).Preload("Authorities").Preload("Authority").First(&u).Error
+	err := global.FitnessDb.Where("username = ?", user.Username).Preload("Authorities").Preload("Authority").First(&u).Error
 	if err == nil {
 		// 检查密码
 		if ok := utils.CryptCheckWithBcrypt(user.Password, u.Password); !ok {
@@ -63,7 +69,7 @@ func (userService *UserService) UserLogin(user sysmodel.SysUser) (*sysmodel.SysU
 func (userService *UserService) UserChangePassword(user sysmodel.SysUser, newPassword string) (*sysmodel.SysUser, error) {
 	// 首先判断用户是否存在以及密码是否正确
 	var u sysmodel.SysUser
-	if err := global.FITNESS_DB.Where("id = ?", user.ID).First(&u).Error; err != nil {
+	if err := global.FitnessDb.Where("id = ?", user.ID).First(&u).Error; err != nil {
 		return nil, err
 	}
 	if ok := utils.CryptCheckWithBcrypt(user.Password, u.Password); !ok {
@@ -71,7 +77,7 @@ func (userService *UserService) UserChangePassword(user sysmodel.SysUser, newPas
 	}
 	// 修改密码
 	u.Password = utils.CryptWithBcrypt(newPassword)
-	err := global.FITNESS_DB.Save(&u).Error
+	err := global.FitnessDb.Save(&u).Error
 	return &u, err
 }
 
@@ -81,7 +87,7 @@ func (userService *UserService) UserChangePassword(user sysmodel.SysUser, newPas
 // @return: error
 func (userService *UserService) UserResetPassword(userId int) error {
 	// 修改密码
-	return global.FITNESS_DB.Model(&sysmodel.SysUser{}).Where("id = ?", userId).Update("password", utils.CryptWithBcrypt("123456")).Error
+	return global.FitnessDb.Model(&sysmodel.SysUser{}).Where("id = ?", userId).Update("password", utils.CryptWithBcrypt("123456")).Error
 }
 
 // UserSetAuthority
@@ -92,7 +98,7 @@ func (userService *UserService) UserResetPassword(userId int) error {
 // @param: userID int
 // @return: error
 func (userService *UserService) UserDelete(userID int) error {
-	return global.FITNESS_DB.Transaction(func(tx *gorm.DB) error {
+	return global.FitnessDb.Transaction(func(tx *gorm.DB) error {
 		// 删除用户
 		if err := tx.Delete(&sysmodel.SysUser{}, userID).Error; err != nil {
 			return err
@@ -110,7 +116,7 @@ func (userService *UserService) UserDelete(userID int) error {
 // @param: user model.SysUser
 // @return: error
 func (userService *UserService) UserSetInfo(user sysmodel.SysUser) error {
-	return global.FITNESS_DB.Model(&sysmodel.SysUser{}).
+	return global.FitnessDb.Model(&sysmodel.SysUser{}).
 		Select("updated_at", "nick_name", "header_img", "phone", "email", "sideMode", "enable").
 		Where("id=?", user.ID).
 		Updates(map[string]interface{}{
@@ -130,7 +136,7 @@ func (userService *UserService) UserSetInfo(user sysmodel.SysUser) error {
 // @return: *model.SysUser, error
 func (userService *UserService) UserGetInfoWithUUID(uuid uuid.UUID) (*sysmodel.SysUser, error) {
 	var u sysmodel.SysUser
-	err := global.FITNESS_DB.Where("uuid = ?", uuid).First(&u).Error
+	err := global.FitnessDb.Where("uuid = ?", uuid).First(&u).Error
 	if err != nil {
 		return &u, err
 	}
@@ -144,7 +150,7 @@ func (userService *UserService) UserGetInfoWithUUID(uuid uuid.UUID) (*sysmodel.S
 // @return: *model.SysUser, error
 func (userService *UserService) UserGetInfoWithID(id int) (*sysmodel.SysUser, error) {
 	var u sysmodel.SysUser
-	err := global.FITNESS_DB.Where("id = ?", id).First(&u).Error
+	err := global.FitnessDb.Where("id = ?", id).First(&u).Error
 	if err != nil {
 		return &u, err
 	}

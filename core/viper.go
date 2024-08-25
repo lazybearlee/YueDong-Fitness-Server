@@ -56,14 +56,14 @@ func ViperInit() {
 		// print the log
 		log.Println("config file changed:", e.Name)
 		// read the new config
-		if err = v.Unmarshal(&global.FITNESS_CONFIG); err != nil {
+		if err = v.Unmarshal(&global.FitnessConfig); err != nil {
 			panic(fmt.Errorf("unmarshal config error: %s \n", err))
 		}
 	})
 	// unmarshal the config
-	if err = v.Unmarshal(&global.FITNESS_CONFIG); err != nil {
+	if err = v.Unmarshal(&global.FitnessConfig); err != nil {
 		panic(fmt.Errorf("unmarshal config error: %s \n", err))
 	}
 
-	global.FITNESS_VIPER = v
+	global.FitnessViper = v
 }

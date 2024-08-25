@@ -11,9 +11,9 @@ import (
 func RedisInit() {
 	// 初始化Redis
 	// 判断是否使用Redis
-	if global.FITNESS_CONFIG.System.UseRedis || global.FITNESS_CONFIG.System.UseMultipoint {
+	if global.FitnessConfig.System.UseRedis || global.FitnessConfig.System.UseMultipoint {
 		// 使用Redis
-		config := global.FITNESS_CONFIG.Redis
+		config := global.FitnessConfig.Redis
 		client := redis.NewClient(&redis.Options{
 			Addr:     config.Addr,
 			Password: config.Password,
@@ -22,14 +22,14 @@ func RedisInit() {
 		// 测试Redis连接
 		_, err := client.Ping(context.Background()).Result()
 		if err != nil {
-			global.FITNESS_LOG.Error("Redis connect ping failed", zap.Error(err))
+			global.FitnessLog.Error("Redis connect ping failed", zap.Error(err))
 			os.Exit(0)
 		} else {
-			global.FITNESS_LOG.Info("Redis connect ping success")
-			global.FITNESS_REDIS = client
+			global.FitnessLog.Info("Redis connect ping success")
+			global.FitnessRedis = client
 		}
 	} else {
 		// 不使用Redis
-		global.FITNESS_LOG.Info("Redis is not used")
+		global.FitnessLog.Info("Redis is not used")
 	}
 }

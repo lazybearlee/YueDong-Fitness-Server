@@ -26,15 +26,15 @@ var (
 // NewJWT 新建一个 JWT 实例
 func NewJWT() *JWT {
 	return &JWT{
-		SigningKey: []byte(global.FITNESS_CONFIG.JWT.SigningKey),
+		SigningKey: []byte(global.FitnessConfig.JWT.SigningKey),
 	}
 }
 
 // CreateClaims 创建 JWT 的 Claims
 func (j *JWT) CreateClaims(baseClaims sysrequest.BaseClaims) sysrequest.CustomClaims {
 	// 首先获取缓冲时间和过期时间
-	bufferTime, _ := ParseDuration(global.FITNESS_CONFIG.JWT.BufferTime)
-	expiresTime, _ := ParseDuration(global.FITNESS_CONFIG.JWT.ExpiresTime)
+	bufferTime, _ := ParseDuration(global.FitnessConfig.JWT.BufferTime)
+	expiresTime, _ := ParseDuration(global.FitnessConfig.JWT.ExpiresTime)
 	// 创建 CustomClaims
 	claims := sysrequest.CustomClaims{
 		BaseClaims: baseClaims,
@@ -43,7 +43,7 @@ func (j *JWT) CreateClaims(baseClaims sysrequest.BaseClaims) sysrequest.CustomCl
 			Audience:  jwt.ClaimStrings{"FITNESS"},
 			NotBefore: jwt.NewNumericDate(time.Now().Add(-1000)),
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(expiresTime)),
-			Issuer:    global.FITNESS_CONFIG.JWT.Issuer,
+			Issuer:    global.FitnessConfig.JWT.Issuer,
 		},
 	}
 	return claims
@@ -57,7 +57,7 @@ func (j *JWT) CreateToken(claims sysrequest.CustomClaims) (string, error) {
 
 // CreateTokenByOldToken 通过旧 Token 创建新 Token，对于相同的 Token，只会生成一个新 Token
 func (j *JWT) CreateTokenByOldToken(oldToken string, claims sysrequest.CustomClaims) (string, error) {
-	v, err, _ := global.FITNESS_CC.Do("JWT:"+oldToken, func() (interface{}, error) {
+	v, err, _ := global.FitnessCc.Do("JWT:"+oldToken, func() (interface{}, error) {
 		return j.CreateToken(claims)
 	})
 	return v.(string), err

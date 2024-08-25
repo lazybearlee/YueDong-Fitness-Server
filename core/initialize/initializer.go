@@ -14,9 +14,10 @@ const (
 
 // 初始化顺序
 const (
-	CasbinOrder    = SystemOrder + 5 // 预留前4个位置给可能的系统其他表
-	AuthorityOrder = CasbinOrder + 1
-	UserOrder      = AuthorityOrder + 1
+	JwtBlacklistOrder = SystemOrder + 5
+	CasbinOrder       = SystemOrder + 5 // 预留前4个位置给可能的系统其他表
+	AuthorityOrder    = CasbinOrder + 1
+	UserOrder         = AuthorityOrder + 1
 )
 
 // TablesInitializer 定义初始化接口
@@ -78,6 +79,7 @@ func LoadInitializers() {
 	RegisterInitializer(CasbinOrder, &system.CasbinInitializer{})
 	RegisterInitializer(AuthorityOrder, &system.AuthorityInitializer{})
 	RegisterInitializer(UserOrder, &system.UserInitializer{})
+	RegisterInitializer(JwtBlacklistOrder, &system.JwtBlacklistInitializer{})
 
 	// 给所有的初始化器排序
 	sort.Sort(initializers)

@@ -48,7 +48,7 @@ func JWTAuth() gin.HandlerFunc {
 		c.Set("claims", claims)
 		// 判断是否即将过期，如果即将过期，刷新token
 		if j.NeedRefreshToken(claims) {
-			dr, _ := utils.ParseDuration(global.FITNESS_CONFIG.JWT.ExpiresTime)
+			dr, _ := utils.ParseDuration(global.FitnessConfig.JWT.ExpiresTime)
 			claims.ExpiresAt = jwt.NewNumericDate(time.Now().Add(dr))
 			newToken, _ := j.CreateTokenByOldToken(token, *claims) // 通过旧token创建新token
 			newClaims, _ := j.ParseToken(newToken)
@@ -56,10 +56,10 @@ func JWTAuth() gin.HandlerFunc {
 			c.Header("new-expires-at", strconv.FormatInt(newClaims.ExpiresAt.Unix(), 10))
 			utils.SetToken(c, newToken, int(dr.Seconds()))
 			// 如果使用多点登录，需要将旧token加入黑名单
-			if global.FITNESS_CONFIG.System.UseMultipoint {
+			if global.FitnessConfig.System.UseMultipoint {
 				RedisJwtToken, err := jwtService.GetRedisJWT(newClaims.Username)
 				if err != nil {
-					global.FITNESS_LOG.Error("get redis jwt failed", zap.Error(err))
+					global.FitnessLog.Error("get redis jwt failed", zap.Error(err))
 				} else { // 当之前的取成功时才进行拉黑操作
 					_ = jwtService.SetInBlacklist(sysmodel.JwtBlacklist{Jwt: RedisJwtToken})
 				}

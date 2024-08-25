@@ -17,37 +17,24 @@ func (u *UserInitializer) Name() string {
 }
 
 func (u *UserInitializer) MigrateTable() error {
-	// 如果数据库连接未建立，报错
-	if global.FITNESS_DB == nil {
-		global.FITNESS_LOG.Error("用户初始化失败，db未初始化")
-		return errors.New("用户初始化失败，db未初始化")
-	}
 	// 自动迁移sys_user表
-	err := global.FITNESS_DB.AutoMigrate(&sysmodel.SysUser{})
+	err := global.FitnessDb.AutoMigrate(&sysmodel.SysUser{})
 	if err != nil {
-		global.FITNESS_LOG.Error("用户初始化失败", zap.Error(err))
+		global.FitnessLog.Error("用户初始化失败", zap.Error(err))
 		return err
 	} else {
-		global.FITNESS_LOG.Info("用户数据库迁移成功")
+		global.FitnessLog.Info("用户数据库迁移成功")
 		return nil
 	}
 }
 
 func (u *UserInitializer) TableCreated() bool {
-	if global.FITNESS_DB == nil {
-		global.FITNESS_LOG.Error("用户查询表是否建立失败，db未初始化")
-		return false
-	}
-	return global.FITNESS_DB.Migrator().HasTable(&sysmodel.SysUser{})
+	return global.FitnessDb.Migrator().HasTable(&sysmodel.SysUser{})
 }
 
 func (u *UserInitializer) InitializeData() error {
-	if global.FITNESS_DB == nil {
-		global.FITNESS_LOG.Error("用户初始化数据失败，db未初始化")
-		return errors.New("用户初始化数据失败，db未初始化")
-	}
 	// 使用AdminPassword注册一个超级管理员一个普通用户
-	password := utils.CryptWithBcrypt(global.FITNESS_CONFIG.System.AdminPassword)
+	password := utils.CryptWithBcrypt(global.FitnessConfig.System.AdminPassword)
 
 	entities := []sysmodel.SysUser{
 		{
@@ -72,15 +59,15 @@ func (u *UserInitializer) InitializeData() error {
 	}
 
 	// 插入数据
-	if err := global.FITNESS_DB.Create(&entities).Error; err != nil {
+	if err := global.FitnessDb.Create(&entities).Error; err != nil {
 		return errors.Wrap(err, sysmodel.SysUser{}.TableName()+"表数据初始化失败!")
 	}
 
 	// 插入关联数据
-	if err := global.FITNESS_DB.Model(&entities[0]).Association("Authorities").Replace(authorityEntities); err != nil {
+	if err := global.FitnessDb.Model(&entities[0]).Association("Authorities").Replace(authorityEntities); err != nil {
 		return err
 	}
-	if err := global.FITNESS_DB.Model(&entities[1]).Association("Authorities").Replace(authorityEntities[:1]); err != nil {
+	if err := global.FitnessDb.Model(&entities[1]).Association("Authorities").Replace(authorityEntities[:1]); err != nil {
 		return err
 	}
 	return nil
@@ -88,13 +75,9 @@ func (u *UserInitializer) InitializeData() error {
 
 // DataInitialized 数据是否已插入
 func (u *UserInitializer) DataInitialized() bool {
-	if global.FITNESS_DB == nil {
-		global.FITNESS_LOG.Error("用户查询数据是否建立失败，db未初始化")
-		return false
-	}
 	// 查询sys_user表是否有数据 admin
 	var user sysmodel.SysUser
-	if errors.Is(global.FITNESS_DB.Where("username = ?", "admin").Preload("Authorities").First(&user).Error, gorm.ErrRecordNotFound) {
+	if errors.Is(global.FitnessDb.Where("username = ?", "admin").Preload("Authorities").First(&user).Error, gorm.ErrRecordNotFound) {
 		return false
 	}
 	return len(user.Authorities) > 0 && user.Authorities[0].AuthorityId == global.AdminSuper

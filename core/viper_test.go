@@ -11,6 +11,6 @@ import (
 // TestBasicViperInit test basic viper init
 func TestBasicViperInit(t *testing.T) {
 	ViperInit()
-	fmt.Println(global.FITNESS_VIPER)
-	fmt.Println(global.FITNESS_CONFIG)
+	fmt.Println(global.FitnessViper)
+	fmt.Println(global.FitnessConfig)
 }
