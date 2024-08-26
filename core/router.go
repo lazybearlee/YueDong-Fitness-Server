@@ -31,7 +31,8 @@ func InitRouter() *gin.Engine {
 	PublicRouter := Router.Group(global.FitnessConfig.System.RouterPrefix)
 	PrivateRouter := Router.Group(global.FitnessConfig.System.RouterPrefix)
 	// 对于公共路由，不需要进行JWT验证
-	PrivateRouter.Use(middleware.JWTAuth()).Use(middleware.CasbinHandler())
+	PublicRouter.Use(middleware.LimitWithTimeUsingLocalCache()) // 限流
+	PrivateRouter.Use(middleware.LimitWithTimeUsingLocalCache()).Use(middleware.JWTAuth()).Use(middleware.CasbinHandler())
 
 	// TODO: 采用中间件进行跨域处理/HTTPS处理
 
