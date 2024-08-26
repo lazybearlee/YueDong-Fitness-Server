@@ -1,4 +1,35 @@
 definitions:
+  apprequest.UserUpdateInfoReq:
+    properties:
+      email:
+        type: string
+      gender:
+        type: string
+      phone:
+        type: string
+    type: object
+  apprequest.UserUpdatePasswordReq:
+    properties:
+      newPassword:
+        type: string
+      oldPassword:
+        type: string
+    type: object
+  appresponse.UserInfo:
+    properties:
+      email:
+        type: string
+      gender:
+        type: string
+      headerImg:
+        type: string
+      nickname:
+        type: string
+      phone:
+        type: string
+      username:
+        type: string
+    type: object
   response.Response:
     properties:
       code:
@@ -52,9 +83,6 @@ definitions:
       authorityId:
         description: 用户角色ID
         type: integer
-      baseColor:
-        description: 基础颜色
-        type: string
       createdAt:
         description: Creation time
         type: string
@@ -64,17 +92,15 @@ definitions:
       enable:
         description: 用户是否被冻结 1正常 2冻结
         type: integer
+      gender:
+        type: string
       headerImg:
         description: 用户头像
         type: string
       nickName:
-        description: 用户昵称
         type: string
       phone:
         description: 用户手机号
-        type: string
-      sideMode:
-        description: 用户侧边主题
         type: string
       updatedAt:
         description: Update time
@@ -96,6 +122,9 @@ definitions:
         type: string
       username:
         type: string
+    required:
+    - password
+    - username
     type: object
   sysrequest.RegisterReq:
     properties:
@@ -124,6 +153,32 @@ definitions:
     - nickName
     - password
     - username
+    type: object
+  sysrequest.RegisterReqWithCode:
+    properties:
+      code:
+        description: 验证码
+        type: string
+      email:
+        type: string
+      password:
+        type: string
+      phone:
+        type: string
+      username:
+        type: string
+    required:
+    - code
+    - email
+    - password
+    - username
+    type: object
+  sysrequest.VerificationCodeReq:
+    properties:
+      email:
+        type: string
+    required:
+    - email
     type: object
   sysresponse.CaptchaResponse:
     properties:
@@ -205,6 +260,84 @@ paths:
       summary: 用户登录
       tags:
       - Base
+  /base/register:
+    post:
+      parameters:
+      - description: 用户名, 昵称, 密码, 头像, 手机号, 邮箱
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/sysrequest.RegisterReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 用户注册,返回包括用户信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/sysresponse.UserResponse'
+                msg:
+                  type: string
+              type: object
+      summary: 用户注册
+      tags:
+      - Base
+  /base/register_with_code:
+    post:
+      parameters:
+      - description: 邮箱, 验证码
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/sysrequest.RegisterReqWithCode'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 验证邮箱验证码
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  type: string
+                msg:
+                  type: string
+              type: object
+      summary: 验证邮箱验证码，完成注册
+      tags:
+      - Base
+  /base/verification_code:
+    post:
+      parameters:
+      - description: 邮箱
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/sysrequest.VerificationCodeReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 发送验证码
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  type: string
+                msg:
+                  type: string
+              type: object
+      summary: 发送验证码
+      tags:
+      - Base
   /user/admin_register:
     post:
       parameters:
@@ -231,6 +364,77 @@ paths:
       summary: 用户注册账号
       tags:
       - SysUser
+  /user/get_user_info:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 获取用户信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/appresponse.UserInfo'
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: 获取用户信息
+      tags:
+      - AppUser
+  /user/update_user_info:
+    post:
+      parameters:
+      - description: 更新用户信息
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/apprequest.UserUpdateInfoReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 更新用户信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: 更新用户信息
+      tags:
+      - AppUser
+  /user/update_user_password:
+    post:
+      parameters:
+      - description: 更新用户密码
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/apprequest.UserUpdatePasswordReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 更新用户密码
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: 更新用户密码
+      tags:
+      - AppUser
 securityDefinitions:
   ApiKeyAuth:
     in: header

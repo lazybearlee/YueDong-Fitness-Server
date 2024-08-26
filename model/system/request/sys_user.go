@@ -2,7 +2,7 @@ package sysrequest
 
 import "github.com/lazybearlee/yuedong-fitness/model/system"
 
-// RegisterReq Register request struct
+// RegisterReq AdminRegister request struct
 type RegisterReq struct {
 	Username     string `json:"username" form:"username" binding:"required"`
 	Password     string `json:"password" form:"password" binding:"required"`
@@ -13,6 +13,21 @@ type RegisterReq struct {
 	AuthorityIds []uint `json:"authorityIds" form:"authorityIds"`
 	Phone        string `json:"phone" form:"phone"`
 	Email        string `json:"email" form:"email"`
+}
+
+// VerificationCodeReq Verification code structure
+type VerificationCodeReq struct {
+	Email string `json:"email" form:"email" binding:"required"`
+}
+
+// RegisterReqWithCode struct
+// 初次注册，仅支持用户名、密码、手机号、邮箱
+type RegisterReqWithCode struct {
+	Username string `json:"username" binding:"required"`
+	Password string `json:"password" binding:"required"`
+	Phone    string `json:"phone"`
+	Email    string `json:"email" binding:"required"`
+	Code     string `json:"code" binding:"required"` // 验证码
 }
 
 // LoginReq User login structure

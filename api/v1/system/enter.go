@@ -11,4 +11,5 @@ var (
 	userService      = service.ServiceGroupApp.SystemServiceGroup.UserService
 	casbinService    = service.ServiceGroupApp.SystemServiceGroup.CasbinService
 	authorityService = service.ServiceGroupApp.SystemServiceGroup.AuthorityService
+	emailService     = service.ServiceGroupApp.SystemServiceGroup.EmailService
 )

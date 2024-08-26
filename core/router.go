@@ -23,7 +23,7 @@ func InitRouter() *gin.Engine {
 
 	// 注册路由分组，分别是系统路由和APP路由
 	systemRouter := router.MainRouterGroup.System
-	//appRouter := router.MainRouterGroup.App
+	appRouter := router.MainRouterGroup.App
 	// 注册swagger
 	docs.SwaggerInfo.BasePath = global.FitnessConfig.System.RouterPrefix
 	Router.GET(global.FitnessConfig.System.RouterPrefix+"/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
@@ -38,6 +38,9 @@ func InitRouter() *gin.Engine {
 	{
 		// 注册系统路由
 		systemRouter.InitBaseRouter(PublicRouter) // 注册基础路由
+	}
+	{
+		appRouter.InitUserRouter(PrivateRouter) // 注册用户路由
 	}
 
 	global.FitnessRouters = Router.Routes()

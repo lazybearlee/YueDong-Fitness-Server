@@ -112,20 +112,20 @@ func (userService *UserService) UserDelete(userID int) error {
 }
 
 // UserSetInfo
-// @description: 设置用户信息(仅用户名、昵称、头像、电话、邮箱等)
+// @description: 设置用户信息(仅昵称、头像、电话、邮箱等)
 // @param: user model.SysUser
 // @return: error
 func (userService *UserService) UserSetInfo(user sysmodel.SysUser) error {
 	return global.FitnessDb.Model(&sysmodel.SysUser{}).
-		Select("updated_at", "nick_name", "header_img", "phone", "email", "sideMode", "enable").
+		Select("updated_at", "nick_name", "gender", "header_img", "phone", "email", "enable").
 		Where("id=?", user.ID).
 		Updates(map[string]interface{}{
 			"updated_at": time.Now(),
 			"nick_name":  user.NickName,
+			"gender":     user.Gender,
 			"header_img": user.HeaderImg,
 			"phone":      user.Phone,
 			"email":      user.Email,
-			"side_mode":  user.SideMode,
 			"enable":     user.Enable,
 		}).Error
 }
@@ -148,7 +148,7 @@ func (userService *UserService) UserGetInfoWithUUID(uuid uuid.UUID) (*sysmodel.S
 // @description: 通过ID获取用户信息
 // @param: id int
 // @return: *model.SysUser, error
-func (userService *UserService) UserGetInfoWithID(id int) (*sysmodel.SysUser, error) {
+func (userService *UserService) UserGetInfoWithID(id uint) (*sysmodel.SysUser, error) {
 	var u sysmodel.SysUser
 	err := global.FitnessDb.Where("id = ?", id).First(&u).Error
 	if err != nil {
