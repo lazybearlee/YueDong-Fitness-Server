@@ -38,8 +38,17 @@ func (s *CasbinInitializer) InitializeData() error {
 	// 初始化casbin规则
 	rules := []adapter.CasbinRule{
 		// 超级管理员注册管理员角色
-		{Ptype: "p", V0: global.AdminSuperStr, V1: "/user/admin_register", V2: "POST"},
+		{Ptype: "p", V0: global.AdminSuperStr, V1: "/user/get_user_info", V2: "GET"},
+		{Ptype: "p", V0: global.AdminSuperStr, V1: "/user/update_user_info", V2: "POST"},
+		{Ptype: "p", V0: global.AdminSuperStr, V1: "/user/update_user_password", V2: "POST"},
 		// 管理员注册用户角色
+		{Ptype: "p", V0: global.AdminUserStr, V1: "/user/get_user_info", V2: "GET"},
+		{Ptype: "p", V0: global.AdminUserStr, V1: "/user/update_user_info", V2: "POST"},
+		{Ptype: "p", V0: global.AdminUserStr, V1: "/user/update_user_password", V2: "POST"},
+		// 普通用户
+		{Ptype: "p", V0: global.CommonUserStr, V1: "/user/get_user_info", V2: "GET"},
+		{Ptype: "p", V0: global.CommonUserStr, V1: "/user/update_user_info", V2: "POST"},
+		{Ptype: "p", V0: global.CommonUserStr, V1: "/user/update_user_password", V2: "POST"},
 	}
 	// 创建casbin规则
 	err := global.FitnessDb.Create(&rules).Error

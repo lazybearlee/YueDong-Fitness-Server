@@ -177,7 +177,7 @@ func (b *BaseApi) Register(c *gin.Context) {
 // @Produce application/json
 // @Param data body sysrequest.VerificationCodeReq true "邮箱"
 // @Success 200 {object} response.Response{data=string,msg=string} "发送验证码"
-// @Router /base/email_code [post]
+// @Router /base/verification_code [post]
 func (b *BaseApi) VerificationCode(c *gin.Context) {
 	var v sysrequest.VerificationCodeReq
 	err := c.ShouldBindJSON(&v)
@@ -200,14 +200,14 @@ func (b *BaseApi) VerificationCode(c *gin.Context) {
 	response.SuccessWithMessage("发送验证码成功", c)
 }
 
-// VerifyEmailCode
+// RegisterWithCode
 // @Tags Base
 // @Summary 验证邮箱验证码，完成注册
 // @Produce application/json
-// @Param data body sysrequest.VerifyEmailCodeReq true "邮箱, 验证码"
+// @Param data body sysrequest.RegisterReqWithCode true "邮箱, 验证码"
 // @Success 200 {object} response.Response{data=string,msg=string} "验证邮箱验证码"
-// @Router /base/verify_email_code [post]
-func (b *BaseApi) VerifyEmailCode(c *gin.Context) {
+// @Router /base/register_with_code [post]
+func (b *BaseApi) RegisterWithCode(c *gin.Context) {
 	var v sysrequest.RegisterReqWithCode
 	err := c.ShouldBindJSON(&v)
 	if err != nil {
@@ -222,7 +222,7 @@ func (b *BaseApi) VerifyEmailCode(c *gin.Context) {
 	// 验证验证码
 	code, ok := global.FitnessCache.Get(v.Email)
 	if !ok {
-		response.ErrorWithMessage("验证码已过期", c)
+		response.ErrorWithMessage("验证码无效", c)
 		return
 	}
 	if code != v.Code {
