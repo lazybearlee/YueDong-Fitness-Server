@@ -34,6 +34,11 @@ func (r *RecordApi) InsertExerciseRecord(c *gin.Context) {
 		return
 	}
 	e.UID = uid
+	// 检查开始日期和结束日期
+	if err := utils.StartEndFormatCheck(e.StartTime, e.EndTime); err != nil {
+		response.ErrorWithMessage(err.Error(), c)
+		return
+	}
 
 	// TODO:做一步去重，防止重复插入
 
@@ -69,6 +74,11 @@ func (r *RecordApi) UpdateExerciseRecord(c *gin.Context) {
 		return
 	}
 	e.UID = uid
+	// 检查开始日期和结束日期
+	if err := utils.StartEndFormatCheck(e.StartTime, e.EndTime); err != nil {
+		response.ErrorWithMessage(err.Error(), c)
+		return
+	}
 
 	// 更新数据
 	err = exerciseRecordService.UpdateExerciseRecord(e)
@@ -193,16 +203,22 @@ func (r *RecordApi) GetExerciseRecordList(c *gin.Context) {
 		return
 	}
 
-	var p apprequest.SearchExerciseRecordParams
-	err := c.ShouldBindJSON(&p)
+	var params apprequest.SearchExerciseRecordParams
+	err := c.ShouldBindJSON(&params)
 	if err != nil {
 		response.ErrorWithMessage("参数绑定失败", c)
 		return
 	}
-	p.UID = uid
+	params.UID = uid
+	// 检查开始日期和结束日期
+	if err := utils.StartEndFormatCheck(params.StartTime, params.EndTime); err != nil {
+		response.ErrorWithMessage(err.Error(), c)
+		return
+	}
+	params.Page, params.PageSize = utils.PageFormatCheck(params.Page, params.PageSize)
 
 	// 查询数据
-	list, total, err := exerciseRecordService.GetExerciseRecords(p.ExerciseRecord, p.PageInfo, p.Order, p.Desc)
+	list, total, err := exerciseRecordService.GetExerciseRecords(params.ExerciseRecord, params.PageInfo, params.Order, params.Desc)
 	if err != nil {
 		response.ErrorWithMessage("获取运动记录列表失败", c)
 		return
@@ -210,8 +226,8 @@ func (r *RecordApi) GetExerciseRecordList(c *gin.Context) {
 	response.SuccessWithDetailed(response.PageResponse{
 		List:     list,
 		Total:    total,
-		Page:     p.PageInfo.Page,
-		PageSize: p.PageInfo.PageSize,
+		Page:     params.PageInfo.Page,
+		PageSize: params.PageInfo.PageSize,
 	}, "获取运动记录列表成功", c)
 }
 

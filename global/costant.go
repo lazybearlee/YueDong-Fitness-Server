@@ -15,6 +15,9 @@ const (
 	CommonUserStr = "9870" // 普通用户
 	AdminUserStr  = "7890" // 管理员用户
 	AdminSuperStr = "789"  // 超级管理员用户
+
+	StepRankYesterday = "rank_yesterday"
+	StepRankToday     = "rank_today"
 )
 
 const temp_root = "D:\\RoadToCs\\YueDong-Fitness-Server\\"

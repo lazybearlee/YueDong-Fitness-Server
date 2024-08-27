@@ -6,6 +6,7 @@ import (
 	"time"
 )
 
+// ExercisePlan 运动计划
 type ExercisePlan struct {
 	global.BaseModel
 	UID          uint             `json:"-" gorm:"not null;index;comment:用户ID"` // 用户ID，外键，json忽略（从jwt中获取）

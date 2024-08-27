@@ -282,6 +282,458 @@ const docTemplate = `{
                 }
             }
         },
+        "/health_status/get_health_status": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "HealthStatus"
+                ],
+                "summary": "获取用户健康状态",
+                "parameters": [
+                    {
+                        "description": "获取用户健康状态",
+                        "name": "date",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/apprequest.GetHealthStatusReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "获取用户健康状态",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/appmodel.HealthStatus"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/health_status/post_health_status": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "HealthStatus"
+                ],
+                "summary": "插入用户健康状态/更新用户健康状态",
+                "parameters": [
+                    {
+                        "description": "插入用户健康状态",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/appmodel.HealthStatus"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "插入用户健康状态",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/plan/create_exercise_plan": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Plan"
+                ],
+                "summary": "创建训练计划",
+                "parameters": [
+                    {
+                        "description": "创建训练计划",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/appmodel.ExercisePlan"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "创建训练计划",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/plan/delete_exercise_plans": {
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Plan"
+                ],
+                "summary": "删除训练计划",
+                "parameters": [
+                    {
+                        "description": "删除训练计划",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/apprequest.DeleteExercisePlansParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "删除训练计划",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/plan/get_all_exercise_plans": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Plan"
+                ],
+                "summary": "获取所有训练计划",
+                "responses": {
+                    "200": {
+                        "description": "获取所有训练计划",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/appmodel.ExercisePlan"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/plan/get_exercise_plans": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Plan"
+                ],
+                "summary": "获取训练计划",
+                "parameters": [
+                    {
+                        "description": "查询运动计划参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/apprequest.SearchExercisePlanParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "获取训练计划，返回包括列表，总数，页数，页大小",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/response.PageResponse"
+                                        },
+                                        "msg": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/plan/get_started_exercise_plans": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Plan"
+                ],
+                "summary": "获取已开始的训练计划",
+                "responses": {
+                    "200": {
+                        "description": "获取已开始的训续计划",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/appmodel.ExercisePlan"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/plan/get_uncompleted_exercise_plans": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Plan"
+                ],
+                "summary": "获取未完成的训练计划",
+                "responses": {
+                    "200": {
+                        "description": "获取未完成的训续计划",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/appmodel.ExercisePlan"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/plan/update_exercise_plan": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Plan"
+                ],
+                "summary": "更新训练计划",
+                "parameters": [
+                    {
+                        "description": "更新训练计划",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/appmodel.ExercisePlan"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "更新训练计划",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/rank/get_rank_list": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Rank"
+                ],
+                "summary": "获取排行榜",
+                "parameters": [
+                    {
+                        "description": "获取排行榜",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/apprequest.GetRankListRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "获取排行榜",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/response.PageResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/record/delete_exercise_record/{id}": {
             "delete": {
                 "security": [
@@ -731,6 +1183,58 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "appmodel.ExercisePlan": {
+            "type": "object",
+            "properties": {
+                "ID": {
+                    "description": "Primary key ID",
+                    "type": "integer"
+                },
+                "completed": {
+                    "type": "boolean"
+                },
+                "createdAt": {
+                    "description": "Creation time",
+                    "type": "string"
+                },
+                "currentStage": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "endDate": {
+                    "type": "string"
+                },
+                "stages": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/appmodel.PlanStage"
+                    }
+                },
+                "startDate": {
+                    "type": "string"
+                },
+                "sysUser": {
+                    "description": "关联SysUser表",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/sysmodel.SysUser"
+                        }
+                    ]
+                },
+                "title": {
+                    "type": "string"
+                },
+                "totalStages": {
+                    "type": "integer"
+                },
+                "updatedAt": {
+                    "description": "Update time",
+                    "type": "string"
+                }
+            }
+        },
         "appmodel.ExerciseRecord": {
             "type": "object",
             "required": [
@@ -807,6 +1311,111 @@ const docTemplate = `{
                 }
             }
         },
+        "appmodel.HealthStatus": {
+            "type": "object",
+            "properties": {
+                "ID": {
+                    "description": "Primary key ID",
+                    "type": "integer"
+                },
+                "bmi": {
+                    "description": "BMI",
+                    "type": "number"
+                },
+                "caloriesBurned": {
+                    "description": "消耗的卡路里",
+                    "type": "number"
+                },
+                "createdAt": {
+                    "description": "Creation time",
+                    "type": "string"
+                },
+                "date": {
+                    "description": "记录日期",
+                    "type": "string"
+                },
+                "exerciseTime": {
+                    "description": "锻炼时长 (单位: 分钟)",
+                    "type": "integer"
+                },
+                "height": {
+                    "description": "身高 (单位: 厘米)",
+                    "type": "number"
+                },
+                "stepsCount": {
+                    "description": "步数",
+                    "type": "integer"
+                },
+                "sysUser": {
+                    "description": "关联SysUser表",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/sysmodel.SysUser"
+                        }
+                    ]
+                },
+                "updatedAt": {
+                    "description": "Update time",
+                    "type": "string"
+                },
+                "weight": {
+                    "description": "体重 (单位: 公斤)",
+                    "type": "number"
+                }
+            }
+        },
+        "appmodel.PlanStage": {
+            "type": "object",
+            "properties": {
+                "ID": {
+                    "description": "Primary key ID",
+                    "type": "integer"
+                },
+                "completed": {
+                    "description": "是否完成",
+                    "type": "boolean"
+                },
+                "createdAt": {
+                    "description": "Creation time",
+                    "type": "string"
+                },
+                "description": {
+                    "description": "阶段描述",
+                    "type": "string"
+                },
+                "endDate": {
+                    "description": "阶段结束日期",
+                    "type": "string"
+                },
+                "planID": {
+                    "description": "计划ID，外键",
+                    "type": "integer"
+                },
+                "startDate": {
+                    "description": "阶段开始日期",
+                    "type": "string"
+                },
+                "title": {
+                    "description": "阶段标题",
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "description": "Update time",
+                    "type": "string"
+                }
+            }
+        },
+        "apprequest.DeleteExercisePlansParams": {
+            "type": "object",
+            "properties": {
+                "ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                }
+            }
+        },
         "apprequest.DeleteExerciseRecordsParams": {
             "type": "object",
             "properties": {
@@ -815,6 +1424,116 @@ const docTemplate = `{
                     "items": {
                         "type": "integer"
                     }
+                }
+            }
+        },
+        "apprequest.GetHealthStatusReq": {
+            "type": "object",
+            "properties": {
+                "date": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "apprequest.GetRankListRequest": {
+            "type": "object",
+            "required": [
+                "date"
+            ],
+            "properties": {
+                "date": {
+                    "type": "string"
+                },
+                "keyword": {
+                    "description": "用于搜索",
+                    "type": "string"
+                },
+                "page": {
+                    "description": "Page number",
+                    "type": "integer"
+                },
+                "pageSize": {
+                    "description": "每页大小",
+                    "type": "integer"
+                }
+            }
+        },
+        "apprequest.SearchExercisePlanParams": {
+            "type": "object",
+            "properties": {
+                "ID": {
+                    "description": "Primary key ID",
+                    "type": "integer"
+                },
+                "check_complete": {
+                    "description": "是否检查完成",
+                    "type": "boolean"
+                },
+                "completed": {
+                    "type": "boolean"
+                },
+                "createdAt": {
+                    "description": "Creation time",
+                    "type": "string"
+                },
+                "currentStage": {
+                    "type": "string"
+                },
+                "desc": {
+                    "description": "是否倒序",
+                    "type": "boolean"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "endDate": {
+                    "type": "string"
+                },
+                "keyword": {
+                    "description": "用于搜索",
+                    "type": "string"
+                },
+                "order": {
+                    "description": "排序字段",
+                    "type": "string"
+                },
+                "page": {
+                    "description": "Page number",
+                    "type": "integer"
+                },
+                "pageSize": {
+                    "description": "每页大小",
+                    "type": "integer"
+                },
+                "stages": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/appmodel.PlanStage"
+                    }
+                },
+                "startDate": {
+                    "type": "string"
+                },
+                "sysUser": {
+                    "description": "关联SysUser表",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/sysmodel.SysUser"
+                        }
+                    ]
+                },
+                "title": {
+                    "type": "string"
+                },
+                "totalStages": {
+                    "type": "integer"
+                },
+                "updatedAt": {
+                    "description": "Update time",
+                    "type": "string"
                 }
             }
         },
