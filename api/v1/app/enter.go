@@ -6,6 +6,7 @@ import (
 
 type ApiGroup struct {
 	UserApi
+	RecordApi
 }
 
 var (

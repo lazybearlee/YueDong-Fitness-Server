@@ -41,14 +41,39 @@ func (s *CasbinInitializer) InitializeData() error {
 		{Ptype: "p", V0: global.AdminSuperStr, V1: "/user/get_user_info", V2: "GET"},
 		{Ptype: "p", V0: global.AdminSuperStr, V1: "/user/update_user_info", V2: "POST"},
 		{Ptype: "p", V0: global.AdminSuperStr, V1: "/user/update_user_password", V2: "POST"},
+		{Ptype: "p", V0: global.AdminSuperStr, V1: "/record/insert_exercise_record", V2: "POST"},
+		{Ptype: "p", V0: global.AdminSuperStr, V1: "/record/update_exercise_record", V2: "PUT"},
+		{Ptype: "p", V0: global.AdminSuperStr, V1: "/record/delete_exercise_record", V2: "DELETE"},
+		{Ptype: "p", V0: global.AdminSuperStr, V1: "/record/delete_exercise_records", V2: "DELETE"},
+		{Ptype: "p", V0: global.AdminSuperStr, V1: "/record/get_exercise_record", V2: "GET"},
+		{Ptype: "p", V0: global.AdminSuperStr, V1: "/record/get_exercise_record_list", V2: "GET"},
+		{Ptype: "p", V0: global.AdminSuperStr, V1: "/record/get_all_exercise_record_of_user", V2: "GET"},
+		// admin
+		{Ptype: "p", V0: global.AdminSuperStr, V1: "/admin/user/register", V2: "POST"},
 		// 管理员注册用户角色
 		{Ptype: "p", V0: global.AdminUserStr, V1: "/user/get_user_info", V2: "GET"},
 		{Ptype: "p", V0: global.AdminUserStr, V1: "/user/update_user_info", V2: "POST"},
 		{Ptype: "p", V0: global.AdminUserStr, V1: "/user/update_user_password", V2: "POST"},
+		{Ptype: "p", V0: global.AdminUserStr, V1: "/record/insert_exercise_record", V2: "POST"},
+		{Ptype: "p", V0: global.AdminUserStr, V1: "/record/update_exercise_record", V2: "PUT"},
+		{Ptype: "p", V0: global.AdminUserStr, V1: "/record/delete_exercise_record", V2: "DELETE"},
+		{Ptype: "p", V0: global.AdminUserStr, V1: "/record/delete_exercise_records", V2: "DELETE"},
+		{Ptype: "p", V0: global.AdminUserStr, V1: "/record/get_exercise_record", V2: "GET"},
+		{Ptype: "p", V0: global.AdminUserStr, V1: "/record/get_exercise_record_list", V2: "GET"},
+		{Ptype: "p", V0: global.AdminUserStr, V1: "/record/get_all_exercise_record_of_user", V2: "GET"},
 		// 普通用户
+		// user路由
 		{Ptype: "p", V0: global.CommonUserStr, V1: "/user/get_user_info", V2: "GET"},
 		{Ptype: "p", V0: global.CommonUserStr, V1: "/user/update_user_info", V2: "POST"},
 		{Ptype: "p", V0: global.CommonUserStr, V1: "/user/update_user_password", V2: "POST"},
+		// record
+		{Ptype: "p", V0: global.CommonUserStr, V1: "/record/insert_exercise_record", V2: "POST"},
+		{Ptype: "p", V0: global.CommonUserStr, V1: "/record/update_exercise_record", V2: "PUT"},
+		{Ptype: "p", V0: global.CommonUserStr, V1: "/record/delete_exercise_record", V2: "DELETE"},
+		{Ptype: "p", V0: global.CommonUserStr, V1: "/record/delete_exercise_records", V2: "DELETE"},
+		{Ptype: "p", V0: global.CommonUserStr, V1: "/record/get_exercise_record", V2: "GET"},
+		{Ptype: "p", V0: global.CommonUserStr, V1: "/record/get_exercise_record_list", V2: "GET"},
+		{Ptype: "p", V0: global.CommonUserStr, V1: "/record/get_all_exercise_record_of_user", V2: "GET"},
 	}
 	// 创建casbin规则
 	err := global.FitnessDb.Create(&rules).Error

@@ -38,7 +38,10 @@ func InitRouter() *gin.Engine {
 
 	{
 		// 注册系统路由
-		systemRouter.InitBaseRouter(PublicRouter) // 注册基础路由
+		systemRouter.InitBaseRouter(PublicRouter)                  // 注册基础路由
+		adminRouter := systemRouter.InitAdminRouter(PrivateRouter) // 注册管理员路由
+		systemRouter.InitSysUserRouter(adminRouter)                // 注册用户路由
+
 	}
 	{
 		appRouter.InitUserRouter(PrivateRouter) // 注册用户路由

@@ -4,6 +4,7 @@ import "github.com/lazybearlee/yuedong-fitness/service"
 
 type ApiGroup struct {
 	BaseApi
+	SysUserApi
 }
 
 var (
