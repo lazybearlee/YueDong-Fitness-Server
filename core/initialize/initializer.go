@@ -1,6 +1,7 @@
 package initialize
 
 import (
+	"github.com/lazybearlee/yuedong-fitness/core/initialize/app"
 	"github.com/lazybearlee/yuedong-fitness/core/initialize/system"
 	"sort"
 )
@@ -9,7 +10,6 @@ import (
 const (
 	SystemOrder   = 10
 	InternalOrder = 30
-	ExternalOrder = 50
 )
 
 // 初始化顺序
@@ -18,6 +18,12 @@ const (
 	CasbinOrder       = SystemOrder + 5 // 预留前4个位置给可能的系统其他表
 	AuthorityOrder    = CasbinOrder + 1
 	UserOrder         = AuthorityOrder + 1
+
+	PlanOrder         = InternalOrder + 5
+	RecordOrder       = InternalOrder + 5
+	HealthStatusOrder = InternalOrder + 5
+	DeviceOrder       = InternalOrder + 5
+	PlanStageOrder    = PlanOrder + 1
 )
 
 // TablesInitializer 定义初始化接口
@@ -50,8 +56,6 @@ func (tis TablesInitializerSlice) Swap(i, j int) {
 	tis[i], tis[j] = tis[j], tis[i]
 }
 
-/* -- AdminRegister -- */
-
 var (
 	initializers TablesInitializerSlice                 // initializers 用于存储所有的初始化器
 	cache        map[string]*TablesInitializerWithOrder // cache 用于存储初始化器
@@ -80,6 +84,11 @@ func LoadInitializers() {
 	RegisterInitializer(AuthorityOrder, &system.AuthorityInitializer{})
 	RegisterInitializer(UserOrder, &system.UserInitializer{})
 	RegisterInitializer(JwtBlacklistOrder, &system.JwtBlacklistInitializer{})
+
+	RegisterInitializer(PlanOrder, &app.ExercisePlanInitializer{})
+	RegisterInitializer(RecordOrder, &app.ExerciseRecordInitializer{})
+	RegisterInitializer(HealthStatusOrder, &app.HealthStatusInitializer{})
+	RegisterInitializer(PlanStageOrder, &app.PlanStageInitializer{})
 
 	// 给所有的初始化器排序
 	sort.Sort(initializers)

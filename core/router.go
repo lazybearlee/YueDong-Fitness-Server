@@ -31,16 +31,23 @@ func InitRouter() *gin.Engine {
 	PublicRouter := Router.Group(global.FitnessConfig.System.RouterPrefix)
 	PrivateRouter := Router.Group(global.FitnessConfig.System.RouterPrefix)
 	// 对于公共路由，不需要进行JWT验证
-	PrivateRouter.Use(middleware.JWTAuth()).Use(middleware.CasbinHandler())
+	PublicRouter.Use(middleware.LimitWithTimeUsingLocalCache()) // 限流
+	PrivateRouter.Use(middleware.LimitWithTimeUsingLocalCache()).Use(middleware.JWTAuth()).Use(middleware.CasbinHandler())
 
 	// TODO: 采用中间件进行跨域处理/HTTPS处理
 
 	{
 		// 注册系统路由
-		systemRouter.InitBaseRouter(PublicRouter) // 注册基础路由
+		systemRouter.InitBaseRouter(PublicRouter)                  // 注册基础路由
+		adminRouter := systemRouter.InitAdminRouter(PrivateRouter) // 注册管理员路由
+		systemRouter.InitSysUserRouter(adminRouter)                // 注册用户路由
 	}
 	{
-		appRouter.InitUserRouter(PrivateRouter) // 注册用户路由
+		appRouter.InitRankRouter(PublicRouter)            // 注册排行榜路由
+		appRouter.InitUserRouter(PrivateRouter)           // 注册用户路由
+		appRouter.InitExerciseRecordRouter(PrivateRouter) // 注册运动记录路由
+		appRouter.InitHealthStatusRouter(PrivateRouter)   // 注册健康状态路由
+		appRouter.InitExercisePlanRouter(PrivateRouter)   // 注册训练计划路由
 	}
 
 	global.FitnessRouters = Router.Routes()

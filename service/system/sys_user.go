@@ -15,8 +15,6 @@ import (
 // 提供登陆、注册、获取用户信息、修改用户信息、删除用户、批量删除用户、修改密码、重置密码等功能
 type UserService struct{}
 
-var User = new(UserService)
-
 // UserRegister
 // @description: 用户注册
 // @param: user model.SysUser

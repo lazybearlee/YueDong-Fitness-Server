@@ -1,4 +1,317 @@
 definitions:
+  appmodel.ExercisePlan:
+    properties:
+      ID:
+        description: Primary key ID
+        type: integer
+      completed:
+        type: boolean
+      createdAt:
+        description: Creation time
+        type: string
+      currentStage:
+        type: string
+      description:
+        type: string
+      endDate:
+        type: string
+      stages:
+        items:
+          $ref: '#/definitions/appmodel.PlanStage'
+        type: array
+      startDate:
+        type: string
+      sysUser:
+        allOf:
+        - $ref: '#/definitions/sysmodel.SysUser'
+        description: 关联SysUser表
+      title:
+        type: string
+      totalStages:
+        type: integer
+      updatedAt:
+        description: Update time
+        type: string
+    type: object
+  appmodel.ExerciseRecord:
+    properties:
+      ID:
+        description: Primary key ID
+        type: integer
+      avgHeartRate:
+        description: 平均心率
+        type: number
+      bloodOxygenLevel:
+        description: 血氧水平
+        type: number
+      caloriesBurned:
+        description: 消耗的卡路里
+        type: number
+      createdAt:
+        description: Creation time
+        type: string
+      distance:
+        description: '运动距离 (单位: 公里)'
+        type: number
+      duration:
+        description: '运动时长 (单位: 毫秒)'
+        type: integer
+      endTime:
+        description: 运动结束时间
+        type: string
+      exerciseType:
+        description: 运动类型
+        type: string
+      highBloodPressure:
+        description: 高压
+        type: number
+      locationPath:
+        description: 运动轨迹 (存储JSON)
+        type: string
+      lowBloodPressure:
+        description: 低压
+        type: number
+      startTime:
+        description: 运动开始时间
+        type: string
+      stepsCount:
+        description: 步数
+        type: integer
+      sysUser:
+        allOf:
+        - $ref: '#/definitions/sysmodel.SysUser'
+        description: 关联SysUser表
+      updatedAt:
+        description: Update time
+        type: string
+    required:
+    - exerciseType
+    type: object
+  appmodel.HealthStatus:
+    properties:
+      ID:
+        description: Primary key ID
+        type: integer
+      bmi:
+        description: BMI
+        type: number
+      caloriesBurned:
+        description: 消耗的卡路里
+        type: number
+      createdAt:
+        description: Creation time
+        type: string
+      date:
+        description: 记录日期
+        type: string
+      exerciseTime:
+        description: '锻炼时长 (单位: 分钟)'
+        type: integer
+      height:
+        description: '身高 (单位: 厘米)'
+        type: number
+      stepsCount:
+        description: 步数
+        type: integer
+      sysUser:
+        allOf:
+        - $ref: '#/definitions/sysmodel.SysUser'
+        description: 关联SysUser表
+      updatedAt:
+        description: Update time
+        type: string
+      weight:
+        description: '体重 (单位: 公斤)'
+        type: number
+    type: object
+  appmodel.PlanStage:
+    properties:
+      ID:
+        description: Primary key ID
+        type: integer
+      completed:
+        description: 是否完成
+        type: boolean
+      createdAt:
+        description: Creation time
+        type: string
+      description:
+        description: 阶段描述
+        type: string
+      endDate:
+        description: 阶段结束日期
+        type: string
+      planID:
+        description: 计划ID，外键
+        type: integer
+      startDate:
+        description: 阶段开始日期
+        type: string
+      title:
+        description: 阶段标题
+        type: string
+      updatedAt:
+        description: Update time
+        type: string
+    type: object
+  apprequest.DeleteExercisePlansParams:
+    properties:
+      ids:
+        items:
+          type: integer
+        type: array
+    type: object
+  apprequest.DeleteExerciseRecordsParams:
+    properties:
+      ids:
+        items:
+          type: integer
+        type: array
+    type: object
+  apprequest.GetHealthStatusReq:
+    properties:
+      date:
+        type: string
+      id:
+        type: integer
+    type: object
+  apprequest.GetRankListRequest:
+    properties:
+      date:
+        type: string
+      keyword:
+        description: 用于搜索
+        type: string
+      page:
+        description: Page number
+        type: integer
+      pageSize:
+        description: 每页大小
+        type: integer
+    required:
+    - date
+    type: object
+  apprequest.SearchExercisePlanParams:
+    properties:
+      ID:
+        description: Primary key ID
+        type: integer
+      check_complete:
+        description: 是否检查完成
+        type: boolean
+      completed:
+        type: boolean
+      createdAt:
+        description: Creation time
+        type: string
+      currentStage:
+        type: string
+      desc:
+        description: 是否倒序
+        type: boolean
+      description:
+        type: string
+      endDate:
+        type: string
+      keyword:
+        description: 用于搜索
+        type: string
+      order:
+        description: 排序字段
+        type: string
+      page:
+        description: Page number
+        type: integer
+      pageSize:
+        description: 每页大小
+        type: integer
+      stages:
+        items:
+          $ref: '#/definitions/appmodel.PlanStage'
+        type: array
+      startDate:
+        type: string
+      sysUser:
+        allOf:
+        - $ref: '#/definitions/sysmodel.SysUser'
+        description: 关联SysUser表
+      title:
+        type: string
+      totalStages:
+        type: integer
+      updatedAt:
+        description: Update time
+        type: string
+    type: object
+  apprequest.SearchExerciseRecordParams:
+    properties:
+      ID:
+        description: Primary key ID
+        type: integer
+      avgHeartRate:
+        description: 平均心率
+        type: number
+      bloodOxygenLevel:
+        description: 血氧水平
+        type: number
+      caloriesBurned:
+        description: 消耗的卡路里
+        type: number
+      createdAt:
+        description: Creation time
+        type: string
+      desc:
+        description: 是否倒序
+        type: boolean
+      distance:
+        description: '运动距离 (单位: 公里)'
+        type: number
+      duration:
+        description: '运动时长 (单位: 毫秒)'
+        type: integer
+      endTime:
+        description: 运动结束时间
+        type: string
+      exerciseType:
+        description: 运动类型
+        type: string
+      highBloodPressure:
+        description: 高压
+        type: number
+      keyword:
+        description: 用于搜索
+        type: string
+      locationPath:
+        description: 运动轨迹 (存储JSON)
+        type: string
+      lowBloodPressure:
+        description: 低压
+        type: number
+      order:
+        description: 排序字段
+        type: string
+      page:
+        description: Page number
+        type: integer
+      pageSize:
+        description: 每页大小
+        type: integer
+      startTime:
+        description: 运动开始时间
+        type: string
+      stepsCount:
+        description: 步数
+        type: integer
+      sysUser:
+        allOf:
+        - $ref: '#/definitions/sysmodel.SysUser'
+        description: 关联SysUser表
+      updatedAt:
+        description: Update time
+        type: string
+    required:
+    - exerciseType
+    type: object
   apprequest.UserUpdateInfoReq:
     properties:
       email:
@@ -30,6 +343,20 @@ definitions:
       username:
         type: string
     type: object
+  response.PageResponse:
+    properties:
+      list:
+        description: 列表数据
+      page:
+        description: 当前页
+        type: integer
+      pageSize:
+        description: 每页大小
+        type: integer
+      total:
+        description: 总数
+        type: integer
+    type: object
   response.Response:
     properties:
       code:
@@ -58,7 +385,7 @@ definitions:
           $ref: '#/definitions/sysmodel.SysAuthority'
         type: array
       defaultRouter:
-        description: 默认菜单(默认dashboard)
+        description: 默认菜单(默认health)
         type: string
       deletedAt:
         type: string
@@ -211,6 +538,32 @@ info:
   title: YueDong-Fitness-API
   version: "0.1"
 paths:
+  /admin/user/register:
+    post:
+      parameters:
+      - description: 用户名, 昵称, 密码, 角色ID
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/sysrequest.RegisterReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 用户注册账号,返回包括用户信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/sysresponse.UserResponse'
+                msg:
+                  type: string
+              type: object
+      summary: 用户注册账号
+      tags:
+      - Admin
   /base/captcha:
     post:
       consumes:
@@ -338,32 +691,430 @@ paths:
       summary: 发送验证码
       tags:
       - Base
-  /user/admin_register:
-    post:
+  /health_status/get_health_status:
+    get:
       parameters:
-      - description: 用户名, 昵称, 密码, 角色ID
+      - description: 获取用户健康状态
         in: body
-        name: data
+        name: date
         required: true
         schema:
-          $ref: '#/definitions/sysrequest.RegisterReq'
+          $ref: '#/definitions/apprequest.GetHealthStatusReq'
       produces:
       - application/json
       responses:
         "200":
-          description: 用户注册账号,返回包括用户信息
+          description: 获取用户健康状态
           schema:
             allOf:
             - $ref: '#/definitions/response.Response'
             - properties:
                 data:
-                  $ref: '#/definitions/sysresponse.UserResponse'
+                  $ref: '#/definitions/appmodel.HealthStatus'
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: 获取用户健康状态
+      tags:
+      - HealthStatus
+  /health_status/post_health_status:
+    put:
+      parameters:
+      - description: 插入用户健康状态
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/appmodel.HealthStatus'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 插入用户健康状态
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: 插入用户健康状态/更新用户健康状态
+      tags:
+      - HealthStatus
+  /plan/create_exercise_plan:
+    post:
+      parameters:
+      - description: 创建训练计划
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/appmodel.ExercisePlan'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 创建训练计划
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: 创建训练计划
+      tags:
+      - Plan
+  /plan/delete_exercise_plans:
+    delete:
+      parameters:
+      - description: 删除训练计划
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/apprequest.DeleteExercisePlansParams'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 删除训练计划
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: 删除训练计划
+      tags:
+      - Plan
+  /plan/get_all_exercise_plans:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 获取所有训练计划
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/appmodel.ExercisePlan'
+                  type: array
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: 获取所有训练计划
+      tags:
+      - Plan
+  /plan/get_exercise_plans:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 查询运动计划参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/apprequest.SearchExercisePlanParams'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 获取训练计划，返回包括列表，总数，页数，页大小
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.PageResponse'
                 msg:
                   type: string
               type: object
-      summary: 用户注册账号
+      security:
+      - ApiKeyAuth: []
+      summary: 获取训练计划
       tags:
-      - SysUser
+      - Plan
+  /plan/get_started_exercise_plans:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 获取已开始的训续计划
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/appmodel.ExercisePlan'
+                  type: array
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: 获取已开始的训练计划
+      tags:
+      - Plan
+  /plan/get_uncompleted_exercise_plans:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 获取未完成的训续计划
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/appmodel.ExercisePlan'
+                  type: array
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: 获取未完成的训练计划
+      tags:
+      - Plan
+  /plan/update_exercise_plan:
+    put:
+      parameters:
+      - description: 更新训练计划
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/appmodel.ExercisePlan'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 更新训练计划
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: 更新训练计划
+      tags:
+      - Plan
+  /rank/get_rank_list:
+    post:
+      parameters:
+      - description: 获取排行榜
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/apprequest.GetRankListRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 获取排行榜
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.PageResponse'
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: 获取排行榜
+      tags:
+      - Rank
+  /record/delete_exercise_record/{id}:
+    delete:
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 删除运动记录
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: 删除运动记录
+      tags:
+      - Record
+  /record/delete_exercise_records:
+    delete:
+      parameters:
+      - description: 批量删除运动记录
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/apprequest.DeleteExerciseRecordsParams'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 批量删除运动记录
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: 批量删除运动记录
+      tags:
+      - Record
+  /record/get_all_exercise_record_of_user:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 获取用户的所有运动记录
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/appmodel.ExerciseRecord'
+                  type: array
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: 获取用户的所有运动记录
+      tags:
+      - Record
+  /record/get_exercise_record/{id}:
+    get:
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 获取运动记录
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/appmodel.ExerciseRecord'
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: 获取运动记录
+      tags:
+      - Record
+  /record/get_exercise_record_list:
+    post:
+      parameters:
+      - description: 获取运动记录列表
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/apprequest.SearchExerciseRecordParams'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 获取运动记录列表
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.PageResponse'
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: 获取运动记录列表
+      tags:
+      - Record
+  /record/insert_exercise_record:
+    post:
+      parameters:
+      - description: 插入运动记录
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/appmodel.ExerciseRecord'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 插入运动记录
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: 插入运动记录
+      tags:
+      - Record
+  /record/update_exercise_record:
+    put:
+      parameters:
+      - description: 更新运动记录
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/appmodel.ExerciseRecord'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 更新运动记录
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: 更新运动记录
+      tags:
+      - Record
   /user/get_user_info:
     get:
       produces:
