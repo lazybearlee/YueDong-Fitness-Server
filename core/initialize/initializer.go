@@ -18,6 +18,7 @@ const (
 	CasbinOrder       = SystemOrder + 5 // 预留前4个位置给可能的系统其他表
 	AuthorityOrder    = CasbinOrder + 1
 	UserOrder         = AuthorityOrder + 1
+	FileOrder         = UserOrder + 1
 
 	PlanOrder         = InternalOrder + 5
 	RecordOrder       = InternalOrder + 5
@@ -84,6 +85,7 @@ func LoadInitializers() {
 	RegisterInitializer(AuthorityOrder, &system.AuthorityInitializer{})
 	RegisterInitializer(UserOrder, &system.UserInitializer{})
 	RegisterInitializer(JwtBlacklistOrder, &system.JwtBlacklistInitializer{})
+	RegisterInitializer(FileOrder, &system.FileInitializer{})
 
 	RegisterInitializer(PlanOrder, &app.ExercisePlanInitializer{})
 	RegisterInitializer(RecordOrder, &app.ExerciseRecordInitializer{})

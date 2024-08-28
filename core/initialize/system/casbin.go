@@ -41,6 +41,7 @@ func (s *CasbinInitializer) InitializeData() error {
 		{Ptype: "p", V0: global.AdminSuperStr, V1: "/user/get_user_info", V2: "GET"},
 		{Ptype: "p", V0: global.AdminSuperStr, V1: "/user/update_user_info", V2: "POST"},
 		{Ptype: "p", V0: global.AdminSuperStr, V1: "/user/update_user_password", V2: "POST"},
+		{Ptype: "p", V0: global.AdminSuperStr, V1: "/user/upload_user_avatar", V2: "POST"},
 		{Ptype: "p", V0: global.AdminSuperStr, V1: "/record/insert_exercise_record", V2: "POST"},
 		{Ptype: "p", V0: global.AdminSuperStr, V1: "/record/update_exercise_record", V2: "PUT"},
 		{Ptype: "p", V0: global.AdminSuperStr, V1: "/record/delete_exercise_record", V2: "DELETE"},
@@ -68,6 +69,7 @@ func (s *CasbinInitializer) InitializeData() error {
 		{Ptype: "p", V0: global.AdminUserStr, V1: "/user/get_user_info", V2: "GET"},
 		{Ptype: "p", V0: global.AdminUserStr, V1: "/user/update_user_info", V2: "POST"},
 		{Ptype: "p", V0: global.AdminUserStr, V1: "/user/update_user_password", V2: "POST"},
+		{Ptype: "p", V0: global.AdminUserStr, V1: "/user/upload_user_avatar", V2: "POST"},
 		{Ptype: "p", V0: global.AdminUserStr, V1: "/record/insert_exercise_record", V2: "POST"},
 		{Ptype: "p", V0: global.AdminUserStr, V1: "/record/update_exercise_record", V2: "PUT"},
 		{Ptype: "p", V0: global.AdminUserStr, V1: "/record/delete_exercise_record", V2: "DELETE"},
@@ -94,6 +96,7 @@ func (s *CasbinInitializer) InitializeData() error {
 		{Ptype: "p", V0: global.CommonUserStr, V1: "/user/get_user_info", V2: "GET"},
 		{Ptype: "p", V0: global.CommonUserStr, V1: "/user/update_user_info", V2: "POST"},
 		{Ptype: "p", V0: global.CommonUserStr, V1: "/user/update_user_password", V2: "POST"},
+		{Ptype: "p", V0: global.CommonUserStr, V1: "/user/upload_user_avatar", V2: "POST"},
 		// record
 		{Ptype: "p", V0: global.CommonUserStr, V1: "/record/insert_exercise_record", V2: "POST"},
 		{Ptype: "p", V0: global.CommonUserStr, V1: "/record/update_exercise_record", V2: "PUT"},

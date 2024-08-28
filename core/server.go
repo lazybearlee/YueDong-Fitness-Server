@@ -20,6 +20,6 @@ func RunServer() {
 		WriteTimeout:   10 * time.Minute,
 		MaxHeaderBytes: 1 << 20,
 	}
-	global.FitnessLog.Info("server run success on ", zap.String("address", fmt.Sprintf(":%d", global.FitnessConfig.System.Addr)))
+	global.FitnessLog.Info("server run success on ", zap.String("address", fmt.Sprintf(":%d", global.FitnessConfig.System.Port)))
 	global.FitnessLog.Error(server.ListenAndServe().Error())
 }

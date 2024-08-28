@@ -529,7 +529,7 @@ info:
   contact: {}
   description: 悦动健身API说明
   title: YueDong-Fitness-API
-  version: "0.1"
+  version: "1.0"
 paths:
   /admin/user/register:
     post:
@@ -1196,6 +1196,33 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: 更新用户密码
+      tags:
+      - AppUser
+  /user/upload_user_avatar:
+    post:
+      consumes:
+      - multipart/form-data
+      parameters:
+      - description: 上传头像
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 上传用户头像
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: 上传用户头像
       tags:
       - AppUser
 securityDefinitions:

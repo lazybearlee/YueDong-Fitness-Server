@@ -8,6 +8,7 @@ import (
 	"github.com/lazybearlee/yuedong-fitness/router"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
+	"net/http"
 )
 
 // InitRouter 初始化总路由
@@ -24,6 +25,11 @@ func InitRouter() *gin.Engine {
 	// 注册路由分组，分别是系统路由和APP路由
 	systemRouter := router.MainRouterGroup.System
 	appRouter := router.MainRouterGroup.App
+	// 注册文件系统
+	Router.StaticFS(global.FitnessConfig.Local.StorePath, fileSystem{http.Dir(global.FitnessConfig.Local.StorePath)})
+	if global.FitnessConfig.System.UseHttps {
+		Router.Use(middleware.LoadTls())
+	}
 	// 注册swagger
 	docs.SwaggerInfo.BasePath = global.FitnessConfig.System.RouterPrefix
 	Router.GET(global.FitnessConfig.System.RouterPrefix+"/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))

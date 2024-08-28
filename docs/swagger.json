@@ -4,7 +4,7 @@
         "description": "悦动健身API说明",
         "title": "YueDong-Fitness-API",
         "contact": {},
-        "version": "0.1"
+        "version": "1.0"
     },
     "paths": {
         "/admin/user/register": {
@@ -1190,6 +1190,54 @@
                 "responses": {
                     "200": {
                         "description": "更新用户密码",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/user/upload_user_avatar": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "AppUser"
+                ],
+                "summary": "上传用户头像",
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "上传头像",
+                        "name": "file",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "上传用户头像",
                         "schema": {
                             "allOf": [
                                 {

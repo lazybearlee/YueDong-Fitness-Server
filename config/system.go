@@ -6,6 +6,7 @@ type System struct {
 	RouterPrefix  string `mapstructure:"router-prefix" json:"router-prefix" yaml:"router-prefix"`
 	Addr          string `mapstructure:"addr" json:"addr" yaml:"addr"`
 	Port          int    `mapstructure:"port" json:"port" yaml:"port"`
+	UseHttps      bool   `mapstructure:"use-https" json:"use-https" yaml:"use-https"`
 	LimitCountIP  int    `mapstructure:"iplimit-count" json:"iplimit-count" yaml:"iplimit-count"`
 	LimitTimeIP   int    `mapstructure:"iplimit-time" json:"iplimit-time" yaml:"iplimit-time"`
 	UseMultipoint bool   `mapstructure:"use-multipoint" json:"use-multipoint" yaml:"use-multipoint"`    // 多点登录拦截
