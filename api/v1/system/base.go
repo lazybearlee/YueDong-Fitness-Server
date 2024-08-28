@@ -90,47 +90,47 @@ func (b *BaseApi) Login(c *gin.Context) {
 // @Param data body sysrequest.RegisterReq true "用户名, 昵称, 密码, 头像, 手机号, 邮箱"
 // @Success 200 {object} response.Response{data=sysresponse.UserResponse,msg=string} "用户注册,返回包括用户信息"
 // @Router /base/register [post]
-func (b *BaseApi) Register(c *gin.Context) {
-	var register sysrequest.RegisterReqWithCode
-	err := c.ShouldBindJSON(&register)
-	if err != nil {
-		response.ErrorWithMessage("参数绑定失败", c)
-		return
-	}
-	// 校验Email格式
-	if !utils.EmailFormatCheck(register.Email) {
-		response.ErrorWithMessage("邮箱格式不正确", c)
-		return
-	}
-	auths := []*sysmodel.SysAuthority{}
-	auths = append(auths, &sysmodel.SysAuthority{AuthorityId: global.CommonUser})
-	u := sysmodel.SysUser{
-		Username:    register.Username,
-		NickName:    register.Username,
-		Password:    register.Password,
-		Phone:       register.Phone,
-		Email:       register.Email,
-		AuthorityId: global.CommonUser, // 默认为普通用户
-		Authorities: auths,
-		Enable:      2, // 默认为2，需要发送邮件或短信进行激活
-	}
-	ur, err := userService.UserRegister(u)
-	if err != nil {
-		e := fmt.Sprintf("用户注册失败: %v", err)
-		global.FitnessLog.Debug(e)
-		response.ErrorWithMessage(e, c)
-		return
-	}
-	// 发送激活邮件
-	err = emailService.SendValidatorMessage(register.Email)
-	if err != nil {
-		e := fmt.Sprintf("发送验证码失败: %v", err)
-		global.FitnessLog.Debug(e)
-		response.ErrorWithMessage(e, c)
-		return
-	}
-	response.SuccessWithDetailed(sysresponse.UserResponse{User: ur}, "请前往邮箱激活账号", c)
-}
+//func (b *BaseApi) Register(c *gin.Context) {
+//	var register sysrequest.RegisterReqWithCode
+//	err := c.ShouldBindJSON(&register)
+//	if err != nil {
+//		response.ErrorWithMessage("参数绑定失败", c)
+//		return
+//	}
+//	// 校验Email格式
+//	if !utils.EmailFormatCheck(register.Email) {
+//		response.ErrorWithMessage("邮箱格式不正确", c)
+//		return
+//	}
+//	auths := []*sysmodel.SysAuthority{}
+//	auths = append(auths, &sysmodel.SysAuthority{AuthorityId: global.CommonUser})
+//	u := sysmodel.SysUser{
+//		Username:    register.Username,
+//		NickName:    register.Username,
+//		Password:    register.Password,
+//		Phone:       register.Phone,
+//		Email:       register.Email,
+//		AuthorityId: global.CommonUser, // 默认为普通用户
+//		Authorities: auths,
+//		Enable:      2, // 默认为2，需要发送邮件或短信进行激活
+//	}
+//	ur, err := userService.UserRegister(u)
+//	if err != nil {
+//		e := fmt.Sprintf("用户注册失败: %v", err)
+//		global.FitnessLog.Debug(e)
+//		response.ErrorWithMessage(e, c)
+//		return
+//	}
+//	// 发送激活邮件
+//	err = emailService.SendValidatorMessage(register.Email)
+//	if err != nil {
+//		e := fmt.Sprintf("发送验证码失败: %v", err)
+//		global.FitnessLog.Debug(e)
+//		response.ErrorWithMessage(e, c)
+//		return
+//	}
+//	response.SuccessWithDetailed(sysresponse.UserResponse{User: ur}, "请前往邮箱激活账号", c)
+//}
 
 // VerificationCode
 // @Tags Base
@@ -138,7 +138,7 @@ func (b *BaseApi) Register(c *gin.Context) {
 // @Produce application/json
 // @Param data body sysrequest.VerificationCodeReq true "邮箱"
 // @Success 200 {object} response.Response{data=string,msg=string} "发送验证码"
-// @Router /base/verification_code [post]
+// @Router /base/verification_code [get]
 func (b *BaseApi) VerificationCode(c *gin.Context) {
 	var v sysrequest.VerificationCodeReq
 	err := c.ShouldBindJSON(&v)

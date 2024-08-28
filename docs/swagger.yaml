@@ -606,32 +606,6 @@ paths:
       summary: 用户登录
       tags:
       - Base
-  /base/register:
-    post:
-      parameters:
-      - description: 用户名, 昵称, 密码, 头像, 手机号, 邮箱
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/sysrequest.RegisterReq'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 用户注册,返回包括用户信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/sysresponse.UserResponse'
-                msg:
-                  type: string
-              type: object
-      summary: 用户注册
-      tags:
-      - Base
   /base/register_with_code:
     post:
       parameters:
@@ -659,7 +633,7 @@ paths:
       tags:
       - Base
   /base/verification_code:
-    post:
+    get:
       parameters:
       - description: 邮箱
         in: body

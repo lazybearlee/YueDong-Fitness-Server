@@ -147,51 +147,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/base/register": {
-            "post": {
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Base"
-                ],
-                "summary": "用户注册",
-                "parameters": [
-                    {
-                        "description": "用户名, 昵称, 密码, 头像, 手机号, 邮箱",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/sysrequest.RegisterReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "用户注册,返回包括用户信息",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/response.Response"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/sysresponse.UserResponse"
-                                        },
-                                        "msg": {
-                                            "type": "string"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
         "/base/register_with_code": {
             "post": {
                 "produces": [
@@ -238,7 +193,7 @@ const docTemplate = `{
             }
         },
         "/base/verification_code": {
-            "post": {
+            "get": {
                 "produces": [
                     "application/json"
                 ],
