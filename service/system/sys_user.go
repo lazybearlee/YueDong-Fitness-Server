@@ -110,22 +110,29 @@ func (userService *UserService) UserDelete(userID int) error {
 }
 
 // UserSetInfo
-// @description: 设置用户信息(仅昵称、头像、电话、邮箱等)
+// @description: 设置用户信息(仅昵称、电话、邮箱等)
 // @param: user model.SysUser
 // @return: error
 func (userService *UserService) UserSetInfo(user sysmodel.SysUser) error {
 	return global.FitnessDb.Model(&sysmodel.SysUser{}).
-		Select("updated_at", "nick_name", "gender", "header_img", "phone", "email", "enable").
+		Select("updated_at", "nick_name", "gender", "phone", "email", "enable").
 		Where("id=?", user.ID).
 		Updates(map[string]interface{}{
 			"updated_at": time.Now(),
 			"nick_name":  user.NickName,
 			"gender":     user.Gender,
-			"header_img": user.HeaderImg,
 			"phone":      user.Phone,
 			"email":      user.Email,
 			"enable":     user.Enable,
 		}).Error
+}
+
+// UserSetAvatar
+// @description: 设置用户头像
+// @param: url string, uid uint
+// @return: error
+func (userService *UserService) UserSetAvatar(url string, uid uint) error {
+	return global.FitnessDb.Model(&sysmodel.SysUser{}).Where("id = ?", uid).Update("header_img", url).Error
 }
 
 // UserGetInfoWithUUID

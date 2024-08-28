@@ -1,12 +1,16 @@
 package appapi
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/lazybearlee/yuedong-fitness/global"
 	apprequest "github.com/lazybearlee/yuedong-fitness/model/app/request"
 	appresponse "github.com/lazybearlee/yuedong-fitness/model/app/response"
 	"github.com/lazybearlee/yuedong-fitness/model/common/response"
 	sysmodel "github.com/lazybearlee/yuedong-fitness/model/system"
+	sysresponse "github.com/lazybearlee/yuedong-fitness/model/system/response"
 	"github.com/lazybearlee/yuedong-fitness/utils"
+	"go.uber.org/zap"
 )
 
 type UserApi struct{}
@@ -67,9 +71,11 @@ func (u *UserApi) UpdateUserInfo(c *gin.Context) {
 	}
 	// 更新用户信息
 	user := sysmodel.SysUser{
-		Phone:  req.Phone,
-		Email:  req.Email,
-		Gender: req.Gender,
+		NickName: req.Nickname,
+		Phone:    req.Phone,
+		Email:    req.Email,
+		Gender:   req.Gender,
+		Enable:   1,
 	}
 	user.ID = uid
 	err = userService.UserSetInfo(user)
@@ -112,4 +118,45 @@ func (u *UserApi) UpdateUserPassword(c *gin.Context) {
 		return
 	}
 	response.SuccessWithMessage("更新用户密码成功", c)
+}
+
+// UploadUserAvatar
+// @Tags AppUser
+// @Summary 上传用户头像
+// @Security ApiKeyAuth
+// @accept    multipart/form-data
+// @Produce  application/json
+// @Param file formData file true "上传头像"
+// @Success 200 {object} response.Response{data=string} "上传用户头像"
+// @Router /user/upload_user_avatar [post]
+func (u *UserApi) UploadUserAvatar(c *gin.Context) {
+	// 拿到token中的用户信息
+	uid := utils.GetUserID(c)
+	if uid == 0 {
+		response.ErrorWithMessage("获取用户信息失败", c)
+		return
+	}
+	// 上传用户头像
+	_, header, err := c.Request.FormFile("file")
+	if err != nil {
+		global.FitnessLog.Error("接收文件失败", zap.Error(err))
+		response.ErrorWithMessage("接收文件失败", c)
+		return
+	}
+	// 上传头像
+	file, err := fileService.UploadFile(header, "1")
+	if err != nil {
+		global.FitnessLog.Error("上传用户头像失败", zap.Error(err))
+		response.ErrorWithMessage("上传用户头像失败", c)
+		return
+	}
+	// 更新用户头像
+	url := "http://" + global.FitnessConfig.System.Addr + fmt.Sprintf(":%d/", global.FitnessConfig.System.Port) + file.Url
+	err = userService.UserSetAvatar(url, uid)
+	if err != nil {
+		global.FitnessLog.Error("更新用户头像失败", zap.Error(err))
+		response.ErrorWithMessage("更新用户头像失败", c)
+		return
+	}
+	response.SuccessWithDetailed(sysresponse.ExaFileResponse{File: file}, "上传用户头像成功", c)
 }

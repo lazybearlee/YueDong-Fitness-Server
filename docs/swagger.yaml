@@ -21,10 +21,6 @@ definitions:
         type: array
       startDate:
         type: string
-      sysUser:
-        allOf:
-        - $ref: '#/definitions/sysmodel.SysUser'
-        description: 关联SysUser表
       title:
         type: string
       totalStages:
@@ -77,15 +73,9 @@ definitions:
       stepsCount:
         description: 步数
         type: integer
-      sysUser:
-        allOf:
-        - $ref: '#/definitions/sysmodel.SysUser'
-        description: 关联SysUser表
       updatedAt:
         description: Update time
         type: string
-    required:
-    - exerciseType
     type: object
   appmodel.HealthStatus:
     properties:
@@ -113,10 +103,6 @@ definitions:
       stepsCount:
         description: 步数
         type: integer
-      sysUser:
-        allOf:
-        - $ref: '#/definitions/sysmodel.SysUser'
-        description: 关联SysUser表
       updatedAt:
         description: Update time
         type: string
@@ -168,12 +154,27 @@ definitions:
           type: integer
         type: array
     type: object
-  apprequest.GetHealthStatusReq:
+  apprequest.GetHealthStatusListReq:
     properties:
-      date:
+      desc:
+        description: 是否倒序
+        type: boolean
+      endTime:
         type: string
-      id:
+      keyword:
+        description: 用于搜索
+        type: string
+      order:
+        description: 排序字段
+        type: string
+      page:
+        description: Page number
         type: integer
+      pageSize:
+        description: 每页大小
+        type: integer
+      startTime:
+        type: string
     type: object
   apprequest.GetRankListRequest:
     properties:
@@ -231,10 +232,6 @@ definitions:
         type: array
       startDate:
         type: string
-      sysUser:
-        allOf:
-        - $ref: '#/definitions/sysmodel.SysUser'
-        description: 关联SysUser表
       title:
         type: string
       totalStages:
@@ -302,21 +299,17 @@ definitions:
       stepsCount:
         description: 步数
         type: integer
-      sysUser:
-        allOf:
-        - $ref: '#/definitions/sysmodel.SysUser'
-        description: 关联SysUser表
       updatedAt:
         description: Update time
         type: string
-    required:
-    - exerciseType
     type: object
   apprequest.UserUpdateInfoReq:
     properties:
       email:
         type: string
       gender:
+        type: string
+      nickname:
         type: string
       phone:
         type: string
@@ -536,7 +529,7 @@ info:
   contact: {}
   description: 悦动健身API说明
   title: YueDong-Fitness-API
-  version: "0.1"
+  version: "1.0"
 paths:
   /admin/user/register:
     post:
@@ -693,13 +686,6 @@ paths:
       - Base
   /health_status/get_health_status:
     get:
-      parameters:
-      - description: 获取用户健康状态
-        in: body
-        name: date
-        required: true
-        schema:
-          $ref: '#/definitions/apprequest.GetHealthStatusReq'
       produces:
       - application/json
       responses:
@@ -717,7 +703,33 @@ paths:
       summary: 获取用户健康状态
       tags:
       - HealthStatus
-  /health_status/post_health_status:
+  /health_status/get_health_status_list:
+    get:
+      parameters:
+      - description: 获取用户健康状态列表
+        in: body
+        name: date
+        required: true
+        schema:
+          $ref: '#/definitions/apprequest.GetHealthStatusListReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 获取用户健康状态列表
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.PageResponse'
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: 获取用户健康状态列表
+      tags:
+      - HealthStatus
+  /health_status/put_health_status:
     put:
       parameters:
       - description: 插入用户健康状态
@@ -915,7 +927,7 @@ paths:
       tags:
       - Plan
   /rank/get_rank_list:
-    post:
+    get:
       parameters:
       - description: 获取排行榜
         in: body
@@ -944,7 +956,7 @@ paths:
     delete:
       parameters:
       - description: ID
-        in: path
+        in: query
         name: id
         required: true
         type: integer
@@ -1016,7 +1028,7 @@ paths:
     get:
       parameters:
       - description: ID
-        in: path
+        in: query
         name: id
         required: true
         type: integer
@@ -1038,7 +1050,7 @@ paths:
       tags:
       - Record
   /record/get_exercise_record_list:
-    post:
+    get:
       parameters:
       - description: 获取运动记录列表
         in: body
@@ -1184,6 +1196,33 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: 更新用户密码
+      tags:
+      - AppUser
+  /user/upload_user_avatar:
+    post:
+      consumes:
+      - multipart/form-data
+      parameters:
+      - description: 上传头像
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 上传用户头像
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: 上传用户头像
       tags:
       - AppUser
 securityDefinitions:

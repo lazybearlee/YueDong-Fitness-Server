@@ -1,8 +1,6 @@
 package appmodel
 
-import (
-	"github.com/lazybearlee/yuedong-fitness/global"
-)
+import "github.com/lazybearlee/yuedong-fitness/global"
 
 // PlanStage 计划阶段
 type PlanStage struct {

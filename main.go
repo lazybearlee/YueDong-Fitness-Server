@@ -4,7 +4,7 @@ import "github.com/lazybearlee/yuedong-fitness/core"
 
 // 运动健身服务器，启动！
 // @title YueDong-Fitness-API
-// @version 0.1
+// @version 1.0
 // @description 悦动健身API说明
 // @securityDefinitions.apikey  ApiKeyAuth
 // @in                          header

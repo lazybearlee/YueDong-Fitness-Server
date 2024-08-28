@@ -49,7 +49,7 @@ func (u *UserInitializer) InitializeData() error {
 		},
 		{
 			UUID:        uuid.Must(uuid.NewV4()),
-			Username:    "a303176530",
+			Username:    "lee",
 			Password:    password,
 			NickName:    "用户1",
 			HeaderImg:   "https://nimg.ws.126.net/?url=http%3A%2F%2Fspider.ws.126.net%2Fb8e2028eb012fdeed94e007ea8974b07.jpeg&thumbnail=660x2147483647&quality=80&type=jpg",

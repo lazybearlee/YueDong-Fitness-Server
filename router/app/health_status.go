@@ -9,6 +9,7 @@ func (r HealthStatusRouter) InitHealthStatusRouter(Router *gin.RouterGroup) {
 	{
 		healthStatusRouter.PUT("put_health_status", healthStatusApi.PutHealthStatus)
 		healthStatusRouter.GET("get_health_status", healthStatusApi.GetHealthStatus)
+		healthStatusRouter.GET("get_health_status_list", healthStatusApi.GetHealthStatusList)
 	}
 
 }

@@ -5,7 +5,7 @@ import "github.com/gin-gonic/gin"
 type ExerciseRecordRouter struct{}
 
 func (e ExerciseRecordRouter) InitExerciseRecordRouter(Router *gin.RouterGroup) {
-	exerciseRecordRouter := Router.Group("exercise_record")
+	exerciseRecordRouter := Router.Group("record")
 	{
 		exerciseRecordRouter.POST("insert_exercise_record", exerciseRecordApi.InsertExerciseRecord)
 		exerciseRecordRouter.PUT("update_exercise_record", exerciseRecordApi.UpdateExerciseRecord)

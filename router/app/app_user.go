@@ -10,5 +10,6 @@ func (u UserRouter) InitUserRouter(Router *gin.RouterGroup) {
 		userRouter.GET("get_user_info", userApi.GetUserInfo)
 		userRouter.POST("update_user_info", userApi.UpdateUserInfo)
 		userRouter.POST("update_user_password", userApi.UpdateUserPassword)
+		userRouter.POST("upload_user_avatar", userApi.UploadUserAvatar)
 	}
 }

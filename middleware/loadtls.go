@@ -2,18 +2,18 @@ package middleware
 
 import (
 	"fmt"
+	"github.com/lazybearlee/yuedong-fitness/global"
 
 	"github.com/gin-gonic/gin"
 	"github.com/unrolled/secure"
 )
 
-// 用https把这个中间件在router里面use一下就好
-
+// LoadTls 加载tls，重定向到https
 func LoadTls() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		middleware := secure.New(secure.Options{
 			SSLRedirect: true,
-			SSLHost:     "localhost:443",
+			SSLHost:     global.FitnessConfig.System.Addr + ":443",
 		})
 		err := middleware.Process(c.Writer, c.Request)
 		if err != nil {

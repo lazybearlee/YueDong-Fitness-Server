@@ -18,4 +18,5 @@ var (
 	rankService           = service.ServiceGroupApp.AppServiceGroup.RankService
 	healthStatusService   = service.ServiceGroupApp.AppServiceGroup.HealthStatusService
 	exercisePlanService   = service.ServiceGroupApp.AppServiceGroup.ExercisePlanService
+	fileService           = service.ServiceGroupApp.SystemServiceGroup.FileService
 )
