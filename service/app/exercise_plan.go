@@ -55,7 +55,7 @@ func (s *ExercisePlanService) GetCurrentExercisePlan(uid uint) (*appmodel.Exerci
 // GetStartedExercisePlans 获取已开始的运动计划
 func (s *ExercisePlanService) GetStartedExercisePlans(uid uint) ([]appmodel.ExercisePlan, error) {
 	var plans []appmodel.ExercisePlan
-	today := time.Now().Format("2006-01-02")
+	today := time.Now()
 	if err := global.FitnessDb.Where("uid = ? AND start_date <= ?", uid, today).Find(&plans).Error; err != nil {
 		return nil, err
 	}
@@ -65,8 +65,8 @@ func (s *ExercisePlanService) GetStartedExercisePlans(uid uint) ([]appmodel.Exer
 // GetUnCompletedExercisePlans 获取未完成的运动计划
 func (s *ExercisePlanService) GetUnCompletedExercisePlans(uid uint) ([]appmodel.ExercisePlan, error) {
 	var plans []appmodel.ExercisePlan
-	today := time.Now().Format("2006-01-02")
-	if err := global.FitnessDb.Where("uid = ? AND end_date < ? AND is_completed = ?", uid, today, false).Find(&plans).Error; err != nil {
+	today := time.Now()
+	if err := global.FitnessDb.Where("uid = ? AND end_date > ? AND is_completed = ?", uid, today, false).Find(&plans).Error; err != nil {
 		return nil, err
 	}
 	return plans, nil

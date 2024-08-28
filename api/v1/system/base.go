@@ -83,7 +83,7 @@ func (b *BaseApi) Login(c *gin.Context) {
 	response.ErrorWithMessage("验证码错误", c)
 }
 
-// Register 一般用户注册
+// Register 一般用户注册，暂不使用
 // @Tags Base
 // @Summary 用户注册
 // @Produce application/json

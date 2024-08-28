@@ -67,9 +67,10 @@ func (u *UserApi) UpdateUserInfo(c *gin.Context) {
 	}
 	// 更新用户信息
 	user := sysmodel.SysUser{
-		Phone:  req.Phone,
-		Email:  req.Email,
-		Gender: req.Gender,
+		NickName: req.Nickname,
+		Phone:    req.Phone,
+		Email:    req.Email,
+		Gender:   req.Gender,
 	}
 	user.ID = uid
 	err = userService.UserSetInfo(user)

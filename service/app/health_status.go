@@ -98,18 +98,10 @@ func (h *HealthStatusService) DeleteHealthStatus(id uint, uid uint) error {
 
 // GetLatestHealthStatus is a method to get the latest health status of a user
 // @Description: 根据用户id获取用户最近的健康状态
-// @Param: uid uint, date time.Time
+// @Param: uid uint
 // @return: appmodel.HealthStatus, error
-func (h *HealthStatusService) GetLatestHealthStatus(uid uint, req apprequest.GetHealthStatusReq) (appmodel.HealthStatus, error) {
+func (h *HealthStatusService) GetLatestHealthStatus(uid uint) (appmodel.HealthStatus, error) {
 	var healthStatus appmodel.HealthStatus
-	if req.ID != 0 {
-		err := global.FitnessDb.Where("uid = ? AND id = ?", uid, req.ID).First(&healthStatus).Error
-		return healthStatus, err
-	}
-	if !req.Date.IsZero() {
-		err := global.FitnessDb.Where("uid = ? AND date = ?", uid, req.Date).First(&healthStatus).Error
-		return healthStatus, err
-	}
 	err := global.FitnessDb.Where("uid = ?", uid).Order("date desc").First(&healthStatus).Error
 	return healthStatus, err
 }

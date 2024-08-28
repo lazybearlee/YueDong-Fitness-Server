@@ -296,17 +296,6 @@ const docTemplate = `{
                     "HealthStatus"
                 ],
                 "summary": "获取用户健康状态",
-                "parameters": [
-                    {
-                        "description": "获取用户健康状态",
-                        "name": "date",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/apprequest.GetHealthStatusReq"
-                        }
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "获取用户健康状态",
@@ -329,7 +318,54 @@ const docTemplate = `{
                 }
             }
         },
-        "/health_status/post_health_status": {
+        "/health_status/get_health_status_list": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "HealthStatus"
+                ],
+                "summary": "获取用户健康状态列表",
+                "parameters": [
+                    {
+                        "description": "获取用户健康状态列表",
+                        "name": "date",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/apprequest.GetHealthStatusListReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "获取用户健康状态列表",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/response.PageResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/health_status/put_health_status": {
             "put": {
                 "security": [
                     {
@@ -688,7 +724,7 @@ const docTemplate = `{
             }
         },
         "/rank/get_rank_list": {
-            "post": {
+            "get": {
                 "security": [
                     {
                         "ApiKeyAuth": []
@@ -753,7 +789,7 @@ const docTemplate = `{
                         "type": "integer",
                         "description": "ID",
                         "name": "id",
-                        "in": "path",
+                        "in": "query",
                         "required": true
                     }
                 ],
@@ -884,7 +920,7 @@ const docTemplate = `{
                         "type": "integer",
                         "description": "ID",
                         "name": "id",
-                        "in": "path",
+                        "in": "query",
                         "required": true
                     }
                 ],
@@ -911,7 +947,7 @@ const docTemplate = `{
             }
         },
         "/record/get_exercise_record_list": {
-            "post": {
+            "get": {
                 "security": [
                     {
                         "ApiKeyAuth": []
@@ -1215,14 +1251,6 @@ const docTemplate = `{
                 "startDate": {
                     "type": "string"
                 },
-                "sysUser": {
-                    "description": "关联SysUser表",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/sysmodel.SysUser"
-                        }
-                    ]
-                },
                 "title": {
                     "type": "string"
                 },
@@ -1237,9 +1265,6 @@ const docTemplate = `{
         },
         "appmodel.ExerciseRecord": {
             "type": "object",
-            "required": [
-                "exerciseType"
-            ],
             "properties": {
                 "ID": {
                     "description": "Primary key ID",
@@ -1297,14 +1322,6 @@ const docTemplate = `{
                     "description": "步数",
                     "type": "integer"
                 },
-                "sysUser": {
-                    "description": "关联SysUser表",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/sysmodel.SysUser"
-                        }
-                    ]
-                },
                 "updatedAt": {
                     "description": "Update time",
                     "type": "string"
@@ -1345,14 +1362,6 @@ const docTemplate = `{
                 "stepsCount": {
                     "description": "步数",
                     "type": "integer"
-                },
-                "sysUser": {
-                    "description": "关联SysUser表",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/sysmodel.SysUser"
-                        }
-                    ]
                 },
                 "updatedAt": {
                     "description": "Update time",
@@ -1427,14 +1436,34 @@ const docTemplate = `{
                 }
             }
         },
-        "apprequest.GetHealthStatusReq": {
+        "apprequest.GetHealthStatusListReq": {
             "type": "object",
             "properties": {
-                "date": {
+                "desc": {
+                    "description": "是否倒序",
+                    "type": "boolean"
+                },
+                "endTime": {
                     "type": "string"
                 },
-                "id": {
+                "keyword": {
+                    "description": "用于搜索",
+                    "type": "string"
+                },
+                "order": {
+                    "description": "排序字段",
+                    "type": "string"
+                },
+                "page": {
+                    "description": "Page number",
                     "type": "integer"
+                },
+                "pageSize": {
+                    "description": "每页大小",
+                    "type": "integer"
+                },
+                "startTime": {
+                    "type": "string"
                 }
             }
         },
@@ -1517,14 +1546,6 @@ const docTemplate = `{
                 "startDate": {
                     "type": "string"
                 },
-                "sysUser": {
-                    "description": "关联SysUser表",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/sysmodel.SysUser"
-                        }
-                    ]
-                },
                 "title": {
                     "type": "string"
                 },
@@ -1539,9 +1560,6 @@ const docTemplate = `{
         },
         "apprequest.SearchExerciseRecordParams": {
             "type": "object",
-            "required": [
-                "exerciseType"
-            ],
             "properties": {
                 "ID": {
                     "description": "Primary key ID",
@@ -1619,14 +1637,6 @@ const docTemplate = `{
                     "description": "步数",
                     "type": "integer"
                 },
-                "sysUser": {
-                    "description": "关联SysUser表",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/sysmodel.SysUser"
-                        }
-                    ]
-                },
                 "updatedAt": {
                     "description": "Update time",
                     "type": "string"
@@ -1640,6 +1650,9 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "gender": {
+                    "type": "string"
+                },
+                "nickname": {
                     "type": "string"
                 },
                 "phone": {

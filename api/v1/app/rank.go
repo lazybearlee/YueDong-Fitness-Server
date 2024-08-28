@@ -19,7 +19,7 @@ type RankApi struct{}
 // @Produce  application/json
 // @Param data body apprequest.GetRankListRequest true "获取排行榜"
 // @Success 200 {object} response.Response{data=response.PageResponse} "获取排行榜"
-// @Router /rank/get_rank_list [post]
+// @Router /rank/get_rank_list [get]
 func (r *RankApi) GetRankList(c *gin.Context) {
 	var req apprequest.GetRankListRequest
 	err := c.ShouldBindJSON(&req)
@@ -43,10 +43,16 @@ func (r *RankApi) GetRankList(c *gin.Context) {
 		list, ok := global.FitnessCache.Get(cacheStr)
 		if ok {
 			length := len(list.([]appmodel.UserStepRank))
-			// 根据分页参数返回数据,如果分页出错
+			// 根据分页参数返回数据,如果分页出错,则返回全部数据
 			if (req.Page * req.PageSize) >= length {
 				// 超出范围
-				response.ErrorWithMessage("超出范围", c)
+				response.SuccessWithDetailed(response.PageResponse{
+					List:     list.([]appmodel.UserStepRank),
+					Total:    int64(length),
+					Page:     1,
+					PageSize: length,
+				}, "获取排行榜成功", c)
+				return
 			}
 			response.SuccessWithDetailed(response.PageResponse{
 				List:     list.([]appmodel.UserStepRank)[(req.Page-1)*req.PageSize : req.Page*req.PageSize],
@@ -69,12 +75,16 @@ func (r *RankApi) GetRankList(c *gin.Context) {
 	case global.StepRankYesterday:
 		global.FitnessCache.Set(global.StepRankYesterday, list, 10*time.Hour)
 	}
-	// 根据分页参数返回数据,如果分页出错，则返回错误
+	// 根据分页参数返回数据,如果分页出错，则返回全部数据
 	length := len(list)
 	if (req.Page * req.PageSize) >= length {
 		// 超出范围
-		response.ErrorWithMessage("超出范围", c)
-		return
+		response.SuccessWithDetailed(response.PageResponse{
+			List:     list,
+			Total:    int64(length),
+			Page:     1,
+			PageSize: length,
+		}, "获取排行榜成功", c)
 	}
 	response.SuccessWithDetailed(response.PageResponse{
 		List:     list[(req.Page-1)*req.PageSize : req.Page*req.PageSize],

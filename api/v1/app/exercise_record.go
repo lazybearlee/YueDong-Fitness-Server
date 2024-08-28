@@ -94,7 +94,7 @@ func (r *RecordApi) UpdateExerciseRecord(c *gin.Context) {
 // @Summary 删除运动记录
 // @Security ApiKeyAuth
 // @Produce  application/json
-// @Param id path int true "ID"
+// @Param id query int true "ID"
 // @Success 200 {object} response.Response{data=string} "删除运动记录"
 // @Router /record/delete_exercise_record/{id} [delete]
 func (r *RecordApi) DeleteExerciseRecord(c *gin.Context) {
@@ -106,7 +106,7 @@ func (r *RecordApi) DeleteExerciseRecord(c *gin.Context) {
 	}
 
 	// 获取参数id，id为uint类型
-	id_, err := strconv.Atoi(c.Param("id"))
+	id_, err := strconv.Atoi(c.Query("id"))
 	if err != nil {
 		response.ErrorWithMessage("参数绑定失败", c)
 		return
@@ -159,7 +159,7 @@ func (r *RecordApi) DeleteExerciseRecords(c *gin.Context) {
 // @Summary 获取运动记录
 // @Security ApiKeyAuth
 // @Produce  application/json
-// @Param id path int true "ID"
+// @Param id query int true "ID"
 // @Success 200 {object} response.Response{data=appmodel.ExerciseRecord} "获取运动记录"
 // @Router /record/get_exercise_record/{id} [get]
 func (r *RecordApi) GetExerciseRecord(c *gin.Context) {
@@ -170,8 +170,8 @@ func (r *RecordApi) GetExerciseRecord(c *gin.Context) {
 		return
 	}
 
-	// 获取参数id，id为uint类型
-	id_, err := strconv.Atoi(c.Param("id"))
+	// 获取参数id，id为uint类型，在query参数中
+	id_, err := strconv.Atoi(c.Query("id"))
 	if err != nil {
 		response.ErrorWithMessage("参数绑定失败", c)
 		return
@@ -194,7 +194,7 @@ func (r *RecordApi) GetExerciseRecord(c *gin.Context) {
 // @Produce  application/json
 // @Param data body apprequest.SearchExerciseRecordParams true "获取运动记录列表"
 // @Success 200 {object} response.Response{data=response.PageResponse} "获取运动记录列表"
-// @Router /record/get_exercise_record_list [post]
+// @Router /record/get_exercise_record_list [get]
 func (r *RecordApi) GetExerciseRecordList(c *gin.Context) {
 	// 拿到token
 	uid := utils.GetUserID(c)

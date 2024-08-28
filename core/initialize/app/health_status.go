@@ -28,7 +28,13 @@ func (s *HealthStatusInitializer) TableCreated() bool {
 }
 
 func (s *HealthStatusInitializer) InitializeData() error {
-	// 无需初始化数据
+	// 插入健康状态数据
+	//healthStatuses := []appmodel.HealthStatus{
+	//	{
+	//		UID: 3,
+	//		Date: time.Now(),
+	//	},
+	//}
 	return nil
 }
 

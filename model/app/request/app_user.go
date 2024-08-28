@@ -3,9 +3,10 @@ package apprequest
 // UserUpdateInfoReq struct
 // 不支持上传头像，需要单独处理
 type UserUpdateInfoReq struct {
-	Phone  string `json:"phone"`
-	Email  string `json:"email"`
-	Gender string `json:"gender"`
+	Nickname string `json:"nickname"`
+	Phone    string `json:"phone"`
+	Email    string `json:"email"`
+	Gender   string `json:"gender"`
 }
 
 // UserUpdatePasswordReq struct
