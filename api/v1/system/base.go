@@ -134,7 +134,7 @@ func (b *BaseApi) Login(c *gin.Context) {
 
 // VerificationCode
 // @Tags Base
-// @Summary 发送验证码
+// @Summary 发送邮箱验证码
 // @Produce application/json
 // @Param data body sysrequest.VerificationCodeReq true "邮箱"
 // @Success 200 {object} response.Response{data=string,msg=string} "发送验证码"
@@ -215,7 +215,7 @@ func (b *BaseApi) RegisterWithCode(c *gin.Context) {
 
 // Captcha
 // @Tags Base
-// @Summary 生成验证码
+// @Summary 生成登陆图片验证码
 // @Security ApiKeyAuth
 // @Accept application/json
 // @Produce application/json

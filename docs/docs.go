@@ -76,7 +76,7 @@ const docTemplate = `{
                 "tags": [
                     "Base"
                 ],
-                "summary": "生成验证码",
+                "summary": "生成登陆图片验证码",
                 "responses": {
                     "200": {
                         "description": "生成验证码,返回包括随机数id,base64,验证码长度,是否开启验证码",
@@ -200,7 +200,7 @@ const docTemplate = `{
                 "tags": [
                     "Base"
                 ],
-                "summary": "发送验证码",
+                "summary": "发送邮箱验证码",
                 "parameters": [
                     {
                         "description": "邮箱",

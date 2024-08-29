@@ -577,7 +577,7 @@ paths:
               type: object
       security:
       - ApiKeyAuth: []
-      summary: 生成验证码
+      summary: 生成登陆图片验证码
       tags:
       - Base
   /base/login:
@@ -655,7 +655,7 @@ paths:
                 msg:
                   type: string
               type: object
-      summary: 发送验证码
+      summary: 发送邮箱验证码
       tags:
       - Base
   /health_status/get_health_status:
