@@ -31,7 +31,7 @@ func (h *HeartRateApi) CreateHeartRate(c *gin.Context) {
 		response.ErrorWithMessage("参数绑定失败", c)
 		return
 	}
-	rate.UserId = uid
+	rate.UID = uid
 
 	// 插入数据
 	err = heartRateService.CreateHeartRate(&rate)

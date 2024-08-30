@@ -237,6 +237,173 @@ const docTemplate = `{
                 }
             }
         },
+        "/blood_pressure/create_blood_pressure": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "BloodPressure"
+                ],
+                "summary": "创建血压",
+                "parameters": [
+                    {
+                        "description": "创建血压",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/appmodel.BloodPressure"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "创建血压",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/blood_pressure/delete_blood_pressure": {
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "BloodPressure"
+                ],
+                "summary": "删除血压数据",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "删除血压数据",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/blood_pressure/get_all_blood_pressure_of_user": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "BloodPressure"
+                ],
+                "summary": "获取用户所有血压数据",
+                "responses": {
+                    "200": {
+                        "description": "获取用户所有血压数据",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/appmodel.BloodPressure"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/blood_pressure/get_latest_blood_pressure_of_user": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "BloodPressure"
+                ],
+                "summary": "获取用户最新血压数据",
+                "responses": {
+                    "200": {
+                        "description": "获取用户最新血压数据",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/appmodel.BloodPressure"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/health_status/get_health_status": {
             "get": {
                 "security": [
@@ -358,6 +525,173 @@ const docTemplate = `{
                                     "properties": {
                                         "data": {
                                             "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/heart_rate/create_heart_rate": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "HeartRate"
+                ],
+                "summary": "创建心率",
+                "parameters": [
+                    {
+                        "description": "创建心率",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/appmodel.HeartRate"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "创建心率",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/heart_rate/delete_heart_rate": {
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "HeartRate"
+                ],
+                "summary": "删除心率数据",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "删除心率数据",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/heart_rate/get_all_heart_rate_of_user": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "HeartRate"
+                ],
+                "summary": "获取用户所有心率数据",
+                "responses": {
+                    "200": {
+                        "description": "获取用户所有心率数据",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/appmodel.HeartRate"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/heart_rate/get_latest_heart_rate_of_user": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "HeartRate"
+                ],
+                "summary": "获取用户最新心率数据",
+                "responses": {
+                    "200": {
+                        "description": "获取用户最新心率数据",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/appmodel.HeartRate"
                                         }
                                     }
                                 }
@@ -1222,6 +1556,29 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "appmodel.BloodPressure": {
+            "type": "object",
+            "properties": {
+                "ID": {
+                    "description": "Primary key ID",
+                    "type": "integer"
+                },
+                "createdAt": {
+                    "description": "Creation time",
+                    "type": "string"
+                },
+                "diastolic": {
+                    "type": "integer"
+                },
+                "systolic": {
+                    "type": "integer"
+                },
+                "updatedAt": {
+                    "description": "Update time",
+                    "type": "string"
+                }
+            }
+        },
         "appmodel.ExercisePlan": {
             "type": "object",
             "properties": {
@@ -1373,6 +1730,26 @@ const docTemplate = `{
                 "weight": {
                     "description": "体重 (单位: 公斤)",
                     "type": "number"
+                }
+            }
+        },
+        "appmodel.HeartRate": {
+            "type": "object",
+            "properties": {
+                "ID": {
+                    "description": "Primary key ID",
+                    "type": "integer"
+                },
+                "createdAt": {
+                    "description": "Creation time",
+                    "type": "string"
+                },
+                "tps": {
+                    "type": "integer"
+                },
+                "updatedAt": {
+                    "description": "Update time",
+                    "type": "string"
                 }
             }
         },

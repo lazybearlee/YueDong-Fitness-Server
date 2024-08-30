@@ -1,4 +1,20 @@
 definitions:
+  appmodel.BloodPressure:
+    properties:
+      ID:
+        description: Primary key ID
+        type: integer
+      createdAt:
+        description: Creation time
+        type: string
+      diastolic:
+        type: integer
+      systolic:
+        type: integer
+      updatedAt:
+        description: Update time
+        type: string
+    type: object
   appmodel.ExercisePlan:
     properties:
       ID:
@@ -109,6 +125,20 @@ definitions:
       weight:
         description: '体重 (单位: 公斤)'
         type: number
+    type: object
+  appmodel.HeartRate:
+    properties:
+      ID:
+        description: Primary key ID
+        type: integer
+      createdAt:
+        description: Creation time
+        type: string
+      tps:
+        type: integer
+      updatedAt:
+        description: Update time
+        type: string
     type: object
   appmodel.PlanStage:
     properties:
@@ -658,6 +688,97 @@ paths:
       summary: 发送邮箱验证码
       tags:
       - Base
+  /blood_pressure/create_blood_pressure:
+    post:
+      parameters:
+      - description: 创建血压
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/appmodel.BloodPressure'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 创建血压
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: 创建血压
+      tags:
+      - BloodPressure
+  /blood_pressure/delete_blood_pressure:
+    delete:
+      parameters:
+      - description: ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 删除血压数据
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: 删除血压数据
+      tags:
+      - BloodPressure
+  /blood_pressure/get_all_blood_pressure_of_user:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 获取用户所有血压数据
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/appmodel.BloodPressure'
+                  type: array
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: 获取用户所有血压数据
+      tags:
+      - BloodPressure
+  /blood_pressure/get_latest_blood_pressure_of_user:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 获取用户最新血压数据
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/appmodel.BloodPressure'
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: 获取用户最新血压数据
+      tags:
+      - BloodPressure
   /health_status/get_health_status:
     get:
       produces:
@@ -729,6 +850,97 @@ paths:
       summary: 插入用户健康状态/更新用户健康状态
       tags:
       - HealthStatus
+  /heart_rate/create_heart_rate:
+    post:
+      parameters:
+      - description: 创建心率
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/appmodel.HeartRate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 创建心率
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: 创建心率
+      tags:
+      - HeartRate
+  /heart_rate/delete_heart_rate:
+    delete:
+      parameters:
+      - description: ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 删除心率数据
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: 删除心率数据
+      tags:
+      - HeartRate
+  /heart_rate/get_all_heart_rate_of_user:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 获取用户所有心率数据
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/appmodel.HeartRate'
+                  type: array
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: 获取用户所有心率数据
+      tags:
+      - HeartRate
+  /heart_rate/get_latest_heart_rate_of_user:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 获取用户最新心率数据
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/appmodel.HeartRate'
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: 获取用户最新心率数据
+      tags:
+      - HeartRate
   /plan/create_exercise_plan:
     post:
       parameters:

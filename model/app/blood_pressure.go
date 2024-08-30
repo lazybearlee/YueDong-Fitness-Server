@@ -7,10 +7,10 @@ import (
 
 type BloodPressure struct {
 	global.BaseModel
-	UserId            uint `json:"userId" gorm:"comment:用户ID"`
-	*sysmodel.SysUser `json:"-" gorm:"foreignKey:UserId;references:ID"`
-	Systolic          int `json:"systolic" gorm:"comment:收缩压"`
-	Diastolic         int `json:"diastolic" gorm:"comment:舒张压"`
+	UID       uint              `json:"-" gorm:"not null;index;comment:用户ID"`  // 用户ID，外键
+	SysUser   *sysmodel.SysUser `json:"-" gorm:"foreignKey:UID;references:ID"` // 关联SysUser表
+	Systolic  int               `json:"systolic" gorm:"comment:收缩压"`
+	Diastolic int               `json:"diastolic" gorm:"comment:舒张压"`
 }
 
 func (b BloodPressure) TableName() string {

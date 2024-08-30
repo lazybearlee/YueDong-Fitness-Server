@@ -32,7 +32,7 @@ func (b *BloodPressureApi) CreateBloodPressure(c *gin.Context) {
 		return
 	}
 
-	pressure.UserId = uid
+	pressure.UID = uid
 
 	// 插入数据
 	err = bloodPressureService.CreateBloodPressure(&pressure)
