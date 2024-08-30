@@ -43,3 +43,8 @@ func InterfaceToInt(v interface{}) (i int) {
 	}
 	return
 }
+
+func StrToUInt(s string) (uint, error) {
+	i, err := strconv.Atoi(s)
+	return uint(i), err
+}

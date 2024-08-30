@@ -63,6 +63,16 @@ func (s *CasbinInitializer) InitializeData() error {
 		{Ptype: "p", V0: global.AdminSuperStr, V1: "/plan/create_exercise_plan", V2: "POST"},
 		{Ptype: "p", V0: global.AdminSuperStr, V1: "/plan/update_exercise_plan", V2: "PUT"},
 		{Ptype: "p", V0: global.AdminSuperStr, V1: "/plan/delete_exercise_plans", V2: "DELETE"},
+		// heart_rate
+		{Ptype: "p", V0: global.AdminSuperStr, V1: "/heart_rate/create_heart_rate", V2: "POST"},
+		{Ptype: "p", V0: global.AdminSuperStr, V1: "/heart_rate/get_all_heart_rate_of_user", V2: "GET"},
+		{Ptype: "p", V0: global.AdminSuperStr, V1: "/heart_rate/get_latest_heart_rate_of_user", V2: "GET"},
+		{Ptype: "p", V0: global.AdminSuperStr, V1: "/heart_rate/delete_heart_rate", V2: "DELETE"},
+		// blood_pressure
+		{Ptype: "p", V0: global.AdminSuperStr, V1: "/blood_pressure/create_blood_pressure", V2: "POST"},
+		{Ptype: "p", V0: global.AdminSuperStr, V1: "/blood_pressure/get_all_blood_pressure_of_user", V2: "GET"},
+		{Ptype: "p", V0: global.AdminSuperStr, V1: "/blood_pressure/get_latest_blood_pressure_of_user", V2: "GET"},
+		{Ptype: "p", V0: global.AdminSuperStr, V1: "/blood_pressure/delete_blood_pressure", V2: "DELETE"},
 		// admin
 		{Ptype: "p", V0: global.AdminSuperStr, V1: "/admin/user/register", V2: "POST"},
 		// 管理员注册用户角色
@@ -91,6 +101,16 @@ func (s *CasbinInitializer) InitializeData() error {
 		{Ptype: "p", V0: global.AdminUserStr, V1: "/plan/create_exercise_plan", V2: "POST"},
 		{Ptype: "p", V0: global.AdminUserStr, V1: "/plan/update_exercise_plan", V2: "PUT"},
 		{Ptype: "p", V0: global.AdminUserStr, V1: "/plan/delete_exercise_plans", V2: "DELETE"},
+		// heart_rate
+		{Ptype: "p", V0: global.AdminUserStr, V1: "/heart_rate/create_heart_rate", V2: "POST"},
+		{Ptype: "p", V0: global.AdminUserStr, V1: "/heart_rate/get_all_heart_rate_of_user", V2: "GET"},
+		{Ptype: "p", V0: global.AdminUserStr, V1: "/heart_rate/get_latest_heart_rate_of_user", V2: "GET"},
+		{Ptype: "p", V0: global.AdminUserStr, V1: "/heart_rate/delete_heart_rate", V2: "DELETE"},
+		// blood_pressure
+		{Ptype: "p", V0: global.AdminUserStr, V1: "/blood_pressure/create_blood_pressure", V2: "POST"},
+		{Ptype: "p", V0: global.AdminUserStr, V1: "/blood_pressure/get_all_blood_pressure_of_user", V2: "GET"},
+		{Ptype: "p", V0: global.AdminUserStr, V1: "/blood_pressure/get_latest_blood_pressure_of_user", V2: "GET"},
+		{Ptype: "p", V0: global.AdminUserStr, V1: "/blood_pressure/delete_blood_pressure", V2: "DELETE"},
 		// 普通用户
 		// user路由
 		{Ptype: "p", V0: global.CommonUserStr, V1: "/user/get_user_info", V2: "GET"},
@@ -119,6 +139,16 @@ func (s *CasbinInitializer) InitializeData() error {
 		{Ptype: "p", V0: global.CommonUserStr, V1: "/plan/create_exercise_plan", V2: "POST"},
 		{Ptype: "p", V0: global.CommonUserStr, V1: "/plan/update_exercise_plan", V2: "PUT"},
 		{Ptype: "p", V0: global.CommonUserStr, V1: "/plan/delete_exercise_plans", V2: "DELETE"},
+		// heart_rate
+		{Ptype: "p", V0: global.CommonUserStr, V1: "/heart_rate/create_heart_rate", V2: "POST"},
+		{Ptype: "p", V0: global.CommonUserStr, V1: "/heart_rate/get_all_heart_rate_of_user", V2: "GET"},
+		{Ptype: "p", V0: global.CommonUserStr, V1: "/heart_rate/get_latest_heart_rate_of_user", V2: "GET"},
+		{Ptype: "p", V0: global.CommonUserStr, V1: "/heart_rate/delete_heart_rate", V2: "DELETE"},
+		// blood_pressure
+		{Ptype: "p", V0: global.CommonUserStr, V1: "/blood_pressure/create_blood_pressure", V2: "POST"},
+		{Ptype: "p", V0: global.CommonUserStr, V1: "/blood_pressure/get_all_blood_pressure_of_user", V2: "GET"},
+		{Ptype: "p", V0: global.CommonUserStr, V1: "/blood_pressure/get_latest_blood_pressure_of_user", V2: "GET"},
+		{Ptype: "p", V0: global.CommonUserStr, V1: "/blood_pressure/delete_blood_pressure", V2: "DELETE"},
 	}
 	// 创建casbin规则
 	err := global.FitnessDb.Create(&rules).Error

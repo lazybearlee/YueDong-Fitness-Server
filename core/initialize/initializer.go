@@ -20,11 +20,13 @@ const (
 	UserOrder         = AuthorityOrder + 1
 	FileOrder         = UserOrder + 1
 
-	PlanOrder         = InternalOrder + 5
-	RecordOrder       = InternalOrder + 5
-	HealthStatusOrder = InternalOrder + 5
-	DeviceOrder       = InternalOrder + 5
-	PlanStageOrder    = PlanOrder + 1
+	PlanOrder          = InternalOrder + 5
+	RecordOrder        = InternalOrder + 5
+	HealthStatusOrder  = InternalOrder + 5
+	DeviceOrder        = InternalOrder + 5
+	HeartRateOrder     = InternalOrder + 5
+	BloodPressureOrder = InternalOrder + 5
+	PlanStageOrder     = PlanOrder + 1
 )
 
 // TablesInitializer 定义初始化接口
@@ -90,6 +92,9 @@ func LoadInitializers() {
 	RegisterInitializer(PlanOrder, &app.ExercisePlanInitializer{})
 	RegisterInitializer(RecordOrder, &app.ExerciseRecordInitializer{})
 	RegisterInitializer(HealthStatusOrder, &app.HealthStatusInitializer{})
+	//RegisterInitializer(DeviceOrder, &app.DeviceInitializer{})
+	RegisterInitializer(HeartRateOrder, &app.HeartRateInitializer{})
+	RegisterInitializer(BloodPressureOrder, &app.BloodPressureInitializer{})
 	RegisterInitializer(PlanStageOrder, &app.PlanStageInitializer{})
 
 	// 给所有的初始化器排序

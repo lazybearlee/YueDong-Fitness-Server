@@ -8,6 +8,8 @@ type RouterGroup struct {
 	RankRouter
 	HealthStatusRouter
 	ExercisePlanRouter
+	HeartRateRouter
+	BloodPressureRouter
 }
 
 var (
@@ -16,4 +18,6 @@ var (
 	rankApi           = v1.ApiGroupApp.AppApiGroup.RankApi
 	healthStatusApi   = v1.ApiGroupApp.AppApiGroup.HealthStatusApi
 	exercisePlanApi   = v1.ApiGroupApp.AppApiGroup.ExercisePlanApi
+	heartRateApi      = v1.ApiGroupApp.AppApiGroup.HeartRateApi
+	bloodPressureApi  = v1.ApiGroupApp.AppApiGroup.BloodPressureApi
 )

@@ -5,4 +5,6 @@ type ServiceGroup struct {
 	HealthStatusService
 	RankService
 	ExercisePlanService
+	HeartRateService
+	BloodPressureService
 }

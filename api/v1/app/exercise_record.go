@@ -79,6 +79,11 @@ func (r *RecordApi) UpdateExerciseRecord(c *gin.Context) {
 		response.ErrorWithMessage(err.Error(), c)
 		return
 	}
+	// 检查创建时间
+	if e.CreatedAt.IsZero() {
+		response.ErrorWithMessage("创建时间不能为空", c)
+		return
+	}
 
 	// 更新数据
 	err = exerciseRecordService.UpdateExerciseRecord(e)

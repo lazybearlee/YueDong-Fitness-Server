@@ -54,6 +54,8 @@ func InitRouter() *gin.Engine {
 		appRouter.InitExerciseRecordRouter(PrivateRouter) // 注册运动记录路由
 		appRouter.InitHealthStatusRouter(PrivateRouter)   // 注册健康状态路由
 		appRouter.InitExercisePlanRouter(PrivateRouter)   // 注册训练计划路由
+		appRouter.InitHeartRateRouter(PrivateRouter)      // 注册心率路由
+		appRouter.InitBloodPressureRouter(PrivateRouter)  // 注册血压路由
 	}
 
 	global.FitnessRouters = Router.Routes()

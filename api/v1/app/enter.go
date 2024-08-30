@@ -10,6 +10,8 @@ type ApiGroup struct {
 	RankApi
 	HealthStatusApi
 	ExercisePlanApi
+	HeartRateApi
+	BloodPressureApi
 }
 
 var (
@@ -19,4 +21,6 @@ var (
 	healthStatusService   = service.ServiceGroupApp.AppServiceGroup.HealthStatusService
 	exercisePlanService   = service.ServiceGroupApp.AppServiceGroup.ExercisePlanService
 	fileService           = service.ServiceGroupApp.SystemServiceGroup.FileService
+	heartRateService      = service.ServiceGroupApp.AppServiceGroup.HeartRateService
+	bloodPressureService  = service.ServiceGroupApp.AppServiceGroup.BloodPressureService
 )
