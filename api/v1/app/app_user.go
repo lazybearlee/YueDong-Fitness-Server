@@ -1,7 +1,6 @@
 package appapi
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/lazybearlee/yuedong-fitness/global"
 	apprequest "github.com/lazybearlee/yuedong-fitness/model/app/request"
@@ -151,7 +150,7 @@ func (u *UserApi) UploadUserAvatar(c *gin.Context) {
 		return
 	}
 	// 更新用户头像
-	url := "http://" + global.FitnessConfig.System.Addr + fmt.Sprintf(":%d/", global.FitnessConfig.System.Port) + file.Url
+	url := file.Url
 	err = userService.UserSetAvatar(url, uid)
 	if err != nil {
 		global.FitnessLog.Error("更新用户头像失败", zap.Error(err))

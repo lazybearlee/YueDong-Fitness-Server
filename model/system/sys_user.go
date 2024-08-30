@@ -25,8 +25,8 @@ type SysUser struct {
 	Password    string          `json:"-"  gorm:"comment:用户登录密码"`            // 用户登录密码
 	NickName    string          `json:"nickName" gorm:"default:系统用户;comment:用户昵称"`
 	Gender      string          `json:"gender" gorm:"default:无;comment:用户性别;type:enum('男','女','无')"`
-	HeaderImg   string          `json:"headerImg" gorm:"default:https://nimg.ws.126.net/?url=http%3A%2F%2Fspider.ws.126.net%2Fb8e2028eb012fdeed94e007ea8974b07.jpeg&thumbnail=660x2147483647&quality=80&type=jpg;comment:用户头像"` // 用户头像
-	AuthorityId uint            `json:"authorityId" gorm:"index;default:888;comment:用户角色ID"`                                                                                                                                    // 用户角色ID
+	HeaderImg   string          `json:"headerImg" gorm:"default:oss/uploads/OIP-C.jpg;comment:用户头像"` // 用户头像
+	AuthorityId uint            `json:"authorityId" gorm:"index;default:888;comment:用户角色ID"`         // 用户角色ID
 	Authority   SysAuthority    `json:"authority" gorm:"foreignKey:AuthorityId;references:AuthorityId;comment:用户角色"`
 	Authorities []*SysAuthority `json:"authorities" gorm:"many2many:sys_user_authority;"`
 	Phone       string          `json:"phone"  gorm:"comment:用户手机号"`                     // 用户手机号
