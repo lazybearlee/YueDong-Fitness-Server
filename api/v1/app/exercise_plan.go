@@ -57,7 +57,7 @@ func (ep *ExercisePlanApi) CreateExercisePlan(c *gin.Context) {
 // @Produce  	application/json
 // @Param 		data 	body 				apprequest.SearchExercisePlanParams 		true 			"查询运动计划参数"
 // @Success 	200 	{object} 			response.Response{data=response.PageResponse,msg=string} 	"获取训练计划，返回包括列表，总数，页数，页大小"
-// @Router 		/plan/get_exercise_plans 	[get]
+// @Router 		/plan/get_exercise_plans 	[post]
 func (ep *ExercisePlanApi) GetExercisePlans(c *gin.Context) {
 	// 拿到token
 	uid := utils.GetUserID(c)

@@ -193,7 +193,7 @@ const docTemplate = `{
             }
         },
         "/base/verification_code": {
-            "get": {
+            "post": {
                 "produces": [
                     "application/json"
                 ],
@@ -441,7 +441,7 @@ const docTemplate = `{
             }
         },
         "/health_status/get_health_status_list": {
-            "get": {
+            "post": {
                 "security": [
                     {
                         "ApiKeyAuth": []
@@ -835,7 +835,7 @@ const docTemplate = `{
             }
         },
         "/plan/get_exercise_plans": {
-            "get": {
+            "post": {
                 "security": [
                     {
                         "ApiKeyAuth": []

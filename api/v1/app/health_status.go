@@ -77,7 +77,7 @@ func (h *HealthStatusApi) GetHealthStatus(c *gin.Context) {
 // @Produce  application/json
 // @Param date body apprequest.GetHealthStatusListReq true "获取用户健康状态列表"
 // @Success 200 {object} response.Response{data=response.PageResponse} "获取用户健康状态列表"
-// @Router /health_status/get_health_status_list [get]
+// @Router /health_status/get_health_status_list [post]
 func (h *HealthStatusApi) GetHealthStatusList(c *gin.Context) {
 	// 拿到token
 	uid := utils.GetUserID(c)

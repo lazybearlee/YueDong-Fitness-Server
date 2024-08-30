@@ -8,7 +8,7 @@ func (e *ExercisePlanRouter) InitExercisePlanRouter(Router *gin.RouterGroup) {
 	exercisePlanRouter := Router.Group("plan")
 	{
 		exercisePlanRouter.POST("create_exercise_plan", exercisePlanApi.CreateExercisePlan)
-		exercisePlanRouter.GET("get_exercise_plans", exercisePlanApi.GetExercisePlans)
+		exercisePlanRouter.POST("get_exercise_plans", exercisePlanApi.GetExercisePlans)
 		exercisePlanRouter.PUT("update_exercise_plan", exercisePlanApi.UpdateExercisePlan)
 		exercisePlanRouter.DELETE("delete_exercise_plans", exercisePlanApi.DeleteExercisePlans)
 		exercisePlanRouter.GET("get_all_exercise_plans", exercisePlanApi.GetAllExercisePlans)

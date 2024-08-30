@@ -185,7 +185,7 @@
             }
         },
         "/base/verification_code": {
-            "get": {
+            "post": {
                 "produces": [
                     "application/json"
                 ],
@@ -433,7 +433,7 @@
             }
         },
         "/health_status/get_health_status_list": {
-            "get": {
+            "post": {
                 "security": [
                     {
                         "ApiKeyAuth": []
@@ -827,7 +827,7 @@
             }
         },
         "/plan/get_exercise_plans": {
-            "get": {
+            "post": {
                 "security": [
                     {
                         "ApiKeyAuth": []

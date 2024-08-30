@@ -12,7 +12,7 @@ func (e ExerciseRecordRouter) InitExerciseRecordRouter(Router *gin.RouterGroup) 
 		exerciseRecordRouter.DELETE("delete_exercise_record", exerciseRecordApi.DeleteExerciseRecord)
 		exerciseRecordRouter.DELETE("delete_exercise_records", exerciseRecordApi.DeleteExerciseRecords)
 		exerciseRecordRouter.GET("get_exercise_record", exerciseRecordApi.GetExerciseRecord)
-		exerciseRecordRouter.GET("get_exercise_record_list", exerciseRecordApi.GetExerciseRecordList)
+		exerciseRecordRouter.POST("get_exercise_record_list", exerciseRecordApi.GetExerciseRecordList)
 		exerciseRecordRouter.GET("get_all_exercise_record_of_user", exerciseRecordApi.GetAllExerciseRecordListOfUser)
 	}
 }

@@ -47,17 +47,17 @@ func (s *CasbinInitializer) InitializeData() error {
 		{Ptype: "p", V0: global.AdminSuperStr, V1: "/record/delete_exercise_record", V2: "DELETE"},
 		{Ptype: "p", V0: global.AdminSuperStr, V1: "/record/delete_exercise_records", V2: "DELETE"},
 		{Ptype: "p", V0: global.AdminSuperStr, V1: "/record/get_exercise_record", V2: "GET"},
-		{Ptype: "p", V0: global.AdminSuperStr, V1: "/record/get_exercise_record_list", V2: "GET"},
+		{Ptype: "p", V0: global.AdminSuperStr, V1: "/record/get_exercise_record_list", V2: "POST"},
 		{Ptype: "p", V0: global.AdminSuperStr, V1: "/record/get_all_exercise_record_of_user", V2: "GET"},
 		// rank
 		{Ptype: "p", V0: global.AdminSuperStr, V1: "/rank/get_rank_list", V2: "GET"},
 		// health_status
 		{Ptype: "p", V0: global.AdminSuperStr, V1: "/health_status/get_health_status", V2: "GET"},
 		{Ptype: "p", V0: global.AdminSuperStr, V1: "/health_status/put_health_status", V2: "PUT"},
-		{Ptype: "p", V0: global.AdminSuperStr, V1: "/health_status/get_health_status_list", V2: "GET"},
+		{Ptype: "p", V0: global.AdminSuperStr, V1: "/health_status/get_health_status_list", V2: "POST"},
 		// exercise_plan
 		{Ptype: "p", V0: global.AdminSuperStr, V1: "/plan/get_all_exercise_plans", V2: "GET"},
-		{Ptype: "p", V0: global.AdminSuperStr, V1: "/plan/get_exercise_plans", V2: "GET"},
+		{Ptype: "p", V0: global.AdminSuperStr, V1: "/plan/get_exercise_plans", V2: "POST"},
 		{Ptype: "p", V0: global.AdminSuperStr, V1: "/plan/get_started_exercise_plans", V2: "GET"},
 		{Ptype: "p", V0: global.AdminSuperStr, V1: "/plan/get_uncompleted_exercise_plans", V2: "GET"},
 		{Ptype: "p", V0: global.AdminSuperStr, V1: "/plan/create_exercise_plan", V2: "POST"},
@@ -85,17 +85,17 @@ func (s *CasbinInitializer) InitializeData() error {
 		{Ptype: "p", V0: global.AdminUserStr, V1: "/record/delete_exercise_record", V2: "DELETE"},
 		{Ptype: "p", V0: global.AdminUserStr, V1: "/record/delete_exercise_records", V2: "DELETE"},
 		{Ptype: "p", V0: global.AdminUserStr, V1: "/record/get_exercise_record", V2: "GET"},
-		{Ptype: "p", V0: global.AdminUserStr, V1: "/record/get_exercise_record_list", V2: "GET"},
+		{Ptype: "p", V0: global.AdminUserStr, V1: "/record/get_exercise_record_list", V2: "POST"},
 		{Ptype: "p", V0: global.AdminUserStr, V1: "/record/get_all_exercise_record_of_user", V2: "GET"},
 		// rank
 		{Ptype: "p", V0: global.AdminUserStr, V1: "/rank/get_rank_list", V2: "GET"},
 		// health_status
 		{Ptype: "p", V0: global.AdminUserStr, V1: "/health_status/get_health_status", V2: "GET"},
 		{Ptype: "p", V0: global.AdminUserStr, V1: "/health_status/put_health_status", V2: "PUT"},
-		{Ptype: "p", V0: global.AdminUserStr, V1: "/health_status/get_health_status_list", V2: "GET"},
+		{Ptype: "p", V0: global.AdminUserStr, V1: "/health_status/get_health_status_list", V2: "POST"},
 		// exercise_plan
 		{Ptype: "p", V0: global.AdminUserStr, V1: "/plan/get_all_exercise_plans", V2: "GET"},
-		{Ptype: "p", V0: global.AdminUserStr, V1: "/plan/get_exercise_plans", V2: "GET"},
+		{Ptype: "p", V0: global.AdminUserStr, V1: "/plan/get_exercise_plans", V2: "POST"},
 		{Ptype: "p", V0: global.AdminUserStr, V1: "/plan/get_started_exercise_plans", V2: "GET"},
 		{Ptype: "p", V0: global.AdminUserStr, V1: "/plan/get_uncompleted_exercise_plans", V2: "GET"},
 		{Ptype: "p", V0: global.AdminUserStr, V1: "/plan/create_exercise_plan", V2: "POST"},
@@ -123,17 +123,17 @@ func (s *CasbinInitializer) InitializeData() error {
 		{Ptype: "p", V0: global.CommonUserStr, V1: "/record/delete_exercise_record", V2: "DELETE"},
 		{Ptype: "p", V0: global.CommonUserStr, V1: "/record/delete_exercise_records", V2: "DELETE"},
 		{Ptype: "p", V0: global.CommonUserStr, V1: "/record/get_exercise_record", V2: "GET"},
-		{Ptype: "p", V0: global.CommonUserStr, V1: "/record/get_exercise_record_list", V2: "GET"},
+		{Ptype: "p", V0: global.CommonUserStr, V1: "/record/get_exercise_record_list", V2: "POST"},
 		{Ptype: "p", V0: global.CommonUserStr, V1: "/record/get_all_exercise_record_of_user", V2: "GET"},
 		// rank
 		{Ptype: "p", V0: global.CommonUserStr, V1: "/rank/get_rank_list", V2: "GET"},
 		// health_status
 		{Ptype: "p", V0: global.CommonUserStr, V1: "/health_status/get_health_status", V2: "GET"},
 		{Ptype: "p", V0: global.CommonUserStr, V1: "/health_status/put_health_status", V2: "PUT"},
-		{Ptype: "p", V0: global.CommonUserStr, V1: "/health_status/get_health_status_list", V2: "GET"},
+		{Ptype: "p", V0: global.CommonUserStr, V1: "/health_status/get_health_status_list", V2: "POST"},
 		// exercise_plan
 		{Ptype: "p", V0: global.CommonUserStr, V1: "/plan/get_all_exercise_plans", V2: "GET"},
-		{Ptype: "p", V0: global.CommonUserStr, V1: "/plan/get_exercise_plans", V2: "GET"},
+		{Ptype: "p", V0: global.CommonUserStr, V1: "/plan/get_exercise_plans", V2: "POST"},
 		{Ptype: "p", V0: global.CommonUserStr, V1: "/plan/get_started_exercise_plans", V2: "GET"},
 		{Ptype: "p", V0: global.CommonUserStr, V1: "/plan/get_uncompleted_exercise_plans", V2: "GET"},
 		{Ptype: "p", V0: global.CommonUserStr, V1: "/plan/create_exercise_plan", V2: "POST"},

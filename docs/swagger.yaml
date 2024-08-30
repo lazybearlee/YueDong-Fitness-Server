@@ -663,7 +663,7 @@ paths:
       tags:
       - Base
   /base/verification_code:
-    get:
+    post:
       parameters:
       - description: 邮箱
         in: body
@@ -799,7 +799,7 @@ paths:
       tags:
       - HealthStatus
   /health_status/get_health_status_list:
-    get:
+    post:
       parameters:
       - description: 获取用户健康状态列表
         in: body
@@ -1015,7 +1015,7 @@ paths:
       tags:
       - Plan
   /plan/get_exercise_plans:
-    get:
+    post:
       consumes:
       - application/json
       parameters:

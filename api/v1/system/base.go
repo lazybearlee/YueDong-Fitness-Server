@@ -138,7 +138,7 @@ func (b *BaseApi) Login(c *gin.Context) {
 // @Produce application/json
 // @Param data body sysrequest.VerificationCodeReq true "邮箱"
 // @Success 200 {object} response.Response{data=string,msg=string} "发送验证码"
-// @Router /base/verification_code [get]
+// @Router /base/verification_code [post]
 func (b *BaseApi) VerificationCode(c *gin.Context) {
 	var v sysrequest.VerificationCodeReq
 	err := c.ShouldBindJSON(&v)
