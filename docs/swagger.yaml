@@ -184,6 +184,18 @@ definitions:
           type: integer
         type: array
     type: object
+  apprequest.GetDistanceRankListRequest:
+    properties:
+      keyword:
+        description: 用于搜索
+        type: string
+      page:
+        description: Page number
+        type: integer
+      pageSize:
+        description: 每页大小
+        type: integer
+    type: object
   apprequest.GetHealthStatusListReq:
     properties:
       desc:
@@ -1115,12 +1127,12 @@ paths:
   /rank/get_distance_rank:
     post:
       parameters:
-      - description: 获取距禽排行榜
+      - description: 获取距离排行榜
         in: body
         name: data
         required: true
         schema:
-          $ref: '#/definitions/apprequest.GetRankListRequest'
+          $ref: '#/definitions/apprequest.GetDistanceRankListRequest'
       produces:
       - application/json
       responses:

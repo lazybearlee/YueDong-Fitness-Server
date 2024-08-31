@@ -1028,12 +1028,12 @@ const docTemplate = `{
                 "summary": "获取今日距离排行榜",
                 "parameters": [
                     {
-                        "description": "获取距禽排行榜",
+                        "description": "获取距离排行榜",
                         "name": "data",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/apprequest.GetRankListRequest"
+                            "$ref": "#/definitions/apprequest.GetDistanceRankListRequest"
                         }
                     }
                 ],
@@ -1860,6 +1860,23 @@ const docTemplate = `{
                     "items": {
                         "type": "integer"
                     }
+                }
+            }
+        },
+        "apprequest.GetDistanceRankListRequest": {
+            "type": "object",
+            "properties": {
+                "keyword": {
+                    "description": "用于搜索",
+                    "type": "string"
+                },
+                "page": {
+                    "description": "Page number",
+                    "type": "integer"
+                },
+                "pageSize": {
+                    "description": "每页大小",
+                    "type": "integer"
                 }
             }
         },

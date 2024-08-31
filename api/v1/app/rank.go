@@ -99,7 +99,7 @@ func (r *RankApi) GetRankList(c *gin.Context) {
 // @Summary 获取今日距离排行榜
 // @Security ApiKeyAuth
 // @Produce  application/json
-// @Param data body apprequest.GetRankListRequest true "获取距禽排行榜"
+// @Param data body apprequest.GetDistanceRankListRequest true "获取距离排行榜"
 // @Success 200 {object} response.Response{data=response.PageResponse} "获取距离排行榜"
 // @Router /rank/get_distance_rank [post]
 func (r *RankApi) GetDistanceRank(c *gin.Context) {
