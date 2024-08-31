@@ -85,6 +85,7 @@ func (r *RankApi) GetRankList(c *gin.Context) {
 			Page:     1,
 			PageSize: length,
 		}, "获取排行榜成功", c)
+		return
 	}
 	response.SuccessWithDetailed(response.PageResponse{
 		List:     list[(req.Page-1)*req.PageSize : req.Page*req.PageSize],
@@ -113,7 +114,15 @@ func (r *RankApi) GetDistanceRank(c *gin.Context) {
 	// 从缓存中获取
 	var list []appmodel.UserDistanceRank
 	l, ok := global.FitnessCache.Get(global.DistanceRankToday)
-	list = l.([]appmodel.UserDistanceRank)
+	if ok {
+		switch l.(type) {
+		case []appmodel.UserDistanceRank:
+			list = l.([]appmodel.UserDistanceRank)
+		default:
+			// 从数据库中获取
+			ok = false
+		}
+	}
 	if !ok {
 		// 从数据库中获取
 		list, err = rankService.GetDistanceRank(50)
@@ -134,6 +143,7 @@ func (r *RankApi) GetDistanceRank(c *gin.Context) {
 			Page:     1,
 			PageSize: length,
 		}, "获取距离排行榜成功", c)
+		return
 	}
 	response.SuccessWithDetailed(response.PageResponse{
 		List:     list[(req.Page-1)*req.PageSize : req.Page*req.PageSize],
