@@ -1013,7 +1013,7 @@ const docTemplate = `{
             }
         },
         "/rank/get_distance_rank": {
-            "get": {
+            "post": {
                 "security": [
                     {
                         "ApiKeyAuth": []

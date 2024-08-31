@@ -1113,7 +1113,7 @@ paths:
       tags:
       - Plan
   /rank/get_distance_rank:
-    get:
+    post:
       parameters:
       - description: 获取距禽排行榜
         in: body
