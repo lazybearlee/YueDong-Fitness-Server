@@ -10,12 +10,14 @@ import (
 
 var (
 	healthOrderMap = map[string]bool{
-		"id":     true,
-		"uid":    true,
-		"date":   true,
-		"height": true,
-		"weight": true,
-		"bmi":    true,
+		"id":       true,
+		"uid":      true,
+		"date":     true,
+		"height":   true,
+		"weight":   true,
+		"bmi":      true,
+		"distance": true,
+		"steps":    true,
 	}
 )
 

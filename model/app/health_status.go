@@ -17,6 +17,7 @@ type HealthStatus struct {
 	CaloriesBurned float64           `json:"caloriesBurned" gorm:"comment:消耗的卡路里"`     // 消耗的卡路里
 	ExerciseTime   int               `json:"exerciseTime" gorm:"comment:锻炼时长(单位: 分钟)"` // 锻炼时长 (单位: 分钟)
 	StepsCount     int               `json:"stepsCount" gorm:"comment:步数"`             // 步数
+	Distance       float64           `json:"distance" gorm:"comment:今日行走距离(单位: 公里)"`   // 今日行走距离 (单位: 公里)
 }
 
 func (h HealthStatus) TableName() string {
