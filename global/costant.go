@@ -18,6 +18,7 @@ const (
 
 	StepRankYesterday = "rank_yesterday"
 	StepRankToday     = "rank_today"
+	DistanceRankToday = "distance_today"
 )
 
 const temp_root = "D:\\RoadToCs\\YueDong-Fitness-Server\\"

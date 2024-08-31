@@ -9,3 +9,7 @@ type GetRankListRequest struct {
 	request.PageInfo
 	Date time.Time `json:"date" binding:"required"`
 }
+
+type GetDistanceRankListRequest struct {
+	request.PageInfo
+}

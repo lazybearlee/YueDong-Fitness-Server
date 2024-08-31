@@ -1012,7 +1012,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/rank/get_rank_list": {
+        "/rank/get_distance_rank": {
             "get": {
                 "security": [
                     {
@@ -1025,7 +1025,54 @@ const docTemplate = `{
                 "tags": [
                     "Rank"
                 ],
-                "summary": "获取排行榜",
+                "summary": "获取今日距离排行榜",
+                "parameters": [
+                    {
+                        "description": "获取距禽排行榜",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/apprequest.GetRankListRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "获取距离排行榜",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/response.PageResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/rank/get_rank_list": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Rank"
+                ],
+                "summary": "获取步数排行榜",
                 "parameters": [
                     {
                         "description": "获取排行榜",

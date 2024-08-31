@@ -1112,8 +1112,34 @@ paths:
       summary: 更新训练计划
       tags:
       - Plan
-  /rank/get_rank_list:
+  /rank/get_distance_rank:
     get:
+      parameters:
+      - description: 获取距禽排行榜
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/apprequest.GetRankListRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 获取距离排行榜
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.PageResponse'
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: 获取今日距离排行榜
+      tags:
+      - Rank
+  /rank/get_rank_list:
+    post:
       parameters:
       - description: 获取排行榜
         in: body
@@ -1135,7 +1161,7 @@ paths:
               type: object
       security:
       - ApiKeyAuth: []
-      summary: 获取排行榜
+      summary: 获取步数排行榜
       tags:
       - Rank
   /record/delete_exercise_record/{id}:

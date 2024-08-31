@@ -50,7 +50,8 @@ func (s *CasbinInitializer) InitializeData() error {
 		{Ptype: "p", V0: global.AdminSuperStr, V1: "/record/get_exercise_record_list", V2: "POST"},
 		{Ptype: "p", V0: global.AdminSuperStr, V1: "/record/get_all_exercise_record_of_user", V2: "GET"},
 		// rank
-		{Ptype: "p", V0: global.AdminSuperStr, V1: "/rank/get_rank_list", V2: "GET"},
+		{Ptype: "p", V0: global.AdminSuperStr, V1: "/rank/get_rank_list", V2: "POST"},
+		{Ptype: "p", V0: global.AdminSuperStr, V1: "/rank/get_distance_rank", V2: "POST"},
 		// health_status
 		{Ptype: "p", V0: global.AdminSuperStr, V1: "/health_status/get_health_status", V2: "GET"},
 		{Ptype: "p", V0: global.AdminSuperStr, V1: "/health_status/put_health_status", V2: "PUT"},
@@ -88,7 +89,8 @@ func (s *CasbinInitializer) InitializeData() error {
 		{Ptype: "p", V0: global.AdminUserStr, V1: "/record/get_exercise_record_list", V2: "POST"},
 		{Ptype: "p", V0: global.AdminUserStr, V1: "/record/get_all_exercise_record_of_user", V2: "GET"},
 		// rank
-		{Ptype: "p", V0: global.AdminUserStr, V1: "/rank/get_rank_list", V2: "GET"},
+		{Ptype: "p", V0: global.AdminUserStr, V1: "/rank/get_rank_list", V2: "POST"},
+		{Ptype: "p", V0: global.AdminUserStr, V1: "/rank/get_distance_rank", V2: "POST"},
 		// health_status
 		{Ptype: "p", V0: global.AdminUserStr, V1: "/health_status/get_health_status", V2: "GET"},
 		{Ptype: "p", V0: global.AdminUserStr, V1: "/health_status/put_health_status", V2: "PUT"},
@@ -126,7 +128,8 @@ func (s *CasbinInitializer) InitializeData() error {
 		{Ptype: "p", V0: global.CommonUserStr, V1: "/record/get_exercise_record_list", V2: "POST"},
 		{Ptype: "p", V0: global.CommonUserStr, V1: "/record/get_all_exercise_record_of_user", V2: "GET"},
 		// rank
-		{Ptype: "p", V0: global.CommonUserStr, V1: "/rank/get_rank_list", V2: "GET"},
+		{Ptype: "p", V0: global.CommonUserStr, V1: "/rank/get_rank_list", V2: "POST"},
+		{Ptype: "p", V0: global.CommonUserStr, V1: "/rank/get_distance_rank", V2: "POST"},
 		// health_status
 		{Ptype: "p", V0: global.CommonUserStr, V1: "/health_status/get_health_status", V2: "GET"},
 		{Ptype: "p", V0: global.CommonUserStr, V1: "/health_status/put_health_status", V2: "PUT"},
