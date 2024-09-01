@@ -145,10 +145,6 @@ func (ep *ExercisePlanApi) UpdateExercisePlan(c *gin.Context) {
 		response.ErrorWithMessage(err.Error(), c)
 		return
 	}
-	if e.CreatedAt.IsZero() {
-		response.ErrorWithMessage("创建时间不能为空", c)
-		return
-	}
 
 	// 更新数据
 	err = exercisePlanService.UpdateExercisePlan(&e)

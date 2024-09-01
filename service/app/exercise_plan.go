@@ -22,6 +22,15 @@ func (s *ExercisePlanService) CreateExercisePlan(plan *appmodel.ExercisePlan) er
 	return global.FitnessDb.Create(plan).Error
 }
 
+// GetExercisePlanByID 通过ID获取运动计划
+func (s *ExercisePlanService) GetExercisePlanByID(id uint) (*appmodel.ExercisePlan, error) {
+	var plan appmodel.ExercisePlan
+	if err := global.FitnessDb.Where("id = ?", id).First(&plan).Error; err != nil {
+		return nil, err
+	}
+	return &plan, nil
+}
+
 // GetAllExercisePlans 获取所有运动计划
 func (s *ExercisePlanService) GetAllExercisePlans(uid uint) ([]appmodel.ExercisePlan, error) {
 	var plans []appmodel.ExercisePlan
@@ -33,7 +42,9 @@ func (s *ExercisePlanService) GetAllExercisePlans(uid uint) ([]appmodel.Exercise
 
 // UpdateExercisePlan 更新运动计划
 func (s *ExercisePlanService) UpdateExercisePlan(plan *appmodel.ExercisePlan) error {
-	return global.FitnessDb.Save(plan).Error
+	plan.UpdatedAt = time.Now()
+	// 更新除了主键及创建时间、删除时间、用户ID的所有字段
+	return global.FitnessDb.Model(plan).Omit("id", "created_at", "deleted_at", "uid").Updates(plan).Error
 }
 
 // DeleteExercisePlan 删除运动计划

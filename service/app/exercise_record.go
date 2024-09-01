@@ -6,6 +6,7 @@ import (
 	appmodel "github.com/lazybearlee/yuedong-fitness/model/app"
 	"github.com/lazybearlee/yuedong-fitness/model/common/request"
 	"gorm.io/gorm"
+	"time"
 )
 
 var (
@@ -52,17 +53,9 @@ func (e *ExerciseRecordService) InsertExerciseRecord(exerciseRecord appmodel.Exe
 // @Param: exerciseRecord appmodel.ExerciseRecord
 // @return: error
 func (e *ExerciseRecordService) UpdateExerciseRecord(exerciseRecord appmodel.ExerciseRecord) error {
-	// 首先查询是否存在该记录
-	var record appmodel.ExerciseRecord
-	// 要保证更新的记录是用户自己的记录
-	err := global.FitnessDb.Where("id = ?", exerciseRecord.ID).Where("uid = ?", exerciseRecord.UID).First(&record).Error
-	if errors.Is(err, gorm.ErrRecordNotFound) {
-		// 不存在该记录
-		return errors.New("不存在该记录")
-	}
-	// 更新数据
-	err = global.FitnessDb.Save(&exerciseRecord).Error
-	return err
+	exerciseRecord.UpdatedAt = time.Now()
+	// 更新数据, 忽略主键、创建时间、删除时间、用户id
+	return global.FitnessDb.Model(&exerciseRecord).Omit("id", "created_at", "deleted_at", "uid").Updates(&exerciseRecord).Error
 }
 
 // DeleteExerciseRecord delete exercise_record
