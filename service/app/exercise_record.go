@@ -55,7 +55,7 @@ func (e *ExerciseRecordService) InsertExerciseRecord(exerciseRecord appmodel.Exe
 func (e *ExerciseRecordService) UpdateExerciseRecord(exerciseRecord appmodel.ExerciseRecord) error {
 	exerciseRecord.UpdatedAt = time.Now()
 	// 更新数据, 忽略主键、创建时间、删除时间、用户id
-	return global.FitnessDb.Model(&exerciseRecord).Omit("id", "created_at", "deleted_at", "uid").Updates(&exerciseRecord).Error
+	return global.FitnessDb.Model(&exerciseRecord).Where("uid = ?", exerciseRecord.UID).Omit("id", "created_at", "deleted_at", "uid").Updates(&exerciseRecord).Error
 }
 
 // DeleteExerciseRecord delete exercise_record

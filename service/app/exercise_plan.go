@@ -44,7 +44,7 @@ func (s *ExercisePlanService) GetAllExercisePlans(uid uint) ([]appmodel.Exercise
 func (s *ExercisePlanService) UpdateExercisePlan(plan *appmodel.ExercisePlan) error {
 	plan.UpdatedAt = time.Now()
 	// 更新除了主键及创建时间、删除时间、用户ID的所有字段
-	return global.FitnessDb.Model(plan).Omit("id", "created_at", "deleted_at", "uid").Updates(plan).Error
+	return global.FitnessDb.Model(plan).Where("uid = ?", plan.UID).Omit("id", "created_at", "deleted_at", "uid").Updates(plan).Error
 }
 
 // DeleteExercisePlan 删除运动计划
