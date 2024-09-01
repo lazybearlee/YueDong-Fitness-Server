@@ -77,7 +77,7 @@ func (s *ExercisePlanService) GetStartedExercisePlans(uid uint) ([]appmodel.Exer
 func (s *ExercisePlanService) GetUnCompletedExercisePlans(uid uint) ([]appmodel.ExercisePlan, error) {
 	var plans []appmodel.ExercisePlan
 	today := time.Now()
-	if err := global.FitnessDb.Where("uid = ? AND end_date > ? AND is_completed = ?", uid, today, false).Find(&plans).Error; err != nil {
+	if err := global.FitnessDb.Where("uid = ? AND end_date > ? AND completed = ?", uid, today, false).Find(&plans).Error; err != nil {
 		return nil, err
 	}
 	return plans, nil
@@ -100,7 +100,7 @@ func (s *ExercisePlanService) GetExercisePlans(params *apprequest.SearchExercise
 		db = db.Where("description like ?", "%"+params.Description+"%")
 	}
 	if params.CheckComplete {
-		db = db.Where("is_completed = ?", params.Completed)
+		db = db.Where("completed = ?", params.Completed)
 	}
 
 	var total int64

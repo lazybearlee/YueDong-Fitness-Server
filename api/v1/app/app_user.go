@@ -68,7 +68,13 @@ func (u *UserApi) UpdateUserInfo(c *gin.Context) {
 		response.ErrorWithMessage("参数绑定失败", c)
 		return
 	}
+	// email格式校验
+	if req.Email != "" && !utils.EmailFormatCheck(req.Email) {
+		response.ErrorWithMessage("邮箱格式不正确", c)
+		return
+	}
 	// 更新用户信息
+	// TODO: 如果更新邮箱，需要发送邮件验证
 	user := sysmodel.SysUser{
 		NickName: req.Nickname,
 		Phone:    req.Phone,
