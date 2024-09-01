@@ -1611,7 +1611,7 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "createdAt": {
-                    "description": "Creation time",
+                    "description": "Create time",
                     "type": "string"
                 },
                 "diastolic": {
@@ -1637,7 +1637,7 @@ const docTemplate = `{
                     "type": "boolean"
                 },
                 "createdAt": {
-                    "description": "Creation time",
+                    "description": "Create time",
                     "type": "string"
                 },
                 "currentStage": {
@@ -1690,7 +1690,7 @@ const docTemplate = `{
                     "type": "number"
                 },
                 "createdAt": {
-                    "description": "Creation time",
+                    "description": "Create time",
                     "type": "string"
                 },
                 "distance": {
@@ -1751,12 +1751,16 @@ const docTemplate = `{
                     "type": "number"
                 },
                 "createdAt": {
-                    "description": "Creation time",
+                    "description": "Create time",
                     "type": "string"
                 },
                 "date": {
                     "description": "记录日期",
                     "type": "string"
+                },
+                "distance": {
+                    "description": "今日行走距离 (单位: 公里)",
+                    "type": "number"
                 },
                 "exerciseTime": {
                     "description": "锻炼时长 (单位: 分钟)",
@@ -1788,7 +1792,7 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "createdAt": {
-                    "description": "Creation time",
+                    "description": "Create time",
                     "type": "string"
                 },
                 "tps": {
@@ -1812,7 +1816,7 @@ const docTemplate = `{
                     "type": "boolean"
                 },
                 "createdAt": {
-                    "description": "Creation time",
+                    "description": "Create time",
                     "type": "string"
                 },
                 "description": {
@@ -1949,7 +1953,7 @@ const docTemplate = `{
                     "type": "boolean"
                 },
                 "createdAt": {
-                    "description": "Creation time",
+                    "description": "Create time",
                     "type": "string"
                 },
                 "currentStage": {
@@ -2022,7 +2026,7 @@ const docTemplate = `{
                     "type": "number"
                 },
                 "createdAt": {
-                    "description": "Creation time",
+                    "description": "Create time",
                     "type": "string"
                 },
                 "desc": {
@@ -2235,7 +2239,7 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "createdAt": {
-                    "description": "Creation time",
+                    "description": "Create time",
                     "type": "string"
                 },
                 "email": {

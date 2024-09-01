@@ -5,7 +5,7 @@ definitions:
         description: Primary key ID
         type: integer
       createdAt:
-        description: Creation time
+        description: Create time
         type: string
       diastolic:
         type: integer
@@ -23,7 +23,7 @@ definitions:
       completed:
         type: boolean
       createdAt:
-        description: Creation time
+        description: Create time
         type: string
       currentStage:
         type: string
@@ -60,7 +60,7 @@ definitions:
         description: 消耗的卡路里
         type: number
       createdAt:
-        description: Creation time
+        description: Create time
         type: string
       distance:
         description: '运动距离 (单位: 公里)'
@@ -105,11 +105,14 @@ definitions:
         description: 消耗的卡路里
         type: number
       createdAt:
-        description: Creation time
+        description: Create time
         type: string
       date:
         description: 记录日期
         type: string
+      distance:
+        description: '今日行走距离 (单位: 公里)'
+        type: number
       exerciseTime:
         description: '锻炼时长 (单位: 分钟)'
         type: integer
@@ -132,7 +135,7 @@ definitions:
         description: Primary key ID
         type: integer
       createdAt:
-        description: Creation time
+        description: Create time
         type: string
       tps:
         type: integer
@@ -149,7 +152,7 @@ definitions:
         description: 是否完成
         type: boolean
       createdAt:
-        description: Creation time
+        description: Create time
         type: string
       description:
         description: 阶段描述
@@ -245,7 +248,7 @@ definitions:
       completed:
         type: boolean
       createdAt:
-        description: Creation time
+        description: Create time
         type: string
       currentStage:
         type: string
@@ -297,7 +300,7 @@ definitions:
         description: 消耗的卡路里
         type: number
       createdAt:
-        description: Creation time
+        description: Create time
         type: string
       desc:
         description: 是否倒序
@@ -446,7 +449,7 @@ definitions:
         description: 用户角色ID
         type: integer
       createdAt:
-        description: Creation time
+        description: Create time
         type: string
       email:
         description: 用户邮箱
