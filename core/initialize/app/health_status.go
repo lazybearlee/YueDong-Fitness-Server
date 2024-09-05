@@ -19,6 +19,7 @@ func (s *HealthStatusInitializer) MigrateTable() error {
 		return err
 	} else {
 		global.FitnessLog.Info("exercise plan数据库迁移成功")
+		global.FitnessDb.Exec("CREATE INDEX IF NOT EXISTS idx_date_distance_uid ON health_statuses (date DESC, distance DESC, uid ASC);")
 		return nil
 	}
 }

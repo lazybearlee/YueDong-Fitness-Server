@@ -14,14 +14,16 @@ import (
 )
 
 var (
-	FitnessDb      *gorm.DB
-	FitnessRedis   redis.UniversalClient
-	FitnessConfig  config.Server
-	FitnessViper   *viper.Viper
-	FitnessLog     *zap.Logger
-	FitnessTimer   timer.Timer = timer.NewTimerTask()
-	FitnessCc                  = &singleflight.Group{} // 并发控制
-	FitnessCache   local_cache.Cache
-	FitnessRouters gin.RoutesInfo
-	LOCK           sync.RWMutex
+	FitnessDb        *gorm.DB
+	FitnessRedis     redis.UniversalClient
+	FitnessConfig    config.Server
+	FitnessViper     *viper.Viper
+	FitnessLog       *zap.Logger
+	FitnessTimer     timer.Timer = timer.NewTimerTask()
+	FitnessCc                    = &singleflight.Group{} // 并发控制
+	FitnessCache     local_cache.Cache
+	FitnessRouters   gin.RoutesInfo
+	LOCK             sync.RWMutex
+	StepRankLock     sync.RWMutex
+	DistanceRankLock sync.RWMutex
 )

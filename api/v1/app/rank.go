@@ -113,7 +113,9 @@ func (r *RankApi) GetDistanceRank(c *gin.Context) {
 	req.Page, req.PageSize = utils.PageFormatCheck(req.Page, req.PageSize)
 	// 从缓存中获取
 	var list []appmodel.UserDistanceRank
+	global.DistanceRankLock.RLock()
 	l, ok := global.FitnessCache.Get(global.DistanceRankToday)
+	global.DistanceRankLock.RUnlock()
 	if ok {
 		switch l.(type) {
 		case []appmodel.UserDistanceRank:
@@ -131,7 +133,9 @@ func (r *RankApi) GetDistanceRank(c *gin.Context) {
 			return
 		}
 		// 缓存
+		global.DistanceRankLock.Lock()
 		global.FitnessCache.Set(global.DistanceRankToday, list, 10*time.Minute)
+		global.DistanceRankLock.Unlock()
 	}
 	// 根据分页参数返回数据,如果分页出错，则返回全部数据
 	length := len(list)

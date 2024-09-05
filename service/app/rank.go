@@ -43,7 +43,8 @@ func (r *RankService) GetDistanceRank(limit int) ([]appmodel.UserDistanceRank, e
 	if err := global.FitnessDb.Table("health_statuses").
 		Select("health_statuses.uid as user_id, sys_users.header_img as header_img, sys_users.nick_name as nickname, health_statuses.distance as distance").
 		Joins("left join sys_users on sys_users.id = health_statuses.uid").
-		Where("DATE(health_statuses.date) = ?", time.Now().Format("2006-01-02")).
+		Where("health_statuses.date >= ?", time.Now().Add(-24*time.Hour)).
+		Where("health_statuses.date <= ?", time.Now()).
 		Order("health_statuses.distance desc").
 		Limit(limit).
 		Scan(&distanceRanks).Error; err != nil {
