@@ -57,7 +57,7 @@ YueDong-Fitness-Server
 ### 3.1 基础环境配置
 
 - Go 1.18+ 版本，本项目采用 Go 1.22 版本。
-- MySQL 8.0+ 版本，本项目采用 MySQL 8.0.21 版本。
+- MySQL 8.0+ 版本，本项目采用 MySQL 8.0.21 版本。(mysql配置可参考docker-mysql.md文档)
 
 ### 3.2 项目配置
 
