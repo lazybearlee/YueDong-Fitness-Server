@@ -72,11 +72,11 @@ YueDong-Fitness-Server
 ### 3.3 项目运行
 
 - 确保 MySQL 服务已启动，但不需要手动创建数据库和表，项目会自动初始化。
-- 在项目根目录下执行 `go run main.go` 命令，即可运行项目。
+- 在项目根目录下执行 `go run main.go -c config.yaml` 命令运行项目。
 - 也可以使用 `go build` 命令编译项目，然后执行编译后的文件。
 - 也可以使用 `go build -o <filename>` 命令编译项目，生成指定文件名的可执行文件。
-- 如果是 `Windows` 系统，可以直接双击可执行文件 `server_win64.exe` 运行项目。
-- 如果是 `Linux` 系统，可以使用 `nohup ./server_linux64 &` 命令后台运行项目。(需要先给可执行文件添加执行权限)
+- 如果是 `Windows` 系统，可以在命令行输入 `.\server_windows64.exe -c config.yaml` 运行项目。
+- 如果是 `Linux` 系统，可以使用 `nohup ./server_linux64 -c config.yaml &` 命令后台运行项目。(需要先给文件执行权限)
 - 如果不能直接运行，请尝试在本机安装 `Go` 环境，然后运行项目。
 
 ## 4. git 使用规范
