@@ -52,7 +52,32 @@ YueDong-Fitness-Server
     └─timer
 ```
 
-## 3. 项目结构
+## 3. 项目运行说明
+
+### 3.1 基础环境配置
+
+- Go 1.18+ 版本，本项目采用 Go 1.22 版本。
+- MySQL 8.0+ 版本，本项目采用 MySQL 8.0.21 版本。
+
+### 3.2 项目配置
+
+- 在项目根目录下复制 `config_backup.yaml` 文件，并重命名为 `config.yaml`。
+- 修改 `config.yaml` 文件中的数据库配置。
+  - `mysql`：数据库连接配置。修改path、username、password等字段。
+- 确保 `system` 中的 `mysql-init-data` 字段配置正确。
+  - 如果初次运行项目，需要将 `mysql-init-data` 字段设置为 `true`，项目会自动初始化数据库。
+- 如果需要使用云服务器部署，请修改 `system` 的 `addr` 和 `port` 字段。
+  - `addr`：服务器地址。(一般为服务器内网网址)
+
+### 3.3 项目运行
+
+- 确保 MySQL 服务已启动，但不需要手动创建数据库和表，项目会自动初始化。
+- 在项目根目录下执行 `go run main.go` 命令，即可运行项目。
+- 也可以使用 `go build` 命令编译项目，然后执行编译后的文件。
+- 也可以使用 `go build -o <filename>` 命令编译项目，生成指定文件名的可执行文件。
+- 如果是 `Windows` 系统，可以直接双击可执行文件 `server_win64.exe` 运行项目。
+- 如果是 `Linux` 系统，可以使用 `nohup ./server_linux64 &` 命令后台运行项目。(需要先给可执行文件添加执行权限)
+- 如果不能直接运行，请尝试在本机安装 `Go` 环境，然后运行项目。
 
 ## 4. git 使用规范
 

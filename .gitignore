@@ -29,3 +29,7 @@ config.yaml
 
 # log
 log
+
+# executable
+server_win64.exe
+server_linux64

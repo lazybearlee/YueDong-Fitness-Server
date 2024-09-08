@@ -1,7 +1,9 @@
 # system configuration
 system:
   env: local # 修改为public可以关闭路由日志输出
-  addr: 8888
+  addr:
+  port: 8888
+  use-https: false
   db-type: mysql
   oss-type: local
   use-redis: false # 使用redis
@@ -9,17 +11,21 @@ system:
   use-multipoint: false
   # IP限制次数 一个小时15000次
   iplimit-count: 15000
-  #  IP限制一个小时
+  # IP限制一个小时
   iplimit-time: 3600
-  #  路由全局前缀
+  # 路由全局前缀
   router-prefix: ""
+  # 是否初始化mysql数据库
+  mysql-init-data: true
+  # Admin 密码
+  admin-password: "123456"
 
 # jwt configuration
 jwt:
-  signing-key:
+  signing-key: lazybearlee
   expires-time: 7d
   buffer-time: 1d
-  issuer:
+  issuer: lazybearlee
 
 # zap logger configuration
 zap:
@@ -50,27 +56,27 @@ redis:
 email:
   to: xxx@qq.com
   port: 465
-  from: xxx@163.com
+  from: 17775816748@163.com
   host: smtp.163.com
   is-ssl: true
-  secret: xxx
-  nickname: test
+  secret: UQOTZLCUCATVQDFJ
+  nickname: 悦动健身
+  code-time-out: 5m
 
 # captcha configuration
 captcha:
   key-long: 6
   img-width: 240
   img-height: 80
-  open-captcha: 0 # 0代表一直开启，大于0代表限制次数
-  open-captcha-timeout: 3600 # open-captcha大于0时才生效
+  open-captcha: 8 # 0代表一直开启，大于0代表限制次数
+  open-captcha-timeout: 300 # open-captcha大于0时才生效
 
 # mysql connect configuration
-# 未初始化之前请勿手动修改数据库信息！！！如果一定要手动初始化请看（https://gin-vue-admin.com/docs/first_master）
 mysql:
-  path: "localhost"
+  path: ""
   port: "3306"
   config: "charset=utf8mb4&parseTime=True&loc=Local"
-  db-name: ""
+  db-name: "fitness-test"
   username: ""
   password: ""
   max-idle-conns: 10
@@ -80,14 +86,14 @@ mysql:
 
 # local configuration
 local:
-  path: uploads/file
-  store-path: uploads/file
+  path: oss/uploads
+  store-path: oss/uploads
 
-# qiniu configuration (请自行七牛申请对应的 公钥 私钥 bucket 和 域名地址)
+# qiniu configuration
 qiniu:
-  zone: ZoneHuaDong
+  zone: ZoneHuaBei
   bucket: ""
-  img-path: ""
+  img-path: "img"
   use-https: false
   access-key: ""
   secret-key: ""
